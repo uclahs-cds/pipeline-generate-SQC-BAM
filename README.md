@@ -76,6 +76,8 @@ input:
 
 ### Config
 
+regions are optional (assuming resource configuration is ok for this)
+
 | Field | Type | Required | Description |
 | ----- | ---- | ------------ | ------------------------ |
 | param 1 | _type_ | yes/no | 1-2 sentence description of the parameter, including any defaults if any. |
