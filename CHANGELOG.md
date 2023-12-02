@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 ### Added
+- Add samtools stats process
 - Add CODEOWNERS
 - Add example input yamls
 - Add pipeline-Nexflow-config as submodule

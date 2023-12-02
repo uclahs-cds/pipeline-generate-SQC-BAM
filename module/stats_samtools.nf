@@ -28,6 +28,6 @@ process stats_SAMtools {
     script:
     """
     set -euo pipefail
-    samtools view -H ${path} > ${path}.stats
+    samtools stats ${path} > ${path}.stats
     """
 }
