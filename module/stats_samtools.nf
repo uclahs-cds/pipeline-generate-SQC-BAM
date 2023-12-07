@@ -28,6 +28,6 @@ process stats_SAMtools {
     script:
     """
     set -euo pipefail
-    samtools stats ${path} > ${path}.stats
+    samtools stats --threads ${task.cpus} ${path} > ${path}.stats
     """
 }
