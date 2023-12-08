@@ -1,7 +1,6 @@
 #!/usr/bin/env nextflow
 
 nextflow.enable.dsl=2
-include { generate_standard_filename } from './external/pipeline-Nextflow-module/modules/common/generate_standardized_filename/main.nf'
 include { run_validate_PipeVal } from './external/pipeline-Nextflow-module/modules/PipeVal/validate/main.nf' addParams(
     options: [
         docker_image_version: params.pipeval_version,
@@ -47,10 +46,9 @@ params.reference_index = "${params.reference}.fai"
 params.reference_dict = "${file(params.reference).parent / file(params.reference).baseName}.dict"
 
 include { stats_SAMtools } from './module/stats_samtools' addParams(
-    workflow_output_dir: "${params.output_dir_base}/Stats_SAMtools-${params.samtools_version}",
-    workflow_log_output_dir: "${params.log_output_dir}/process-log/Stats_SAMtools-${params.samtools_version}",
+    workflow_output_dir: "${params.output_dir_base}/SAMtools-${params.samtools_version}",
+    workflow_log_output_dir: "${params.log_output_dir}/process-log/SAMtools-${params.samtools_version}"
     )
-
 // Returns the index file for the given bam or vcf
 def indexFile(bam_or_vcf) {
     if(bam_or_vcf.endsWith('.bam')) {
