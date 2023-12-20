@@ -14,7 +14,7 @@ Docker Images:
 
 include { generate_standard_filename } from '../external/pipeline-Nextflow-module/modules/common/generate_standardized_filename/main.nf'
 
-process stats_SAMtools {
+process run_stats_SAMtools {
     container params.docker_image_samtools
 
     publishDir path: "${params.workflow_output_dir}/output",

@@ -45,7 +45,7 @@ log.info """\
 params.reference_index = "${params.reference}.fai"
 params.reference_dict = "${file(params.reference).parent / file(params.reference).baseName}.dict"
 
-include { stats_SAMtools } from './module/stats_samtools' addParams(
+include { run_stats_SAMtools } from './module/stats_samtools' addParams(
     workflow_output_dir: "${params.output_dir_base}/SAMtools-${params.samtools_version}",
     workflow_log_output_dir: "${params.log_output_dir}/process-log/SAMtools-${params.samtools_version}"
     )
@@ -93,7 +93,7 @@ workflow {
         storeDir: "${params.output_dir_base}/validation"
         )
 
-    stats_SAMtools(
+    run_stats_SAMtools(
         samplesToProcessChannel
         )
     }
