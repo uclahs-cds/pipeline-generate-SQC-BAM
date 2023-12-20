@@ -1,0 +1,9 @@
+---
+patient_id: 'TWGSAMIN000001'
+input:
+  BAM:
+    normal:
+      - "/hot/software/pipeline/pipeline-call-sSNV/Nextflow/development/input/data/A-mini/HG002.N-n2.bam"
+    tumor:
+      - "/hot/software/pipeline/pipeline-call-sSNV/Nextflow/development/input/data/A-mini/S2.T-n1.bam"
+      - "/hot/software/pipeline/pipeline-call-sSNV/Nextflow/development/input/data/A-mini/S2.T-n2.bam"
