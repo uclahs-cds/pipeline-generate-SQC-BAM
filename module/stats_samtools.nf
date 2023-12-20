@@ -1,10 +1,17 @@
 /*
-*   Module/process description here
+*   SAMtools stats
+*   This module runs SAMtools stats on a BAM file
 *
-*   @input  <name>  <type>  <description>
-*   @params <name>  <type>  <description>
-*   @output <name>  <type>  <description>
 */
+log.info """\
+====================================
+    S A M T O O L S   S T A T S
+====================================
+Docker Images:
+- docker_image_SAMtools: ${params.docker_image_samtools}
+====================================
+"""
+
 include { generate_standard_filename } from '../external/pipeline-Nextflow-module/modules/common/generate_standardized_filename/main.nf'
 
 process stats_SAMtools {
