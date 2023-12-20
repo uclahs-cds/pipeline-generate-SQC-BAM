@@ -9,13 +9,14 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 ### Added
-- Add samtools stats process
+- Add SAMtools stats process
 - Add CODEOWNERS
 - Add example input yamls
 - Add pipeline-Nexflow-config as submodule
 - Add pipeline-Nextflow-module as submodule
 
 ### Changed
+- Update SAMtools 1.16.1 -> 1.18
 
 ---
 
