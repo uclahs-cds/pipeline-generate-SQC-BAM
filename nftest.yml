@@ -22,7 +22,7 @@ cases:
         method: md5
       - actual: pipeline-SQC-DNA-*/TWGSAMIN000001/Picard-*/output/Picard-*_TWGSAMIN_HG002.N_WgsMetrics.txt
         expect: /hot/software/pipeline/pipeline-SQC-DNA/Nextflow/development/test-output/a_mini-all-tools/Picard-3.0.0_TWGSAMIN_HG002.N_WgsMetrics.txt
-        method: test/assert_txt.sh
+        script: test/assert_txt.sh
       - actual: pipeline-SQC-DNA-*/TWGSAMIN000001/Picard-*/output/Picard-*_TWGSAMIN_S2-v1.1.5_WgsMetrics.txt
         expect: /hot/software/pipeline/pipeline-SQC-DNA/Nextflow/development/test-output/a_mini-all-tools/Picard-3.0.0_TWGSAMIN_S2-v1.1.5_WgsMetrics.txt
-        method: test/assert_txt.sh
+        script: test/assert_txt.sh
