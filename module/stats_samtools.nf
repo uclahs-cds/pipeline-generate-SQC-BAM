@@ -35,13 +35,13 @@ process run_stats_SAMtools {
         path ".command.*"
 
     script:
-    output_filename = generate_standard_filename("Samtools-${params.samtools_version}",
+    output_filename = generate_standard_filename("SAMtools-${params.samtools_version}",
         params.dataset_id,
         id,
         [:])
 
     """
     set -euo pipefail
-    samtools stats --threads ${task.cpus} ${path} > ${output_filename}_stats.txt
+    samtools stats ${path} > ${output_filename}_stats.txt
     """
 }
