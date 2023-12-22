@@ -7,6 +7,7 @@ include { run_validate_PipeVal } from './external/pipeline-Nextflow-module/modul
         main_process: "./" //Save logs in <log_dir>/process-log/run_validate_PipeVal
         ]
     )
+include { indexFile } from './external/pipeline-Nextflow-module/modules/common/indexFile/main.nf'
 
 log.info """\
     ------------------------------------
@@ -49,19 +50,6 @@ include { run_stats_SAMtools } from './module/stats_samtools' addParams(
     workflow_output_dir: "${params.output_dir_base}/SAMtools-${params.samtools_version}",
     workflow_log_output_dir: "${params.log_output_dir}/process-log/SAMtools-${params.samtools_version}"
     )
-// Returns the index file for the given bam or vcf
-def indexFile(bam_or_vcf) {
-    if(bam_or_vcf.endsWith('.bam')) {
-        return "${bam_or_vcf}.bai"
-        }
-    else if(bam_or_vcf.endsWith('vcf.gz')) {
-        return "${bam_or_vcf}.tbi"
-        }
-    else {
-        throw new Exception("Index file for ${bam_or_vcf} file type not supported. Use .bam or .vcf.gz files.")
-        }
-    }
-
 
 Channel
     .fromList(params.samples_to_process)
@@ -69,7 +57,6 @@ Channel
         return tuple(sample.orig_id, sample.id, sample.path, sample.sample_type)
     }
     .set { samplesToProcessChannel }
-
 
 workflow {
     // Input file validation
