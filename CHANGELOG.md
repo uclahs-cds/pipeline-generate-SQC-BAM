@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Add pipeline-Nextflow-module as submodule
 
 ### Changed
+- Use `sanitize_string` from `pipeline-Nextflow-config`
 - Update SAMtools 1.16.1 -> 1.18
 
 ---
