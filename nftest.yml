@@ -17,7 +17,7 @@ cases:
       - actual: pipeline-SQC-DNA-*/TWGSAMIN000001/SAMtools-*/output/Samtools-*_TWGSAMIN_HG002.N_stats.txt
         expect: /hot/software/pipeline/pipeline-SQC-DNA/Nextflow/development/test-output/a_mini-all-tools/Samtools-1.18_TWGSAMIN_HG002.N_stats.txt
         method: md5
-    
+
       - actual: pipeline-SQC-DNA-*/TWGSAMIN000001/SAMtools-*/output/Samtools-*_TWGSAMIN_S2-v1.1.5_stats.txt
         expect: /hot/software/pipeline/pipeline-SQC-DNA/Nextflow/development/test-output/a_mini-all-tools/Samtools-1.18_TWGSAMIN_S2-v1.1.5_stats.txt
         method: md5
