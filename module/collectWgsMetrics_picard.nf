@@ -22,7 +22,7 @@ process run_CollectWgsMetrics_Picard {
         mode: "copy",
         enabled: true
 
-    publishDir path: "${params.workflow_log_output_dir}}",
+    publishDir path: "${params.workflow_log_output_dir}",
         pattern: ".command.*",
         mode: "copy",
         saveAs: { "${task.process.replace(':', '/')}/log${file(it).getName()}" }
