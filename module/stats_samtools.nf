@@ -42,6 +42,6 @@ process run_stats_SAMtools {
 
     """
     set -euo pipefail
-    samtools stats --threads ${task.cpus} ${path} > ${output_filename}_stats.txt
+    samtools stats ${path} > ${output_filename}_stats.txt
     """
 }

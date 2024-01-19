@@ -58,22 +58,25 @@ Channel
     }
     .set { samplesToProcessChannel }
 
-workflow {
-    // Input file validation
-    Channel
-        .fromList(params.samples_to_process)
-        .map{ it -> [it['path'], indexFile(it['path'])] }
-        .flatten()
-        .set { files_to_validate_ch }
+Channel
+    .fromList(params.samples_to_process)
+    .map{ it -> [it['path'], indexFile(it['path'])] }
+    .flatten()
+    .set { files_to_validate_ch }
 
-    reference_ch = Channel.from(
+Channel
+    .from(
         params.reference,
         params.reference_index,
         params.reference_dict
         )
+    .set { reference_ch }
 
-    files_to_validate_ch = files_to_validate_ch
-        .mix(reference_ch)
+files_to_validate_ch = files_to_validate_ch
+    .mix(reference_ch)
+
+workflow {
+    // Input file validation
     run_validate_PipeVal(files_to_validate_ch)
     run_validate_PipeVal.out.validation_result.collectFile(
         name: 'input_validation.txt', newLine: true,
