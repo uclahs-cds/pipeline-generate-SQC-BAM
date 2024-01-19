@@ -9,6 +9,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 ### Added
+- Add CollectWgsMetrics
+- Add F4.config
 - Add NFTest
 - Add `SAMtools stats` process
 - Add `CODEOWNERS`
