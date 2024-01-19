@@ -50,10 +50,10 @@ process run_CollectWgsMetrics_Picard {
         INPUT=${path} \
         OUTPUT=${output_filename}_WgsMetrics.txt \
         REFERENCE_SEQUENCE=${reference} \
-        COVERAGE_CAP=${params.coverage_cap} \
-        MINIMUM_MAPPING_QUALITY=${params.minimum_mapping_quality} \
-        MINIMUM_BASE_QUALITY=${params.minimum_base_quality} \
-        READ_LENGTH=${params.read_length} \
+        COVERAGE_CAP=${params.cwm_coverage_cap} \
+        MINIMUM_MAPPING_QUALITY=${params.cwm_minimum_mapping_quality} \
+        MINIMUM_BASE_QUALITY=${params.cwm_minimum_base_quality} \
+        READ_LENGTH=${params.cwm_read_length} \
         TMP_DIR=/scratch/${SLURM_JOB_ID}
     """
 }
