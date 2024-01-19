@@ -20,21 +20,3 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Changed
 - Update SAMtools 1.16.1 -> 1.18
-
----
-
-## [1.0.0] - YYYY-MM-DD
-
-### Deprecated
-- For soon-to-be removed features.
-
-### Removed
-- For now removed features.
-- Removed item 1.
-
-### Fixed
-- For any bug fixes.
-- Fixed item 1.
-
-### Security
-- In case of vulnerabilities.
