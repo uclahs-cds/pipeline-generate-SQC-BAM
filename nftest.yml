@@ -26,3 +26,17 @@ cases:
       - actual: pipeline-SQC-DNA-*/TWGSAMIN000001/Picard-*/output/Picard-*_TWGSAMIN_S2-v1.1.5_WgsMetrics.txt
         expect: /hot/software/pipeline/pipeline-SQC-DNA/Nextflow/development/test-output/a_mini-all-tools/Picard-3.0.0_TWGSAMIN_S2-v1.1.5_WgsMetrics.txt
         script: test/assert_txt.sh
+  - name: a_mini-stats
+    message: test samtools stats
+    nf_script: ./main.nf
+    nf_config: ./test/config/stats.config
+    params_file: ./test/yaml/a_mini_n2.yaml
+    skip: true
+    verbose: true
+    asserts:
+      - actual: pipeline-SQC-DNA-*/TWGSAMIN000001/SAMtools-*/output/SAMtools-*_TWGSAMIN_HG002.N_stats.txt
+        expect: /hot/software/pipeline/pipeline-SQC-DNA/Nextflow/development/test-output/a_mini-all-tools/SAMtools-1.18_TWGSAMIN_HG002.N_stats.txt
+        method: md5
+      - actual: pipeline-SQC-DNA-*/TWGSAMIN000001/SAMtools-*/output/SAMtools-*_TWGSAMIN_S2-v1.1.5_stats.txt
+        expect: /hot/software/pipeline/pipeline-SQC-DNA/Nextflow/development/test-output/a_mini-all-tools/SAMtools-1.18_TWGSAMIN_S2-v1.1.5_stats.txt
+        method: md5

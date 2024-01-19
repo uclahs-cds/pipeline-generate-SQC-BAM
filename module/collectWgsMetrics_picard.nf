@@ -53,7 +53,8 @@ process run_CollectWgsMetrics_Picard {
         COVERAGE_CAP=${params.cwm_coverage_cap} \
         MINIMUM_MAPPING_QUALITY=${params.cwm_minimum_mapping_quality} \
         MINIMUM_BASE_QUALITY=${params.cwm_minimum_base_quality} \
-        READ_LENGTH=${params.cwm_read_length} \
-        TMP_DIR=/scratch/${SLURM_JOB_ID}
+        READ_LENGTH=${params.read_length} \
+        TMP_DIR=/scratch/${SLURM_JOB_ID} \
+        ${params.cwm_additional_options}
     """
 }

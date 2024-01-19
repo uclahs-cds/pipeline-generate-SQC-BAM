@@ -23,6 +23,7 @@ log.info """\
         patient_id: ${params.patient_id}
         tumor: ${params.samples_to_process.findAll{ it.sample_type == 'tumor' }['path']}
         normal: ${params.samples_to_process.findAll{ it.sample_type == 'normal' }['path']}
+        read_length: ${params.read_length}
         reference: ${params.reference}
 
     - output:
@@ -36,13 +37,14 @@ log.info """\
 
     - samtools stats options:
         samtools_version: ${params.samtools_version}
+        samtools_stats_additional_options: ${params.samtools_stats_additional_options}
 
     - picard CollectWgsMetrics options:
         picard_version: ${params.picard_version}
         cwm_minimum_coverage_cap: ${params.cwm_coverage_cap}
         cwm_minimum_mapping_quality: ${params.cwm_minimum_mapping_quality}
         cwm_minimum_base_quality: ${params.cwm_minimum_base_quality}
-        cwm_read_length: ${params.cwm_read_length}
+        cwm_additional_options: ${params.cwm_additional_options}
 
     - sample names extracted from input BAM files and sanitized:
         tumor_in: ${params.samples_to_process.findAll{ it.sample_type == 'tumor' }['orig_id']}
@@ -114,13 +116,17 @@ workflow {
         storeDir: "${params.output_dir_base}/validation"
         )
 
-    run_stats_SAMtools(
-        samplesToProcessChannel
-        )
+    if ('stats' in params.algorithms) {
+        run_stats_SAMtools(
+            samplesToProcessChannel
+            )
+        }
 
-    run_CollectWgsMetrics_Picard(
-        samplesToProcessChannel,
-        params.reference,
-        params.reference_index
-        )
+    if ('cwm' in params.algorithms) {
+        run_CollectWgsMetrics_Picard(
+            samplesToProcessChannel,
+            params.reference,
+            params.reference_index
+            )
+        }
     }
