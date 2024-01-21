@@ -46,6 +46,10 @@ log.info """\
         cwm_minimum_base_quality: ${params.cwm_minimum_base_quality}
         cwm_additional_options: ${params.cwm_additional_options}
 
+    - Qualimap bamqc options:
+        qualimap_version: ${params.qualimap_version}
+        qualimap_additional_options: ${params.qualimap_additional_options}
+
     - sample names extracted from input BAM files and sanitized:
         tumor_in: ${params.samples_to_process.findAll{ it.sample_type == 'tumor' }['orig_id']}
         tumor_out: ${params.samples_to_process.findAll{ it.sample_type == 'tumor' }['id']}
@@ -69,6 +73,11 @@ include { run_CollectWgsMetrics_Picard } from './module/collectWgsMetrics_picard
 include { run_CollectHsMetrics_Picard } from './module/collectHsMetrics_picard' addParams(
     workflow_output_dir: "${params.output_dir_base}/Picard-${params.picard_version}",
     workflow_log_output_dir: "${params.log_output_dir}/process-log/Picard-${params.picard_version}"
+    )
+
+include { run_bamqc_Qualimap } from './module/bamqc_qualimap' addParams(
+    workflow_output_dir: "${params.output_dir_base}/Qualimap-${params.qualimap_version}",
+    workflow_log_output_dir: "${params.log_output_dir}/process-log/Qualimap-${params.qualimap_version}"
     )
 
 // Returns the index file for the given bam or vcf
@@ -127,6 +136,11 @@ workflow {
             samplesToProcessChannel,
             params.reference,
             params.reference_index
+            )
+        }
+    if ('bamqc' in params.algorithms) {
+        run_bamqc_Qualimap(
+            samplesToProcessChannel,
             )
         }
     }
