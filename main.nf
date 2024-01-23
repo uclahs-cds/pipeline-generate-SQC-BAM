@@ -59,11 +59,12 @@ log.info """\
         cwm_minimum_coverage_cap: ${params.cwm_coverage_cap}
         cwm_minimum_mapping_quality: ${params.cwm_minimum_mapping_quality}
         cwm_minimum_base_quality: ${params.cwm_minimum_base_quality}
+        cwm_use_fast_algorithm: ${params.cwm_use_fast_algorithm}
         cwm_additional_options: ${params.cwm_additional_options}
 
     - Qualimap bamqc options:
         qualimap_version: ${params.qualimap_version}
-        qualimap_additional_options: ${params.qualimap_additional_options}
+        bamqc_additional_options: ${params.bamqc_additional_options}
 
     - sample names extracted from input BAM files and sanitized:
         tumor_in: ${params.samples_to_process.findAll{ it.sample_type == 'tumor' }['orig_id']}

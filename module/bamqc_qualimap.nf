@@ -42,10 +42,10 @@ process run_bamqc_Qualimap {
     """
     set -euo pipefail
     qualimap bamqc \
-        --java-mem-size=${(task.memory - params.bamqc_jvm_overhead).getMega()}M \
+        --java-mem-size=${Math.max((task.memory - params.bamqc_jvm_overhead).getMega(), 1500)}M \
         -bam ${path} \
         -nt ${task.cpus} \
         -c \
-        ${params.qualimap_additional_options}
+        ${params.bamqc_additional_options}
     """
 }
