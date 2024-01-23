@@ -33,7 +33,7 @@ process run_CollectWgsMetrics_Picard {
         path reference_index
 
     output:
-        path "*", emit: metrics
+        path "*WgsMetrics.txt"
         path ".command.*"
 
     script:
@@ -54,7 +54,7 @@ process run_CollectWgsMetrics_Picard {
         MINIMUM_MAPPING_QUALITY=${params.cwm_minimum_mapping_quality} \
         MINIMUM_BASE_QUALITY=${params.cwm_minimum_base_quality} \
         READ_LENGTH=${params.read_length} \
-        TMP_DIR=/scratch/${SLURM_JOB_ID} \
+        TMP_DIR=${params.work_dir} \
         ${params.cwm_additional_options}
     """
 }

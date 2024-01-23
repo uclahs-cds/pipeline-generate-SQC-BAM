@@ -7,6 +7,16 @@ include { run_validate_PipeVal } from './external/pipeline-Nextflow-module/modul
         main_process: "./" //Save logs in <log_dir>/process-log/run_validate_PipeVal
         ]
     )
+include { run_stats_SAMtools } from './module/stats_samtools' addParams(
+    workflow_output_dir: "${params.output_dir_base}/SAMtools-${params.samtools_version}",
+    workflow_log_output_dir: "${params.log_output_dir}/process-log/SAMtools-${params.samtools_version}"
+    )
+
+include { run_CollectWgsMetrics_Picard } from './module/collectWgsMetrics_picard' addParams(
+    workflow_output_dir: "${params.output_dir_base}/Picard-${params.picard_version}",
+    workflow_log_output_dir: "${params.log_output_dir}/process-log/Picard-${params.picard_version}"
+    )
+
 log.info """\
     ------------------------------------
     S Q C - D N A  P I P E L I N E
@@ -55,21 +65,6 @@ log.info """\
 
 params.reference_index = "${params.reference}.fai"
 params.reference_dict = "${file(params.reference).parent / file(params.reference).baseName}.dict"
-
-include { run_stats_SAMtools } from './module/stats_samtools' addParams(
-    workflow_output_dir: "${params.output_dir_base}/SAMtools-${params.samtools_version}",
-    workflow_log_output_dir: "${params.log_output_dir}/process-log/SAMtools-${params.samtools_version}"
-    )
-
-include { run_CollectWgsMetrics_Picard } from './module/collectWgsMetrics_picard' addParams(
-    workflow_output_dir: "${params.output_dir_base}/Picard-${params.picard_version}",
-    workflow_log_output_dir: "${params.log_output_dir}/process-log/Picard-${params.picard_version}"
-    )
-
-include { run_CollectHsMetrics_Picard } from './module/collectHsMetrics_picard' addParams(
-    workflow_output_dir: "${params.output_dir_base}/Picard-${params.picard_version}",
-    workflow_log_output_dir: "${params.log_output_dir}/process-log/Picard-${params.picard_version}"
-    )
 
 // Returns the index file for the given bam or vcf
 def indexFile(bam_or_vcf) {
@@ -122,7 +117,7 @@ workflow {
             )
         }
 
-    if ('cwm' in params.algorithms) {
+    if ('collectwgsmetrics' in params.algorithms) {
         run_CollectWgsMetrics_Picard(
             samplesToProcessChannel,
             params.reference,
