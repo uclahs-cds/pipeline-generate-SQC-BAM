@@ -31,7 +31,7 @@ process run_stats_SAMtools {
         tuple val(orig_id), val(id), path(path), val(sample_type)
 
     output:
-        path "*stats.txt", emit: stats
+        path "*stats.txt"
         path ".command.*"
 
     script:
