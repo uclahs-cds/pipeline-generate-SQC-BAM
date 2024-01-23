@@ -1,5 +1,6 @@
 ---
 patient_id: 'TWGSAMIN000001'
+dataset_id: 'TWGSAMIN'
 input:
   BAM:
     normal:

@@ -4,7 +4,7 @@
 */
 log.info """\
 =====================================
-  B A M  Q U A L I T Y   C H E C K
+            B A M Q C
 =====================================
 Docker Images:
 - docker_image_Picard: ${params.docker_image_qualimap}
@@ -17,7 +17,7 @@ process run_bamqc_Qualimap {
     container params.docker_image_qualimap
 
     publishDir path: "${params.workflow_output_dir}/output",
-        pattern: "*",
+        pattern: "*_stats",
         mode: "copy",
         enabled: true
 
@@ -26,11 +26,11 @@ process run_bamqc_Qualimap {
         mode: "copy",
         saveAs: { "${task.process.replace(':', '/')}/log${file(it).getName()}" }
 
-    input: 
+    input:
         tuple val(orig_id), val(id), path(path), val(sample_type)
 
     output:
-        path "*", emit: tbd
+        path "*_stats", emit: stats
         path ".command.*"
 
     script:
@@ -42,11 +42,10 @@ process run_bamqc_Qualimap {
     """
     set -euo pipefail
     qualimap bamqc \
-        --java-mem-size=${(task.memory - params.bamqc_jvc_overhead).getMega()}M \
+        --java-mem-size=${(task.memory - params.bamqc_jvm_overhead).getMega()}M \
         -bam ${path} \
         -nt ${task.cpus} \
         -c \
-        --java-mem-size=${(task.memory).getMega()}M \
         ${params.qualimap_additional_options}
     """
 }

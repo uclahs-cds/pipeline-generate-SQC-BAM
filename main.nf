@@ -70,11 +70,6 @@ include { run_CollectWgsMetrics_Picard } from './module/collectWgsMetrics_picard
     workflow_log_output_dir: "${params.log_output_dir}/process-log/Picard-${params.picard_version}"
     )
 
-include { run_CollectHsMetrics_Picard } from './module/collectHsMetrics_picard' addParams(
-    workflow_output_dir: "${params.output_dir_base}/Picard-${params.picard_version}",
-    workflow_log_output_dir: "${params.log_output_dir}/process-log/Picard-${params.picard_version}"
-    )
-
 include { run_bamqc_Qualimap } from './module/bamqc_qualimap' addParams(
     workflow_output_dir: "${params.output_dir_base}/Qualimap-${params.qualimap_version}",
     workflow_log_output_dir: "${params.log_output_dir}/process-log/Qualimap-${params.qualimap_version}"
