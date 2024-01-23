@@ -44,17 +44,18 @@ process run_CollectWgsMetrics_Picard {
 
     """
     set -euo pipefail
-    java -Xmx${(task.memory).getMega()}m \
+    java -Xmx${Math.max((task.memory - params.cwm_jvm_overhead).getMega(), 1500)}M \
+        -Dpicard.useLegacyParser=false \
         -jar /usr/local/share/picard-slim-${params.picard_version}-0/picard.jar \
         CollectWgsMetrics \
-        INPUT=${path} \
-        OUTPUT=${output_filename}_WgsMetrics.txt \
-        REFERENCE_SEQUENCE=${reference} \
-        COVERAGE_CAP=${params.cwm_coverage_cap} \
-        MINIMUM_MAPPING_QUALITY=${params.cwm_minimum_mapping_quality} \
-        MINIMUM_BASE_QUALITY=${params.cwm_minimum_base_quality} \
-        READ_LENGTH=${params.read_length} \
-        TMP_DIR=${params.work_dir} \
+        -INPUT ${path} \
+        -OUTPUT ${output_filename}_WgsMetrics.txt \
+        -REFERENCE_SEQUENCE ${reference} \
+        -COVERAGE_CAP ${params.cwm_coverage_cap} \
+        -MINIMUM_MAPPING_QUALITY ${params.cwm_minimum_mapping_quality} \
+        -MINIMUM_BASE_QUALITY ${params.cwm_minimum_base_quality} \
+        -USE_FAST_ALGORITHM ${params.cwm_use_fast_algorithm} \
+        -TMP_DIR ${params.work_dir} \
         ${params.cwm_additional_options}
     """
 }
