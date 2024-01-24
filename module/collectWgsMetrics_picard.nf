@@ -44,7 +44,7 @@ process run_CollectWgsMetrics_Picard {
 
     """
     set -euo pipefail
-    java -Xmx${Math.max((task.memory - params.cwm_jvm_overhead).getMega(), 1500)}M \
+    java -Xmx${(task.memory * 0.75).getMega()}M \
         -Dpicard.useLegacyParser=false \
         -jar /usr/local/share/picard-slim-${params.picard_version}-0/picard.jar \
         CollectWgsMetrics \
