@@ -34,11 +34,11 @@ log.info """\
         version: ${workflow.manifest.version}
 
     - input:
+        algorithm(s): ${params.algorithms}
         dataset_id: ${params.dataset_id}
         patient_id: ${params.patient_id}
         tumor: ${params.samples_to_process.findAll{ it.sample_type == 'tumor' }['path']}
         normal: ${params.samples_to_process.findAll{ it.sample_type == 'normal' }['path']}
-        read_length: ${params.read_length}
         reference: ${params.reference}
 
     - output:
