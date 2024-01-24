@@ -18,7 +18,7 @@ process run_CollectWgsMetrics_Picard {
     container params.docker_image_picard
 
     publishDir path: "${params.workflow_output_dir}/output",
-        pattern: "*WgsMetrics.txt",
+        pattern: "*_wgs_metrics.txt",
         mode: "copy",
         enabled: true
 
@@ -33,7 +33,7 @@ process run_CollectWgsMetrics_Picard {
         path reference_index
 
     output:
-        path "*WgsMetrics.txt"
+        path "*_wgs_metrics.txt"
         path ".command.*"
 
     script:
@@ -49,7 +49,7 @@ process run_CollectWgsMetrics_Picard {
         -jar /usr/local/share/picard-slim-${params.picard_version}-0/picard.jar \
         CollectWgsMetrics \
         -INPUT ${path} \
-        -OUTPUT ${output_filename}_WgsMetrics.txt \
+        -OUTPUT ${output_filename}_wgs_metrics.txt \
         -REFERENCE_SEQUENCE ${reference} \
         -COVERAGE_CAP ${params.cwm_coverage_cap} \
         -MINIMUM_MAPPING_QUALITY ${params.cwm_minimum_mapping_quality} \
