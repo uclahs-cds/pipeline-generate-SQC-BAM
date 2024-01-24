@@ -9,6 +9,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 ### Added
+- Add `CollectWgsMetrics`
+- Add `F4.config`
 - Add NFTest
 - Add `SAMtools stats` process
 - Add `CODEOWNERS`
@@ -19,21 +21,3 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Changed
 - Use `sanitize_uclahs_cds_id` from `pipeline-Nextflow-config`
 - Update SAMtools 1.16.1 -> 1.18
-
----
-
-## [1.0.0] - YYYY-MM-DD
-
-### Deprecated
-- For soon-to-be removed features.
-
-### Removed
-- For now removed features.
-- Removed item 1.
-
-### Fixed
-- For any bug fixes.
-- Fixed item 1.
-
-### Security
-- In case of vulnerabilities.

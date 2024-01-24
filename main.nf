@@ -12,6 +12,11 @@ include { run_stats_SAMtools } from './module/stats_samtools' addParams(
     workflow_log_output_dir: "${params.log_output_dir}/process-log/SAMtools-${params.samtools_version}"
     )
 
+include { run_CollectWgsMetrics_Picard } from './module/collectWgsMetrics_picard' addParams(
+    workflow_output_dir: "${params.output_dir_base}/Picard-${params.picard_version}",
+    workflow_log_output_dir: "${params.log_output_dir}/process-log/Picard-${params.picard_version}"
+    )
+
 log.info """\
     ------------------------------------
     S Q C - D N A  P I P E L I N E
@@ -28,6 +33,7 @@ log.info """\
         patient_id: ${params.patient_id}
         tumor: ${params.samples_to_process.findAll{ it.sample_type == 'tumor' }['path']}
         normal: ${params.samples_to_process.findAll{ it.sample_type == 'normal' }['path']}
+        read_length: ${params.read_length}
         reference: ${params.reference}
 
     - output:
@@ -38,6 +44,17 @@ log.info """\
         ucla_cds: ${params.ucla_cds}
         save_intermediate_files: ${params.save_intermediate_files}
         docker_container_registry: ${params.docker_container_registry}
+
+    - samtools stats options:
+        samtools_version: ${params.samtools_version}
+        samtools_stats_additional_options: ${params.samtools_stats_additional_options}
+
+    - picard CollectWgsMetrics options:
+        picard_version: ${params.picard_version}
+        cwm_minimum_coverage_cap: ${params.cwm_coverage_cap}
+        cwm_minimum_mapping_quality: ${params.cwm_minimum_mapping_quality}
+        cwm_minimum_base_quality: ${params.cwm_minimum_base_quality}
+        cwm_additional_options: ${params.cwm_additional_options}
 
     - sample names extracted from input BAM files and sanitized:
         tumor_in: ${params.samples_to_process.findAll{ it.sample_type == 'tumor' }['orig_id']}
@@ -94,7 +111,17 @@ workflow {
         storeDir: "${params.output_dir_base}/validation"
         )
 
-    run_stats_SAMtools(
-        samplesToProcessChannel
-        )
+    if ('stats' in params.algorithms) {
+        run_stats_SAMtools(
+            samplesToProcessChannel
+            )
+        }
+
+    if ('collectwgsmetrics' in params.algorithms) {
+        run_CollectWgsMetrics_Picard(
+            samplesToProcessChannel,
+            params.reference,
+            params.reference_index
+            )
+        }
     }

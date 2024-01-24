@@ -27,21 +27,22 @@ process run_stats_SAMtools {
         mode: "copy",
         saveAs: { "${task.process.replace(':', '/')}/log${file(it).getName()}" }
 
-    input: 
+    input:
         tuple val(orig_id), val(id), path(path), val(sample_type)
 
     output:
-        path "*stats.txt", emit: stats
+        path "*stats.txt"
         path ".command.*"
 
     script:
-    output_filename = generate_standard_filename("Samtools-${params.samtools_version}",
+    output_filename = generate_standard_filename("SAMtools-${params.samtools_version}",
         params.dataset_id,
         id,
         [:])
+    rmdups = params.remove_duplicates ? "--remove-dups" : ""
 
     """
     set -euo pipefail
-    samtools stats ${path} > ${output_filename}_stats.txt
+    samtools stats ${rmdups} ${params.samtools_stats_additional_options} ${path} > ${output_filename}_stats.txt
     """
 }
