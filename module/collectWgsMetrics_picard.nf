@@ -27,7 +27,7 @@ process run_CollectWgsMetrics_Picard {
         mode: "copy",
         saveAs: { "${task.process.replace(':', '/')}/log${file(it).getName()}" }
 
-    input: 
+    input:
         tuple val(orig_id), val(id), path(path), val(sample_type)
         path reference
         path reference_index
