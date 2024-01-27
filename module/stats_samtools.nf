@@ -22,10 +22,10 @@ process run_stats_SAMtools {
         mode: "copy",
         enabled: true
 
-    publishDir path: "${params.workflow_log_output_dir}/${task.process.split(':')[-1]}",
+    publishDir path: "${params.workflow_log_output_dir}",
         pattern: ".command.*",
         mode: "copy",
-        saveAs: { "${task.process.replace(':', '/')}/log${file(it).getName()}" }
+        saveAs: { "${task.process.replace(':', '/')}-${id}/log${file(it).getName()}" }
 
     input:
         tuple val(orig_id), val(id), path(path), val(sample_type)
