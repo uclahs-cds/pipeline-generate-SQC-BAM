@@ -3,14 +3,6 @@
 *   This module runs Picard CollectWgsMetrics on a BAM file
 *
 */
-log.info """\
-=====================================
-C O L L E C T   W G S   M E T R I C S
-=====================================
-Docker Images:
-- docker_image_Picard: ${params.docker_image_picard}
-====================================
-"""
 
 include { generate_standard_filename } from '../external/pipeline-Nextflow-module/modules/common/generate_standardized_filename/main.nf'
 
@@ -28,7 +20,7 @@ process run_CollectWgsMetrics_Picard {
         saveAs: { "${task.process.replace(':', '/')}-${id}/log${file(it).getName()}" }
 
     input:
-        tuple val(orig_id), val(id), path(path), val(sample_type)
+        tuple val(orig_id), val(id), path(path), val(read_length), val(sample_type)
         path reference
         path reference_index
 
