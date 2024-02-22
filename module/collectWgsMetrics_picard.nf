@@ -41,6 +41,7 @@ process run_CollectWgsMetrics_Picard {
         -jar /usr/local/share/picard-slim-${params.picard_version}-0/picard.jar \
         CollectWgsMetrics \
         -INPUT ${path} \
+        -READ_LENGTH ${read_length} \
         -OUTPUT ${output_filename}_wgs-metrics.txt \
         -REFERENCE_SEQUENCE ${reference} \
         -COVERAGE_CAP ${params.cwm_coverage_cap} \
