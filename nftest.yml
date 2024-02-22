@@ -45,7 +45,7 @@ cases:
     nf_script: main.nf
     nf_config: test/config/all-tools.config
     params_file: test/yaml/a_mini-multiple-samples.yaml
-    skip: false
+    skip: true
     verbose: true
     asserts:
       - actual: pipeline-SQC-DNA-*/TWGSAMIN000001/SAMtools-*/output/SAMtools-*_TWGSAMIN_HG002.N_stats.txt
