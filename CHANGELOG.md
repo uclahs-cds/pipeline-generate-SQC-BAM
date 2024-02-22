@@ -20,5 +20,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Add pipeline-Nextflow-module as submodule
 
 ### Changed
+- allow multiple BAM input
+- input `readlength` through YAML
 - Use `sanitize_uclahs_cds_id` from `pipeline-Nextflow-config`
 - Update SAMtools 1.16.1 -> 1.18
