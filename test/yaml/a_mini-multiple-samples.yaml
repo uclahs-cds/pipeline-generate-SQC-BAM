@@ -1,0 +1,13 @@
+---
+patient_id: 'TWGSAMIN000001'
+dataset_id: 'TWGSAMIN'
+input:
+  normal:
+    - path: /hot/software/pipeline/pipeline-SQC-DNA/Nextflow/development/test-input/HG002.N-n2.bam
+      read_length: 150
+
+  tumor:
+    - path: /hot/software/pipeline/pipeline-SQC-DNA/Nextflow/development/test-input/S2.T-n2.bam
+      read_length: 150
+    - path: /hot/software/pipeline/pipeline-SQC-DNA/Nextflow/development/test-input/S2.T-n1_SMadjust.bam
+      read_length: 150
