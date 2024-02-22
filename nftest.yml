@@ -10,7 +10,7 @@ cases:
     message: test all tools
     nf_script: main.nf
     nf_config: test/config/all-tools.config
-    params_file: test/yaml/a_mini_n2.yaml
+    params_file: test/yaml/a_mini.yaml
     skip: false
     verbose: true
     asserts:
@@ -30,7 +30,7 @@ cases:
     message: test samtools stats
     nf_script: main.nf
     nf_config: test/config/stats.config
-    params_file: test/yaml/a_mini_n2.yaml
+    params_file: test/yaml/a_mini.yaml
     skip: true
     verbose: true
     asserts:
@@ -41,10 +41,10 @@ cases:
         expect: /hot/software/pipeline/pipeline-SQC-DNA/Nextflow/development/test-output/a_mini-all-tools/SAMtools-1.18_TWGSAMIN_S2-v1.1.5_stats.txt
         method: md5
   - name: a_mini-all-tools-multiple-samples
-    message: test all tools with 1 normal and 2 input tumor samples
+    message: test all tools with 1 normal and 2 tumor samples
     nf_script: main.nf
     nf_config: test/config/all-tools.config
-    params_file: test/yaml/a_mini_n2-multiple-samples.yaml
+    params_file: test/yaml/a_mini-multiple-samples.yaml
     skip: false
     verbose: true
     asserts:
