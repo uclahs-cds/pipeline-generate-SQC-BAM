@@ -1,26 +1,17 @@
-# Pipeline Name
+# SQC-BAM
 
-- [Pipeline Name](#pipeline-name)
-  - [Overview](#overview)
-  - [How To Run](#how-to-run)
-  - [Flow Diagram](#flow-diagram)
-  - [Pipeline Steps](#pipeline-steps)
-    - [1. Step/Proccess 1](#1-stepproccess-1)
-    - [2. Step/Proccess 2](#2-stepproccess-2)
-    - [3. Step/Proccess n](#3-stepproccess-n)
-  - [Inputs](#inputs)
-  - [Outputs](#outputs)
-  - [Testing and Validation](#testing-and-validation)
-    - [Test Data Set](#test-data-set)
-    - [Validation <version number\>](#validation-version-number)
-    - [Validation Tool](#validation-tool)
-  - [References](#references)
-  - [Discussions](#discussions)
-  - [Contributors](#contributors)
-  - [License](#license) 
+  1. [Overview](#overview)
+  2. [How To Run](#how-to-run)
+  3. [Flow Diagram](#flow-diagram)
+  4. [Pipeline Steps](#pipeline-steps)
+  5. [Inputs](#inputs)
+  6. [Outputs](#outputs)
+  7. [Discussions](#discussions)
+  8. [Contributors](#contributors)
+  9. [References](#references)
 ## Overview
 
-A 3-4 sentence summary of the pipeline, including the pipeline's purpose, the type of expected scientific inputs/outputs of the pipeline (e.g: FASTQs and BAMs), and a list of tools/steps in the pipeline.
+This pipeline takes BAMs and corresponding indices and runs selected Quality Control (QC) steps. Available algorithms are currently `Picard CollectWgsMetrics`, `Qualimap bamqc` and `SAMtools stats`.  Input can include any combination of BAMs: tumor, normal, DNA, RNA. Each will be processed independently. RNA specific QC is not yet implemented but is expected soon.
 
 ---
 
