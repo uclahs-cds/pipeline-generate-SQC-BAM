@@ -17,6 +17,11 @@ include { run_CollectWgsMetrics_Picard } from './module/collectWgsMetrics_picard
     workflow_log_output_dir: "${params.log_output_dir}/process-log/Picard-${params.picard_version}"
     )
 
+include { run_bamqc_Qualimap } from './module/bamqc_qualimap' addParams(
+    workflow_output_dir: "${params.output_dir_base}/Qualimap-${params.qualimap_version}",
+    workflow_log_output_dir: "${params.log_output_dir}/process-log/Qualimap-${params.qualimap_version}"
+    )
+
 log.info """\
     ------------------------------------
     S Q C - D N A  P I P E L I N E
@@ -29,11 +34,11 @@ log.info """\
         version: ${workflow.manifest.version}
 
     - input:
+        algorithm(s): ${params.algorithms}
         dataset_id: ${params.dataset_id}
         patient_id: ${params.patient_id}
         tumor: ${params.samples_to_process.findAll{ it.sample_type == 'tumor' }['path']}
         normal: ${params.samples_to_process.findAll{ it.sample_type == 'normal' }['path']}
-        read_length: ${params.read_length}
         reference: ${params.reference}
 
     - output:
@@ -54,7 +59,12 @@ log.info """\
         cwm_minimum_coverage_cap: ${params.cwm_coverage_cap}
         cwm_minimum_mapping_quality: ${params.cwm_minimum_mapping_quality}
         cwm_minimum_base_quality: ${params.cwm_minimum_base_quality}
+        cwm_use_fast_algorithm: ${params.cwm_use_fast_algorithm}
         cwm_additional_options: ${params.cwm_additional_options}
+
+    - Qualimap bamqc options:
+        qualimap_version: ${params.qualimap_version}
+        bamqc_additional_options: ${params.bamqc_additional_options}
 
     - sample names extracted from input BAM files and sanitized:
         tumor_in: ${params.samples_to_process.findAll{ it.sample_type == 'tumor' }['orig_id']}
@@ -122,6 +132,11 @@ workflow {
             samplesToProcessChannel,
             params.reference,
             params.reference_index
+            )
+        }
+    if ('bamqc' in params.algorithms) {
+        run_bamqc_Qualimap(
+            samplesToProcessChannel,
             )
         }
     }

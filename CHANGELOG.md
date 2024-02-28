@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 ### Added
+- Add `Qualimap bamqc`
 - Add `CollectWgsMetrics`
 - Add `F4.config`
 - Add NFTest
