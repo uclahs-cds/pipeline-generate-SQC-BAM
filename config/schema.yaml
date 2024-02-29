@@ -108,7 +108,7 @@ input:
           help: 'Absolute path to normal sample BAM files'
         read_length:
           type: 'Integer'
-          required: true
+          required: false
           help: 'Length of the reads in the BAM file'
     tumor:
       type: 'BAMEntryList'
@@ -122,5 +122,5 @@ input:
           help: 'Absolute path to tumor sample BAM files'
         read_length:
           type: 'Integer'
-          required: true
+          required: false
           help: 'Length of the reads in the BAM file'
