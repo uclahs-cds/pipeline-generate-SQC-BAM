@@ -1,0 +1,126 @@
+---
+patient_id:
+  type: 'String'
+  required: true
+  help: 'Patient identifier'
+dataset_id:
+  type: 'String'
+  required: true
+  help: 'Dataset identifier'
+algorithms:
+  type: 'List'
+  required: true
+  help: 'List of QC algorithms'
+  choices:
+    - stats
+    - collectwgsmetrics
+    - bamqc
+reference:
+  type: 'Path'
+  mode: 'r'
+  required: true
+  help: 'Absolute path to reference fasta'
+output_dir:
+  type: 'Path'
+  mode: 'w'
+  required: true
+  help: 'Absolute path to output directory'
+blcds_registered_dataset:
+  type: 'Bool'
+  required: false
+  default: false
+  help: 'if you want the output to be registered (Boutros Lab only)'
+save_intermediate_files:
+  type: 'Bool'
+  required: false
+  default: false
+  help: 'The option to save the intermediate files'
+remove_duplicates:
+  type: 'Bool'
+  required: false
+  default: false
+  help: 'SAMtools stats option to remove duplicates'
+samtools_stats_additional_options:
+  type: 'String'
+  required: false
+  allow_empty: true
+  default: ''
+  help: 'Additional arguments for SAMtools stats command'
+cwm_coverage_cap:
+  type: 'Integer'
+  required: false
+  default: 1000
+  help: 'Coverage cap for CollectWgsMetrics'
+cwm_minimum_mapping_quality:
+  type: 'Integer'
+  required: false
+  default: 20
+  help: 'Minimum mapping quality for CollectWgsMetrics'
+cwm_minimum_base_quality:
+  type: 'Integer'
+  required: false
+  default: 20
+  help: 'Minimum base quality for CollectWgsMetrics'
+cwm_use_fast_algorithm:
+  type: 'Bool'
+  required: false
+  default: false
+  help: 'Use fast algorithm for CollectWgsMetrics'
+cwm_additional_options:
+  type: 'String'
+  required: false
+  allow_empty: true
+  default: ''
+  help: 'Additional arguments for CollectWgsMetrics command'
+bamqc_additional_options:
+  type: 'String'
+  required: false
+  allow_empty: true
+  default: ''
+  help: 'Additional arguments for bamqc command'
+base_resource_update:
+  type: 'ResourceUpdateNamespace'
+  required: false
+  help: 'User-defined modifications for adjusting base resource allocations for processes'
+  elements:
+    memory:
+      type: 'ResourceUpdateList'
+      required: false
+      help: 'List of memory updates'
+    cpus:
+      type: 'ResourceUpdateList'
+      required: false
+      help: 'List of CPU updates'
+input:
+  type: 'InputNamespace'
+  required: true
+  help: 'Input to process'
+  elements:
+    normal:
+      type: 'BAMEntryList'
+      required: false
+      help: 'Normal sample input specifications'
+      elements:
+        path:
+          type: 'Path'
+          mode: 'r'
+          required: true
+          help: 'Absolute path to normal sample BAM files'
+        read_length:
+          type: 'Integer'
+          required: true
+          help: 'Length of the reads in the BAM file'
+    tumor:
+      type: 'BAMEntryList'
+      required: false
+      help: 'Tumor sample input specifications'
+      elements:
+        path:
+          type: 'Path'
+          mode: 'r'
+          required: true
+          help: 'Absolute path to tumor sample BAM files'
+        read_length:
+          type: 'Integer'
+          required: true
+          help: 'Length of the reads in the BAM file'
