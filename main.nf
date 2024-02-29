@@ -22,6 +22,8 @@ include { run_bamqc_Qualimap } from './module/bamqc_qualimap' addParams(
     workflow_log_output_dir: "${params.log_output_dir}/process-log/Qualimap-${params.qualimap_version}"
     )
 
+include { indexFile } from './external/pipeline-Nextflow-module/modules/common/indexFile/main.nf'
+
 log.info """\
     ------------------------------------
     S Q C - D N A  P I P E L I N E
@@ -80,19 +82,6 @@ log.info """\
 
 params.reference_index = "${params.reference}.fai"
 params.reference_dict = "${file(params.reference).parent / file(params.reference).baseName}.dict"
-
-// Returns the index file for the given bam or vcf
-def indexFile(bam_or_vcf) {
-    if(bam_or_vcf.endsWith('.bam')) {
-        return "${bam_or_vcf}.bai"
-        }
-    else if(bam_or_vcf.endsWith('vcf.gz')) {
-        return "${bam_or_vcf}.tbi"
-        }
-    else {
-        throw new Exception("Index file for ${bam_or_vcf} file type not supported. Use .bam or .vcf.gz files.")
-        }
-    }
 
 Channel
     .fromList(params.samples_to_process)
