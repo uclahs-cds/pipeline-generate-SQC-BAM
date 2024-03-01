@@ -45,14 +45,16 @@ log.info """\
         dataset_id: ${params.dataset_id}
         patient_id: ${params.patient_id}
         tumor: ${params.samples_to_process.findAll{ it.sample_type == 'tumor' }['path']}
+        tumor read length: ${params.samples_to_process.findAll{ it.sample_type == 'tumor' }['read_length']}
         normal: ${params.samples_to_process.findAll{ it.sample_type == 'normal' }['path']}
+        normal read length: ${params.samples_to_process.findAll{ it.sample_type == 'normal' }['read_length']}
         reference: ${params.reference}
 
     - sample names extracted from input BAM files and sanitized:
-        tumor_in: ${params.samples_to_process.findAll{ it.sample_type == 'tumor' }['orig_id']}
-        tumor_out: ${params.samples_to_process.findAll{ it.sample_type == 'tumor' }['id']}
-        normal_in: ${params.samples_to_process.findAll{ it.sample_type == 'normal' }['orig_id']}
-        normal_out: ${params.samples_to_process.findAll{ it.sample_type == 'normal' }['id']}
+        tumor in: ${params.samples_to_process.findAll{ it.sample_type == 'tumor' }['orig_id']}
+        tumor out: ${params.samples_to_process.findAll{ it.sample_type == 'tumor' }['id']}
+        normal in: ${params.samples_to_process.findAll{ it.sample_type == 'normal' }['orig_id']}
+        normal out: ${params.samples_to_process.findAll{ it.sample_type == 'normal' }['id']}
 
     - output:
         output_dir: ${params.output_dir_base}

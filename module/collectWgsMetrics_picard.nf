@@ -33,6 +33,7 @@ process run_CollectWgsMetrics_Picard {
         params.dataset_id,
         id,
         [:])
+    read_length_arg = read_length == null ? "" : "-READ_LENGTH ${read_length}"
 
     """
     set -euo pipefail
@@ -41,7 +42,7 @@ process run_CollectWgsMetrics_Picard {
         -jar /usr/local/share/picard-slim-${params.picard_version}-0/picard.jar \
         CollectWgsMetrics \
         -INPUT ${path} \
-        -READ_LENGTH ${read_length} \
+        ${read_length_arg} \
         -OUTPUT ${output_filename}_wgs-metrics.txt \
         -REFERENCE_SEQUENCE ${reference} \
         -COVERAGE_CAP ${params.cwm_coverage_cap} \

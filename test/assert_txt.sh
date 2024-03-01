@@ -1,6 +1,6 @@
 #!/bin/bash
 function md5_txt {
-    grep -v '^#' $1 | md5sum | cut -f 1 -d ' '
+    grep -v '^#' "$1" | md5sum | cut -f 1 -d ' '
 }
 
 received=$(md5_txt "$1")
