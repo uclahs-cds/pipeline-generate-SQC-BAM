@@ -3,14 +3,6 @@
 *   This module runs SAMtools stats on a BAM file
 *
 */
-log.info """\
-====================================
-    S A M T O O L S   S T A T S
-====================================
-Docker Images:
-- docker_image_SAMtools: ${params.docker_image_samtools}
-====================================
-"""
 
 include { generate_standard_filename } from '../external/pipeline-Nextflow-module/modules/common/generate_standardized_filename/main.nf'
 
@@ -28,7 +20,7 @@ process run_stats_SAMtools {
         saveAs: { "${task.process.replace(':', '/')}-${id}/log${file(it).getName()}" }
 
     input:
-        tuple val(orig_id), val(id), path(path), val(sample_type)
+        tuple val(orig_id), val(id), path(path), val(read_length), val(sample_type)
 
     output:
         path "*stats.txt"

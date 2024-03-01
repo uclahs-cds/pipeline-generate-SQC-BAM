@@ -3,14 +3,6 @@
 *   This module runs Picard CollectWgsMetrics on a BAM file
 *
 */
-log.info """\
-=====================================
-C O L L E C T   W G S   M E T R I C S
-=====================================
-Docker Images:
-- docker_image_Picard: ${params.docker_image_picard}
-====================================
-"""
 
 include { generate_standard_filename } from '../external/pipeline-Nextflow-module/modules/common/generate_standardized_filename/main.nf'
 
@@ -28,7 +20,7 @@ process run_CollectWgsMetrics_Picard {
         saveAs: { "${task.process.replace(':', '/')}-${id}/log${file(it).getName()}" }
 
     input:
-        tuple val(orig_id), val(id), path(path), val(sample_type)
+        tuple val(orig_id), val(id), path(path), val(read_length), val(sample_type)
         path reference
         path reference_index
 
@@ -41,6 +33,7 @@ process run_CollectWgsMetrics_Picard {
         params.dataset_id,
         id,
         [:])
+    read_length_arg = read_length == null ? "" : "-READ_LENGTH ${read_length}"
 
     """
     set -euo pipefail
@@ -49,6 +42,7 @@ process run_CollectWgsMetrics_Picard {
         -jar /usr/local/share/picard-slim-${params.picard_version}-0/picard.jar \
         CollectWgsMetrics \
         -INPUT ${path} \
+        ${read_length_arg} \
         -OUTPUT ${output_filename}_wgs-metrics.txt \
         -REFERENCE_SEQUENCE ${reference} \
         -COVERAGE_CAP ${params.cwm_coverage_cap} \
