@@ -18,7 +18,7 @@ algorithms:
 reference:
   type: 'Path'
   mode: 'r'
-  required: true
+  required: false
   help: 'Absolute path to reference fasta'
 output_dir:
   type: 'Path'

@@ -82,9 +82,6 @@ log.info """\
         bamqc_additional_options: ${params.bamqc_additional_options}
 """
 
-params.reference_index = "${params.reference}.fai"
-params.reference_dict = "${file(params.reference).parent / file(params.reference).baseName}.dict"
-
 Channel
     .fromList(params.samples_to_process)
     .map { sample ->
@@ -98,16 +95,21 @@ Channel
     .flatten()
     .set { files_to_validate_ch }
 
-Channel
-    .from(
-        params.reference,
-        params.reference_index,
-        params.reference_dict
-        )
-    .set { reference_ch }
+if ('collectwgsmetrics' in params.algorithms) {
+    if (!params.reference) {
+        throw new Exception("Reference genome is required when using the 'collectwgsmetrics' algorithm. Please check the config file and try again.")
+        }
 
-files_to_validate_ch = files_to_validate_ch
-    .mix(reference_ch)
+    params.reference_index = "${params.reference}.fai"
+    Channel
+        .from(
+            params.reference,
+            params.reference_index,
+            )
+        .set { reference_ch }
+    files_to_validate_ch = files_to_validate_ch
+        .mix(reference_ch)
+    }
 
 workflow {
     // Input file validation
