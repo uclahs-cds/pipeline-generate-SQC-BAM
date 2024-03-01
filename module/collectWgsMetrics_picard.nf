@@ -33,7 +33,11 @@ process run_CollectWgsMetrics_Picard {
         params.dataset_id,
         id,
         [:])
-    read_length_arg = read_length == null ? "" : "-READ_LENGTH ${read_length}"
+    read_length_arg = read_length ? "-READ_LENGTH ${read_length}" : ""
+    fast_algorithm_arg = params.cwm_use_fast_algorithm ? "-USE_FAST_ALGORITHM" : ""
+    coverage_cap_arg = params.cwm_coverage_cap ? "-COVERAGE_CAP ${params.cwm_coverage_cap}" : ""
+    minimum_mapping_quality_arg = params.cwm_minimum_mapping_quality ? "-MINIMUM_MAPPING_QUALITY ${params.cwm_minimum_mapping_quality}" : ""
+    minimum_base_quality_arg = params.cwm_minimum_base_quality ? "-MINIMUM_BASE_QUALITY ${params.cwm_minimum_base_quality}" : ""
 
     """
     set -euo pipefail
@@ -45,10 +49,10 @@ process run_CollectWgsMetrics_Picard {
         ${read_length_arg} \
         -OUTPUT ${output_filename}_wgs-metrics.txt \
         -REFERENCE_SEQUENCE ${reference} \
-        -COVERAGE_CAP ${params.cwm_coverage_cap} \
-        -MINIMUM_MAPPING_QUALITY ${params.cwm_minimum_mapping_quality} \
-        -MINIMUM_BASE_QUALITY ${params.cwm_minimum_base_quality} \
-        -USE_FAST_ALGORITHM ${params.cwm_use_fast_algorithm} \
+        ${coverage_cap_arg} \
+        ${minimum_mapping_quality_arg} \
+        ${minimum_base_quality_arg} \
+        ${fast_algorithm_arg} \
         -TMP_DIR ${params.work_dir} \
         ${params.cwm_additional_options}
     """
