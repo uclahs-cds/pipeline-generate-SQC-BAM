@@ -1,16 +1,15 @@
 /*
-*   SAMtools stats
-*   This module runs SAMtools stats on a BAM file
-*
+*   Qualimap bamqc
+*   This module runs Qualimap's QC analysis for a BAM file
 */
 
 include { generate_standard_filename } from '../external/pipeline-Nextflow-module/modules/common/generate_standardized_filename/main.nf'
 
-process run_stats_SAMtools {
-    container params.docker_image_samtools
+process run_bamqc_Qualimap {
+    container params.docker_image_qualimap
 
     publishDir path: "${params.workflow_output_dir}/output",
-        pattern: "*stats.txt",
+        pattern: "*_stats",
         mode: "copy",
         enabled: true
 
@@ -23,18 +22,22 @@ process run_stats_SAMtools {
         tuple val(orig_id), val(id), path(path), val(read_length), val(sample_type)
 
     output:
-        path "*stats.txt"
+        path "*_stats", emit: stats
         path ".command.*"
 
     script:
-    output_filename = generate_standard_filename("SAMtools-${params.samtools_version}",
+    output_filename = generate_standard_filename("Qualimap-${params.qualimap_version}",
         params.dataset_id,
         id,
         [:])
-    rmdups = params.remove_duplicates ? "--remove-dups" : ""
 
     """
     set -euo pipefail
-    samtools stats ${rmdups} ${params.samtools_stats_additional_options} ${path} > ${output_filename}_stats.txt
+    qualimap bamqc \
+        --java-mem-size=${(task.memory * params.jvm_fraction).getMega()}M \
+        -bam ${path} \
+        -nt ${task.cpus} \
+        -c \
+        ${params.bamqc_additional_options}
     """
 }

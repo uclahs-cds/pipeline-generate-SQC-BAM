@@ -1,6 +1,6 @@
 ---
 global:
-  temp_dir: ./test/work
+  temp_dir: test/work
   nf_config: test/global.config
   remove_temp: true
   clean_logs: true
@@ -8,9 +8,9 @@ global:
 cases:
   - name: a_mini-all-tools
     message: test all tools
-    nf_script: ./main.nf
-    nf_config: ./test/config/all-tools.config
-    params_file: ./test/yaml/a_mini_n2.yaml
+    nf_script: main.nf
+    nf_config: test/config/all-tools.config
+    params_file: test/yaml/a_mini.yaml
     skip: false
     verbose: true
     asserts:
@@ -20,17 +20,17 @@ cases:
       - actual: pipeline-SQC-DNA-*/TWGSAMIN000001/SAMtools-*/output/SAMtools-*_TWGSAMIN_S2-v1.1.5_stats.txt
         expect: /hot/software/pipeline/pipeline-SQC-DNA/Nextflow/development/test-output/a_mini-all-tools/SAMtools-1.18_TWGSAMIN_S2-v1.1.5_stats.txt
         method: md5
-      - actual: pipeline-SQC-DNA-*/TWGSAMIN000001/Picard-*/output/Picard-*_TWGSAMIN_HG002.N_WgsMetrics.txt
-        expect: /hot/software/pipeline/pipeline-SQC-DNA/Nextflow/development/test-output/a_mini-all-tools/Picard-3.0.0_TWGSAMIN_HG002.N_WgsMetrics.txt
+      - actual: pipeline-SQC-DNA-*/TWGSAMIN000001/Picard-*/output/Picard-*_TWGSAMIN_HG002.N_wgs-metrics.txt
+        expect: /hot/software/pipeline/pipeline-SQC-DNA/Nextflow/development/test-output/a_mini-all-tools/Picard-3.1.0_TWGSAMIN_HG002.N_wgs-metrics.txt
         script: test/assert_txt.sh
-      - actual: pipeline-SQC-DNA-*/TWGSAMIN000001/Picard-*/output/Picard-*_TWGSAMIN_S2-v1.1.5_WgsMetrics.txt
-        expect: /hot/software/pipeline/pipeline-SQC-DNA/Nextflow/development/test-output/a_mini-all-tools/Picard-3.0.0_TWGSAMIN_S2-v1.1.5_WgsMetrics.txt
+      - actual: pipeline-SQC-DNA-*/TWGSAMIN000001/Picard-*/output/Picard-*_TWGSAMIN_S2-v1.1.5_wgs-metrics.txt
+        expect: /hot/software/pipeline/pipeline-SQC-DNA/Nextflow/development/test-output/a_mini-all-tools/Picard-3.1.0_TWGSAMIN_S2-v1.1.5_wgs-metrics.txt
         script: test/assert_txt.sh
   - name: a_mini-stats
     message: test samtools stats
-    nf_script: ./main.nf
-    nf_config: ./test/config/stats.config
-    params_file: ./test/yaml/a_mini_n2.yaml
+    nf_script: main.nf
+    nf_config: test/config/stats.config
+    params_file: test/yaml/a_mini.yaml
     skip: true
     verbose: true
     asserts:
@@ -40,3 +40,29 @@ cases:
       - actual: pipeline-SQC-DNA-*/TWGSAMIN000001/SAMtools-*/output/SAMtools-*_TWGSAMIN_S2-v1.1.5_stats.txt
         expect: /hot/software/pipeline/pipeline-SQC-DNA/Nextflow/development/test-output/a_mini-all-tools/SAMtools-1.18_TWGSAMIN_S2-v1.1.5_stats.txt
         method: md5
+  - name: a_mini-all-tools-multiple-samples
+    message: test all tools with 1 normal and 2 tumor samples
+    nf_script: main.nf
+    nf_config: test/config/all-tools.config
+    params_file: test/yaml/a_mini-multiple-samples.yaml
+    skip: true
+    verbose: true
+    asserts:
+      - actual: pipeline-SQC-DNA-*/TWGSAMIN000001/SAMtools-*/output/SAMtools-*_TWGSAMIN_HG002.N_stats.txt
+        expect: /hot/software/pipeline/pipeline-SQC-DNA/Nextflow/development/test-output/a_mini-all-tools/SAMtools-1.18_TWGSAMIN_HG002.N_stats.txt
+        method: md5
+      - actual: pipeline-SQC-DNA-*/TWGSAMIN000001/SAMtools-*/output/SAMtools-*_TWGSAMIN_S2-v1.1.5_stats.txt
+        expect: /hot/software/pipeline/pipeline-SQC-DNA/Nextflow/development/test-output/a_mini-all-tools/SAMtools-1.18_TWGSAMIN_S2-v1.1.5_stats.txt
+        method: md5
+      - actual: pipeline-SQC-DNA-*/TWGSAMIN000001/SAMtools-*/output/SAMtools-*_TWGSAMIN_S2-v1.1.5.n1_stats.txt
+        expect: /hot/software/pipeline/pipeline-SQC-DNA/Nextflow/development/test-output/a_mini-all-tools/SAMtools-1.18_TWGSAMIN_S2-v1.1.5.n1_stats.txt
+        method: md5
+      - actual: pipeline-SQC-DNA-*/TWGSAMIN000001/Picard-*/output/Picard-*_TWGSAMIN_HG002.N_wgs-metrics.txt
+        expect: /hot/software/pipeline/pipeline-SQC-DNA/Nextflow/development/test-output/a_mini-all-tools/Picard-3.1.0_TWGSAMIN_HG002.N_wgs-metrics.txt
+        script: test/assert_txt.sh
+      - actual: pipeline-SQC-DNA-*/TWGSAMIN000001/Picard-*/output/Picard-*_TWGSAMIN_S2-v1.1.5_wgs-metrics.txt
+        expect: /hot/software/pipeline/pipeline-SQC-DNA/Nextflow/development/test-output/a_mini-all-tools/Picard-3.1.0_TWGSAMIN_S2-v1.1.5_wgs-metrics.txt
+        script: test/assert_txt.sh
+      - actual: pipeline-SQC-DNA-*/TWGSAMIN000001/Picard-*/output/Picard-*_TWGSAMIN_S2-v1.1.5.n1_wgs-metrics.txt
+        expect: /hot/software/pipeline/pipeline-SQC-DNA/Nextflow/development/test-output/a_mini-all-tools/Picard-3.1.0_TWGSAMIN_S2-v1.1.5.n1_wgs-metrics.txt
+        script: test/assert_txt.sh
