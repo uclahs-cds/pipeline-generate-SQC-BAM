@@ -9,12 +9,15 @@ dataset_id:
   help: 'Dataset identifier'
 algorithms:
   type: 'List'
-  required: true
+  required: false
   help: 'List of QC algorithms'
   choices:
     - stats
     - collectwgsmetrics
     - bamqc
+  default:
+    - stats
+    - collectwgsmetrics
 reference:
   type: 'Path'
   mode: 'r'
@@ -49,17 +52,14 @@ samtools_stats_additional_options:
 cwm_coverage_cap:
   type: 'Integer'
   required: false
-  default: 1000
   help: 'Coverage cap for CollectWgsMetrics'
 cwm_minimum_mapping_quality:
   type: 'Integer'
   required: false
-  default: 20
   help: 'Minimum mapping quality for CollectWgsMetrics'
 cwm_minimum_base_quality:
   type: 'Integer'
   required: false
-  default: 20
   help: 'Minimum base quality for CollectWgsMetrics'
 cwm_use_fast_algorithm:
   type: 'Bool'
@@ -72,6 +72,14 @@ cwm_additional_options:
   allow_empty: true
   default: ''
   help: 'Additional arguments for CollectWgsMetrics command'
+bamqc_output_format:
+  type: 'String'
+  required: false
+  choices:
+    - html
+    - pdf
+  default: 'html'
+  help: 'Output format for bamqc'
 bamqc_additional_options:
   type: 'String'
   required: false
