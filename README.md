@@ -69,11 +69,11 @@ input:
 
 | Field | Type | Required | Description |
 | ----- | ---- | ------------ | ------------------------ |
-| `algorithms` | list | yes | Choice of tools to be run |
+| `algorithms` | list | no | List of tools to be run: ['stats', 'collectwgsmetrics', 'bamqc'], default = ['stats', 'collectwgsmetrics'] |
 | `reference` | path | yes/no | Reference fasta is required only for `CollectWgsMetrics` |
-| `output_dir` | path | yes | Need to set if `blcds_registered_dataset` = `false` |
-| `blcds_registered_dataset` | boolean | yes | `uclahs_cds only`. Set to true when using BLCDS folder structure; use false for now |
-| `work_dir` | path | no | Path of working directory for Nextflow. When included in the sample config file, Nextflow intermediate files and logs will be saved to this directory. With uclahs_cds, the default is `/scratch` and should only be changed for testing/development. Changing this directory to `/hot` or `/tmp` can lead to high server latency and potential disk space limitations, respectively. |
+| `output_dir` | path | yes | Must set if `blcds_registered_dataset` = `false` |
+| `blcds_registered_dataset` | boolean | no | Default is `false`. Only `uclahs_cds` users should change this. When true BLCDS folder structure is used |
+| `work_dir` | path | no | Path of working directory for Nextflow. When included, Nextflow intermediate files and logs will be saved to this directory. With `uclahs_cds` = `true`, the default is `/scratch` and should only be changed for testing/development. Changing this directory to `/hot` or `/tmp` can lead to high server latency and potential disk space limitations, respectively. |
 
 #### SAMtools specific configuration
 | Field | Type | Required | Description |
