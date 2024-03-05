@@ -9,7 +9,7 @@
      don't need to be tested. -->
 
 - NFTest
-  - log:      /hot/software/pipeline/pipeline-recalibrate-BAM/Nextflow/development/unreleased/\<branchname\>/log-nftest-\<datestamp\>.log
+  - log:      /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/unreleased/\<branchname\>/log-nftest-\<datestamp\>.log
   - cases:    default set <!-- update this if you made any changes to nftest.yml or ran default disabled test cases explicitly -->
 
 <!--
