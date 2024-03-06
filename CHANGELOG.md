@@ -22,6 +22,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Add pipeline-Nextflow-module as submodule
 
 ### Changed
+- Update README template
 - Update PR template
 - Use external `indexFile` function
 - Allow multiple BAM input
