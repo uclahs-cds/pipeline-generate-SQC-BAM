@@ -17,9 +17,9 @@ This pipeline takes BAMs and runs selected Quality Control (QC) steps. Available
 
 ## How To Run
 
-1. Update the params section of the .config file  ([Example config](config/template.config)).
+1. Update the params section of the `.config file`  ([Example config](config/template.config)).
 
-2. Update the input yaml ([Template YAMLs](input/)).
+2. Update the input YAML ([Template YAMLs](input/)).
 
 3. See the submission script, [here](https://github.com/uclahs-cds/tool-submit-nf), to submit your pipeline
 
@@ -27,8 +27,7 @@ This pipeline takes BAMs and runs selected Quality Control (QC) steps. Available
 
 ## Flow Diagram
 
-A directed acyclic graph of your pipeline.
-
+Coming soon!
 ![alt text](pipeline-name-DAG.png?raw=true)
 
 ---
@@ -71,14 +70,14 @@ input:
 | ----- | ---- | ------------ | ------------------------ |
 | `algorithms` | list | no | List of tools to be run: ['stats', 'collectwgsmetrics', 'bamqc'], default = ['stats', 'collectwgsmetrics'] |
 | `reference` | path | yes/no | Reference fasta is required only for `CollectWgsMetrics` |
-| `output_dir` | path | yes | Must set if `blcds_registered_dataset` = `false` |
-| `blcds_registered_dataset` | boolean | no | Default is `false`. Only `uclahs_cds` users should change this. When true BLCDS folder structure is used |
+| `output_dir` | path | yes | Not required if `blcds_registered_dataset` = `true` |
+| `blcds_registered_dataset` | boolean | no | Default is `false`. Only `uclahs_cds` users should change this. When `true`, BLCDS folder structure is used |
 | `work_dir` | path | no | Path of working directory for Nextflow. When included, Nextflow intermediate files and logs will be saved to this directory. With `uclahs_cds` = `true`, the default is `/scratch` and should only be changed for testing/development. Changing this directory to `/hot` or `/tmp` can lead to high server latency and potential disk space limitations, respectively. |
 
 #### SAMtools specific configuration
 | Field | Type | Required | Description |
 | ----- | ---- | ------------ | ------------------------ |
-| remove_duplicates | boolean | no | collect stats based on deduplicated reads. default = `false` |
+| remove_duplicates | boolean | no | Ignore reads marked as duplicate. default = `false` |
 | samtools_stats_additional_options | string | no | add any additional options recognized by `samtools stats` |
 
 #### Picard specific configuration
