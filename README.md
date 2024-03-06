@@ -11,7 +11,7 @@
   9. [References](#references)
 ## Overview
 
-This pipeline takes BAMs and corresponding indices and runs selected Quality Control (QC) steps. Available algorithms are currently `SAMtools stats`, `Picard CollectWgsMetrics` and `Qualimap bamqc`. Generally either `Qualimap bamqc` or `SAMtools stats and Picard CollectWgsMetrics` should be run, not both. `Qualimap bamqc` uses a lot of memory and should not be run within `uclahs-cds/metapipeline-DNA`. Input can include any combination of BAMs: tumor, normal, DNA, RNA. Each will be processed independently. RNA specific QC is not yet implemented but is expected soon. 
+This pipeline takes BAMs and runs selected Quality Control (QC) steps. Available algorithms are currently `SAMtools stats`, `Picard CollectWgsMetrics` and `Qualimap bamqc`. Generally either `Qualimap bamqc` or `SAMtools stats and Picard CollectWgsMetrics` should be run, not both. `Qualimap bamqc` uses a lot of memory and should not be run within `uclahs-cds/metapipeline-DNA`. Input can include any combination of tumor and normal BAMs from a single donor. Each will be processed independently. RNA specific QC is not yet implemented but is expected soon.
 
 ---
 
@@ -149,9 +149,9 @@ base_resource_update {
 
 | Output | Description |
 | ------------ | ------------------------ |
-| `{tool-version}_{dataset_id}_{sample_id}_stats.txt` | SAMtools stats results
-| `{tool-version}_{dataset_id}_{sample_id}_wgs-metrics.txt` | Picard CollectWgsMetrics results
-| `{tool-version}_{dataset_id}_{sample_id}_out` | Directory of Qualimap results, including `qualimapReport.html`, `genome_results.txt` and supporting directories
+| `{tool-version}_{dataset_id}_{sample_id}_stats.txt` | SAMtools stats results |
+| `{tool-version}_{dataset_id}_{sample_id}_wgs-metrics.txt` | Picard CollectWgsMetrics results |
+| `{tool-version}_{dataset_id}_{sample_id}_stats` | Directory of Qualimap results, including, `genome_results.txt` and `.pdf` or `.html and supporting directories html`|
 
 ---
 
@@ -161,55 +161,41 @@ base_resource_update {
 
 A 2-3 sentence description of the test data set(s) used to validate and test this pipeline. If possible, include references and links for how to access and use the test dataset
 
-### Validation <version number\>
-
- Input/Output | Description | Result  
- | ------------ | ------------------------ | ------------------------ |
-| metric 1 | 1 - 2 sentence description of the metric | quantifiable result |
-| metric 2 | 1 - 2 sentence description of the metric | quantifiable result |
-| metric n | 1 - 2 sentence description of the metric | quantifiable result |
-
-- [Reference/External Link/Path 1 to any files/plots or other validation results](<link>)
-- [Reference/External Link/Path 2 to any files/plots or other validation results](<link>)
-- [Reference/External Link/Path n to any files/plots or other validation results](<link>)
-
 ### Validation Tool
 
-Included is a template for validating your input files. For more information on the tool check out: https://github.com/uclahs-cds/tool-validate-nf
+Included within the pipeline is a step for validating your input files. For more information on the tool check out: https://github.com/uclahs-cds/tool-validate-nf
 
 ---
 
 ## References
 
-1. [Reference 1](<links-to-papers/external-code/documentation/metadata/other-repos/or-anything-else>)
-2. [Reference 2](<links-to-papers/external-code/documentation/metadata/other-repos/or-anything-else>)
-3. [Reference n](<links-to-papers/external-code/documentation/metadata/other-repos/or-anything-else>)
+1. [SAMtools stats](https://www.htslib.org/doc/samtools-stats.html)
+2. [Picard CollectWgsMetrics](https://gatk.broadinstitute.org/hc/en-us/articles/4414602403355-CollectWgsMetrics-Picard)
+3. [Qualimap bamqc](http://qualimap.conesalab.org/doc_html/analysis.html#bam-qc)
 
 ---
 
 ## Discussions
 
-- [Issue tracker](<link-to-repo-issues-page>) to report errors and enhancement ideas.
-- Discussions can take place in [<pipeline> Discussions](<link-to-repo-discussions-page>)
-- [<pipeline> pull requests](<link-to-repo-pull-requests>) are also open for discussion
+- [Issue Tracker](https://github.com/uclahs-cds/pipeline-SQC-DNA/issues) to report errors and enhancement ideas.
+- Discussions can take place in [ generate-SQC-BAM Discussions](https://github.com/uclahs-cds/pipeline-SQC-DNA/discussions)
+- [generate-SQC-BAM Pull Requests](https://github.com/uclahs-cds/pipeline-SQC-DNA/pulls) are also open for discussion
 
 ---
 
 ## Contributors
 
-> Update link to repo-specific URL for GitHub Insights Contributors page.
-
-Please see list of [Contributors](https://github.com/uclahs-cds/template-NextflowPipeline/graphs/contributors) at GitHub.
+Please see list of [Contributors](https://github.com/uclahs-cds/pipeline-SQC-DNA/graphs/contributors) at GitHub.
 
 ---
 
 ## License
 
-[pipeline name] is licensed under the GNU General Public License version 2. See the file LICENSE for the terms of the GNU GPL license.
+Generate-SQC-BAM is licensed under the GNU General Public License version 2. See the file LICENSE for the terms of the GNU GPL license.
 
-<one line to give the program's name and a brief idea of what it does.>
+Generate-SQC-BAM takes BAM files and generates per sample QC metrics
 
-Copyright (C) 2023 University of California Los Angeles ("Boutros Lab") All rights reserved.
+Copyright (C) 2024 University of California Los Angeles ("Boutros Lab") All rights reserved.
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
 
