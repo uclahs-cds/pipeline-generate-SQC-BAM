@@ -38,6 +38,7 @@ process run_bamqc_Qualimap {
         -bam ${path} \
         -outdir ${output_filename}_stats \
         -outformat ${params.bamqc_outformat} \
+        -outfile ${output_filename} \
         -nt ${task.cpus} \
         -c \
         ${params.bamqc_additional_options}
