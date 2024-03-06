@@ -9,6 +9,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 ### Added
+- Add `schema.yaml`
+- Add `template.config`
 - Add `Qualimap bamqc`
 - Add `CollectWgsMetrics`
 - Add `F4.config`
@@ -20,6 +22,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Add pipeline-Nextflow-module as submodule
 
 ### Changed
+- Update PR template
+- Use external `indexFile` function
 - Allow multiple BAM input
 - Input `read_length` through YAML
 - Use `sanitize_uclahs_cds_id` from `pipeline-Nextflow-config`
