@@ -78,7 +78,7 @@ input:
 | Field | Type | Required | Description |
 | ----- | ---- | ------------ | ------------------------ |
 | remove_duplicates | boolean | no | Ignore reads marked as duplicate. default = `false` |
-| samtools_stats_additional_options | string | no | add any additional options recognized by `samtools stats` |
+| samtools_stats_additional_options | string | no | Any additional options recognized by `samtools stats` |
 
 #### Picard specific configuration
 | Field | Type | Required | Description |
@@ -96,7 +96,7 @@ input:
 | bamqc_additional_options | string | no | Any additional options recognized by `bamqc` |
 
 #### Base resource allocation updaters
-To update the base resource (cpus or memory) allocations for processes, use the following structure and add the necessary parts. The default allocations can be found in the [node-specific config files](./config/)
+To update the base resource (cpus or memory) allocations for processes, use the following structure. The default allocations can be found in the [node-specific config files](./config/)
 ```Nextflow
 base_resource_update {
     memory = [
@@ -149,19 +149,7 @@ base_resource_update {
 | ------------ | ------------------------ |
 | `{tool-version}_{dataset_id}_{sample_id}_stats.txt` | SAMtools stats results |
 | `{tool-version}_{dataset_id}_{sample_id}_wgs-metrics.txt` | Picard CollectWgsMetrics results |
-| `{tool-version}_{dataset_id}_{sample_id}_stats` | Directory of Qualimap results, including, `genome_results.txt` and `.pdf` or `.html and supporting directories html`|
-
----
-
-## Testing and Validation
-
-### Test Data Set
-
-A 2-3 sentence description of the test data set(s) used to validate and test this pipeline. If possible, include references and links for how to access and use the test dataset
-
-### Validation Tool
-
-Included within the pipeline is a step for validating your input files. For more information on the tool check out: https://github.com/uclahs-cds/tool-validate-nf
+| `{tool-version}_{dataset_id}_{sample_id}_stats` | Directory of Qualimap results, including, `genome_results.txt` and either `.pdf` or `.html and supporting directories`|
 
 ---
 
