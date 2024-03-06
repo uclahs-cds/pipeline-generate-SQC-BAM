@@ -87,12 +87,13 @@ input:
 | cwm_minimum_mapping_quality | integer | no | Ignore reads with mapping quality below this value. Default = 20 |
 | cwm_minimum_base_quality | integer | no | Ignore bases with quality below this value. Default = 20 |
 | cwm_use_fast_algorithm | boolean | no | If `true`, fast algorithm is used |
-| cwm_additional_options | string | no | add any additional options recognized by `CollectWgsMetrics`
+| cwm_additional_options | string | no | Any additional options recognized by `CollectWgsMetrics` |
 
 #### Qualimap specific configuration
 | Field | Type | Required | Description |
 | ----- | ---- | ------------ | ------------------------ |
-| bamqc_additional_options | string | no | add any additional options recognized by `bamqc` |
+| bamqc_outformat | string | no | Choice of 'pdf' or 'html', default = 'pdf' |
+| bamqc_additional_options | string | no | Any additional options recognized by `bamqc` |
 
 #### Base resource allocation updaters
 To update the base resource (cpus or memory) allocations for processes, use the following structure and add the necessary parts. The default allocations can be found in the [node-specific config files](./config/)
@@ -143,8 +144,6 @@ base_resource_update {
 ---
 
 ## Outputs
-
-<!-- List and describe the final output(s) of the pipeline. -->
 
 | Output | Description |
 | ------------ | ------------------------ |
