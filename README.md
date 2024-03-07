@@ -34,9 +34,10 @@ Coming soon!
 
 ## Pipeline Steps
 Each of the below algorithms, if selected, will run in parallel subject to available resources.
+ - Note about duplicated reads: `SAMtools stats` does not ignore reads marked as duplicate by default. The option `samtools_remove_duplicates` can be set to `true` to override this. `Picard CollectWgsMetrics` and `Qualimap bamqc` do ignore reads marked as duplicate by default.
 
 ### 1. SAMtools stats
-[samtools stats](https://www.htslib.org/doc/samtools-stats.html) collects basic statistics from BAM files including read counts, qualities, GC content, insert sizes, read lengths, proper pairing, and duplicated bases. 
+[samtools stats](https://www.htslib.org/doc/samtools-stats.html) collects basic statistics from BAM files including read counts, qualities, GC content, insert sizes, read lengths, proper pairing, and duplicated bases.
 
 ### 2. Picard CollectWgsMetrics
 [picard CollectWgsMetrics](https://gatk.broadinstitute.org/hc/en-us/articles/4414602403355-CollectWgsMetrics-Picard) collects coverage metrics from WGS BAM files.
