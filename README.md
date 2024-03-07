@@ -147,9 +147,9 @@ base_resource_update {
 
 | Output | Description |
 | ------------ | ------------------------ |
-| `{tool-version}_{dataset_id}_{sample_id}_stats.txt` | SAMtools stats results |
-| `{tool-version}_{dataset_id}_{sample_id}_wgs-metrics.txt` | Picard CollectWgsMetrics results |
-| `{tool-version}_{dataset_id}_{sample_id}_stats` | Directory of Qualimap results, including, `genome_results.txt` and either `.pdf` or `.html and supporting directories`|
+| `{SAMtools-version}_{dataset_id}_{sample_id}_stats.txt` | SAMtools stats results |
+| `{Picard-version}_{dataset_id}_{sample_id}_wgs-metrics.txt` | Picard CollectWgsMetrics results |
+| `{Qualimap-version}_{dataset_id}_{sample_id}_stats` | Directory of Qualimap results, including, `genome_results.txt` and either `.pdf` or `.html and supporting directories`|
 
 ---
 
@@ -164,7 +164,7 @@ base_resource_update {
 ## Discussions
 
 - [Issue Tracker](https://github.com/uclahs-cds/pipeline-SQC-DNA/issues) to report errors and enhancement ideas.
-- Discussions can take place in [ generate-SQC-BAM Discussions](https://github.com/uclahs-cds/pipeline-SQC-DNA/discussions)
+- Discussions can take place in [generate-SQC-BAM Discussions](https://github.com/uclahs-cds/pipeline-SQC-DNA/discussions)
 - [generate-SQC-BAM Pull Requests](https://github.com/uclahs-cds/pipeline-SQC-DNA/pulls) are also open for discussion
 
 ---
