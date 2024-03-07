@@ -1,34 +1,25 @@
-# Pipeline Name
+# SQC-BAM
 
-- [Pipeline Name](#pipeline-name)
-  - [Overview](#overview)
-  - [How To Run](#how-to-run)
-  - [Flow Diagram](#flow-diagram)
-  - [Pipeline Steps](#pipeline-steps)
-    - [1. Step/Proccess 1](#1-stepproccess-1)
-    - [2. Step/Proccess 2](#2-stepproccess-2)
-    - [3. Step/Proccess n](#3-stepproccess-n)
-  - [Inputs](#inputs)
-  - [Outputs](#outputs)
-  - [Testing and Validation](#testing-and-validation)
-    - [Test Data Set](#test-data-set)
-    - [Validation <version number\>](#validation-version-number)
-    - [Validation Tool](#validation-tool)
-  - [References](#references)
-  - [Discussions](#discussions)
-  - [Contributors](#contributors)
-  - [License](#license) 
+  1. [Overview](#overview)
+  2. [How To Run](#how-to-run)
+  3. [Flow Diagram](#flow-diagram)
+  4. [Pipeline Steps](#pipeline-steps)
+  5. [Inputs](#inputs)
+  6. [Outputs](#outputs)
+  7. [Discussions](#discussions)
+  8. [Contributors](#contributors)
+  9. [References](#references)
 ## Overview
 
-A 3-4 sentence summary of the pipeline, including the pipeline's purpose, the type of expected scientific inputs/outputs of the pipeline (e.g: FASTQs and BAMs), and a list of tools/steps in the pipeline.
+This pipeline takes BAMs and runs selected Quality Control (QC) steps. Available algorithms are currently `SAMtools stats`, `Picard CollectWgsMetrics` and `Qualimap bamqc`. Generally either `Qualimap bamqc` or `SAMtools stats and Picard CollectWgsMetrics` should be run, not both. `Qualimap bamqc` uses a lot of memory and should not be run within `uclahs-cds/metapipeline-DNA`. Input can include any combination of tumor and normal BAMs from a single donor. Each will be processed independently. RNA specific QC is not yet implemented but is expected soon.
 
 ---
 
 ## How To Run
 
-1. Update the params section of the .config file
+1. Update the params section of the `.config file`  ([Example config](config/template.config)).
 
-2. Update the input yaml
+2. Update the input YAML ([Template YAMLs](input/)).
 
 3. See the submission script, [here](https://github.com/uclahs-cds/tool-submit-nf), to submit your pipeline
 
@@ -36,25 +27,22 @@ A 3-4 sentence summary of the pipeline, including the pipeline's purpose, the ty
 
 ## Flow Diagram
 
-A directed acyclic graph of your pipeline.
-
+Coming soon!
 ![alt text](pipeline-name-DAG.png?raw=true)
 
 ---
 
 ## Pipeline Steps
+Each of the below algorithms, if selected, will run in parallel subject to available resources.
 
-### 1. Step/Proccess 1
+### 1. SAMtools stats
+[samtools stats](https://www.htslib.org/doc/samtools-stats.html) collects basic statistics from BAM files including read counts, qualities, GC content, insert sizes, read lengths, proper pairing, and duplicated bases. 
 
-> A 2-3 sentence description of each step/proccess in your pipeline that includes the purpose of the step/process, the tool(s) being used and their version, and the expected scientific inputs/outputs (e.g: FASTQs and BAMs) of the pipeline.
+### 2. Picard CollectWgsMetrics
+[picard CollectWgsMetrics](https://gatk.broadinstitute.org/hc/en-us/articles/4414602403355-CollectWgsMetrics-Picard) collects coverage metrics from WGS BAM files.
 
-### 2. Step/Proccess 2
-
-> A 2-3 sentence description of each step/proccess in your pipeline that includes the purpose of the step/process, the tool(s) being used and their version, and the expected scientific inputs/outputs (e.g: FASTQs and BAMs) of the pipeline.
-
-### 3. Step/Proccess n
-
-> A 2-3 sentence description of each step/proccess in your pipeline that includes the purpose of the step/process, the tool(s) being used and their version, and the expected scientific inputs/outputs (e.g: FASTQs and BAMs) of the pipeline.
+### 3. Qualimap bamqc
+[qualimap bamqc](http://qualimap.conesalab.org/doc_html/analysis.html#bam-qc) collects basic statistics and coverage metrics from BAM files. Example output: [html](https://kokonech.github.io/qualimap/HG00096.chr20_bamqc/qualimapReport.html) [pdf](https://kokonech.github.io/qualimap/ERR089819_report.pdf). `Qualimap bamqc` uses a lot of memory and should not be run within `uclahs-cds/metapipeline-DNA`.
 
 ---
 
@@ -62,98 +50,138 @@ A directed acyclic graph of your pipeline.
 
 ### Input YAML
 
-> include an example of the organization structure within the YAML. Example:
+ Example:
 ```yaml
-input 1: 'patient_id'
+---
+patient_id: 'patient_id'
+dataset_id: 'dataset_id'
 input:
-    normal:
-      - id: <normal id>
-        BAM: </path/to/normal.bam>
-    tumor:
-      - id: <tumor id>
-        BAM: </path/to/tumor.bam>
+  normal:
+    - path: /absolute/path/to/normal.bam
+      read_length: length
+  tumor:
+    - path: /absolute/path/to/tumor.bam
+      read_length: length
 ```
 
 ### Config
 
 | Field | Type | Required | Description |
 | ----- | ---- | ------------ | ------------------------ |
-| param 1 | _type_ | yes/no | 1-2 sentence description of the parameter, including any defaults if any. |
-| param 2 | _type_ | yes/no | 1-2 sentence description of the parameter, including any defaults if any. |
-| param n | _type_ | yes/no | 1-2 sentence description of the parameter, including any defaults if any. |
-| `work_dir` | path | no | Path of working directory for Nextflow. When included in the sample config file, Nextflow intermediate files and logs will be saved to this directory. With ucla_cds, the default is `/scratch` and should only be changed for testing/development. Changing this directory to `/hot` or `/tmp` can lead to high server latency and potential disk space limitations, respectively. |
+| `algorithms` | list | no | List of tools to be run: ['stats', 'collectwgsmetrics', 'bamqc'], default = ['stats', 'collectwgsmetrics'] |
+| `reference` | path | yes/no | Reference fasta is required only for `CollectWgsMetrics` |
+| `output_dir` | path | yes | Not required if `blcds_registered_dataset` = `true` |
+| `blcds_registered_dataset` | boolean | no | Default is `false`. Only `uclahs_cds` users should change this. When `true`, BLCDS folder structure is used |
+| `work_dir` | path | no | Path of working directory for Nextflow. When included, Nextflow intermediate files and logs will be saved to this directory. With `uclahs_cds` = `true`, the default is `/scratch` and should only be changed for testing/development. Changing this directory to `/hot` or `/tmp` can lead to high server latency and potential disk space limitations, respectively. |
 
-> Include the optional param `work_dir` in the inputs accompanied by a warning of the potentials dangers of using the param. Update the warning if necessary.
+#### SAMtools specific configuration
+| Field | Type | Required | Description |
+| ----- | ---- | ------------ | ------------------------ |
+| remove_duplicates | boolean | no | Ignore reads marked as duplicate. default = `false` |
+| samtools_stats_additional_options | string | no | Any additional options recognized by `samtools stats` |
 
+#### Picard specific configuration
+| Field | Type | Required | Description |
+| ----- | ---- | ------------ | ------------------------ |
+| cwm_coverage_cap | integer | no | Cap coverage at this value. Default = 250 |
+| cwm_minimum_mapping_quality | integer | no | Ignore reads with mapping quality below this value. Default = 20 |
+| cwm_minimum_base_quality | integer | no | Ignore bases with quality below this value. Default = 20 |
+| cwm_use_fast_algorithm | boolean | no | If `true`, fast algorithm is used |
+| cwm_additional_options | string | no | Any additional options recognized by `CollectWgsMetrics` |
+
+#### Qualimap specific configuration
+| Field | Type | Required | Description |
+| ----- | ---- | ------------ | ------------------------ |
+| bamqc_outformat | string | no | Choice of 'pdf' or 'html', default = 'pdf' |
+| bamqc_additional_options | string | no | Any additional options recognized by `bamqc` |
+
+#### Base resource allocation updaters
+To update the base resource (cpus or memory) allocations for processes, use the following structure. The default allocations can be found in the [node-specific config files](./config/)
+```Nextflow
+base_resource_update {
+    memory = [
+        [['process_name', 'process_name2'], <multiplier for resource>],
+        [['process_name3', 'process_name4'], <different multiplier for resource>]
+    ]
+    cpus = [
+        [['process_name', 'process_name2'], <multiplier for resource>],
+        [['process_name3', 'process_name4'], <different multiplier for resource>]
+    ]
+}
+```
+> **Note** Resource updates will be applied in the order they're provided so if a process is included twice in the memory list, it will be updated twice in the order it's given.
+
+Examples:
+
+- To double memory of all processes:
+```Nextflow
+base_resource_update {
+    memory = [
+        [[], 2]
+    ]
+}
+```
+- To double memory for `run_CollectWgsMetrics_Picard` and triple memory for `run_stats_SAMtools` and `run_bamqc_Qualimap`:
+```Nextflow
+base_resource_update {
+    memory = [
+        ['run_CollectWgsMetrics_Picard', 2],
+        [['run_stats_SAMtools', 'run_bamqc_Qualimap'], 3]
+    ]
+}
+```
+- To double CPUs and memory for `run_CollectWgsMetrics_Picard` and double memory for `run_stats_SAMtools`:
+```Nextflow
+base_resource_update {
+    cpus = [
+        ['run_CollectWgsMetrics_Picard', 2]
+    ]
+    memory = [
+        [['run_CollectWgsMetrics_Picard', 'run_stats_SAMtools'], 2]
+    ]
+}
+```
 ---
 
 ## Outputs
 
-<!-- List and describe the final output(s) of the pipeline. -->
-
 | Output | Description |
 | ------------ | ------------------------ |
-| ouput 1 | 1 - 2 sentence description of the output. |
-| ouput 2 | 1 - 2 sentence description of the output. |
-| ouput n | 1 - 2 sentence description of the output. |
-
----
-
-## Testing and Validation
-
-### Test Data Set
-
-A 2-3 sentence description of the test data set(s) used to validate and test this pipeline. If possible, include references and links for how to access and use the test dataset
-
-### Validation <version number\>
-
- Input/Output | Description | Result  
- | ------------ | ------------------------ | ------------------------ |
-| metric 1 | 1 - 2 sentence description of the metric | quantifiable result |
-| metric 2 | 1 - 2 sentence description of the metric | quantifiable result |
-| metric n | 1 - 2 sentence description of the metric | quantifiable result |
-
-- [Reference/External Link/Path 1 to any files/plots or other validation results](<link>)
-- [Reference/External Link/Path 2 to any files/plots or other validation results](<link>)
-- [Reference/External Link/Path n to any files/plots or other validation results](<link>)
-
-### Validation Tool
-
-Included is a template for validating your input files. For more information on the tool check out: https://github.com/uclahs-cds/tool-validate-nf
+| `{SAMtools-version}_{dataset_id}_{sample_id}_stats.txt` | SAMtools stats results |
+| `{Picard-version}_{dataset_id}_{sample_id}_wgs-metrics.txt` | Picard CollectWgsMetrics results |
+| `{Qualimap-version}_{dataset_id}_{sample_id}_stats` | Directory of Qualimap results, including, `genome_results.txt` and either `.pdf` or `.html and supporting directories`|
 
 ---
 
 ## References
 
-1. [Reference 1](<links-to-papers/external-code/documentation/metadata/other-repos/or-anything-else>)
-2. [Reference 2](<links-to-papers/external-code/documentation/metadata/other-repos/or-anything-else>)
-3. [Reference n](<links-to-papers/external-code/documentation/metadata/other-repos/or-anything-else>)
+1. [SAMtools stats](https://www.htslib.org/doc/samtools-stats.html)
+2. [Picard CollectWgsMetrics](https://gatk.broadinstitute.org/hc/en-us/articles/4414602403355-CollectWgsMetrics-Picard)
+3. [Qualimap bamqc](http://qualimap.conesalab.org/doc_html/analysis.html#bam-qc)
 
 ---
 
 ## Discussions
 
-- [Issue tracker](<link-to-repo-issues-page>) to report errors and enhancement ideas.
-- Discussions can take place in [<pipeline> Discussions](<link-to-repo-discussions-page>)
-- [<pipeline> pull requests](<link-to-repo-pull-requests>) are also open for discussion
+- [Issue Tracker](https://github.com/uclahs-cds/pipeline-SQC-DNA/issues) to report errors and enhancement ideas.
+- Discussions can take place in [generate-SQC-BAM Discussions](https://github.com/uclahs-cds/pipeline-SQC-DNA/discussions)
+- [generate-SQC-BAM Pull Requests](https://github.com/uclahs-cds/pipeline-SQC-DNA/pulls) are also open for discussion
 
 ---
 
 ## Contributors
 
-> Update link to repo-specific URL for GitHub Insights Contributors page.
-
-Please see list of [Contributors](https://github.com/uclahs-cds/template-NextflowPipeline/graphs/contributors) at GitHub.
+Please see list of [Contributors](https://github.com/uclahs-cds/pipeline-SQC-DNA/graphs/contributors) at GitHub.
 
 ---
 
 ## License
 
-[pipeline name] is licensed under the GNU General Public License version 2. See the file LICENSE for the terms of the GNU GPL license.
+Generate-SQC-BAM is licensed under the GNU General Public License version 2. See the file LICENSE for the terms of the GNU GPL license.
 
-<one line to give the program's name and a brief idea of what it does.>
+Generate-SQC-BAM takes BAM files and generates per sample QC metrics
 
-Copyright (C) 2023 University of California Los Angeles ("Boutros Lab") All rights reserved.
+Copyright (C) 2024 University of California Los Angeles ("Boutros Lab") All rights reserved.
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
 
