@@ -1,0 +1,16 @@
+@startuml
+skinparam SwimlaneTitleFontStyle bold
+:Input Validation\nValidate the input BAM and reference files;
+-> BAM;
+split
+  :SAMtools stats\nExtract BAM statistics;
+  kill
+split again
+  -> //reference fasta//;
+  :Picard CollectWgsMetrics\nCollect whole genome metrics;
+  kill
+split again
+  :Qualimap bamqc\nQuality control for BAM files;
+  kill
+end split
+@enduml
