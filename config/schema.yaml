@@ -52,14 +52,17 @@ samtools_stats_additional_options:
 cwm_coverage_cap:
   type: 'Integer'
   required: false
+  default: 250
   help: 'Coverage cap for CollectWgsMetrics'
 cwm_minimum_mapping_quality:
   type: 'Integer'
   required: false
+  default: 20
   help: 'Minimum mapping quality for CollectWgsMetrics'
 cwm_minimum_base_quality:
   type: 'Integer'
   required: false
+  default: 20
   help: 'Minimum base quality for CollectWgsMetrics'
 cwm_use_fast_algorithm:
   type: 'Bool'
