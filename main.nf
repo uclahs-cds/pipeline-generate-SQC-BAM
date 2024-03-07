@@ -67,6 +67,7 @@ log.info """\
 
     - samtools stats options:
         samtools_version: ${params.samtools_version}
+        samtools_remove_duplicates: ${params.samtools_remove_duplicates}
         samtools_stats_additional_options: ${params.samtools_stats_additional_options}
 
     - picard CollectWgsMetrics options:

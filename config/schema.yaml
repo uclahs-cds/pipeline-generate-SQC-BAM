@@ -38,7 +38,7 @@ save_intermediate_files:
   required: false
   default: false
   help: 'The option to save the intermediate files'
-remove_duplicates:
+samtools_remove_duplicates:
   type: 'Bool'
   required: false
   default: false
