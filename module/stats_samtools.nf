@@ -31,7 +31,7 @@ process run_stats_SAMtools {
         params.dataset_id,
         id,
         [:])
-    rmdups = params.remove_duplicates ? "--remove-dups" : ""
+    rmdups = params.samtools_remove_duplicates ? "--remove-dups" : ""
 
     """
     set -euo pipefail

@@ -38,7 +38,7 @@ save_intermediate_files:
   required: false
   default: false
   help: 'The option to save the intermediate files'
-remove_duplicates:
+samtools_remove_duplicates:
   type: 'Bool'
   required: false
   default: false
@@ -52,14 +52,17 @@ samtools_stats_additional_options:
 cwm_coverage_cap:
   type: 'Integer'
   required: false
+  default: 250
   help: 'Coverage cap for CollectWgsMetrics'
 cwm_minimum_mapping_quality:
   type: 'Integer'
   required: false
+  default: 20
   help: 'Minimum mapping quality for CollectWgsMetrics'
 cwm_minimum_base_quality:
   type: 'Integer'
   required: false
+  default: 20
   help: 'Minimum base quality for CollectWgsMetrics'
 cwm_use_fast_algorithm:
   type: 'Bool'
