@@ -25,6 +25,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Use defaults for `CollectWgsMetrics` parameters
 - Pipeline name in output dir changed to `generate-SQC-BAM`
 - Changed `remove_duplicates` option to `samtools_remove_duplicates`
+- Update flow chart in README
 - Update README template
 - Update PR template
 - Use external `indexFile` function

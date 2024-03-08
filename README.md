@@ -27,8 +27,7 @@ This pipeline takes BAMs and runs selected Quality Control (QC) steps. Available
 
 ## Flow Diagram
 
-Coming soon!
-![alt text](pipeline-name-DAG.png?raw=true)
+![flowchart_sqc-bam](./docs/sqc-bam-flow.svg)
 
 ---
 
