@@ -1,4 +1,4 @@
-# SQC-BAM
+# generate-SQC-BAM
 
   1. [Overview](#overview)
   2. [How To Run](#how-to-run)
@@ -163,15 +163,15 @@ base_resource_update {
 
 ## Discussions
 
-- [Issue Tracker](https://github.com/uclahs-cds/pipeline-SQC-DNA/issues) to report errors and enhancement ideas.
-- Discussions can take place in [generate-SQC-BAM Discussions](https://github.com/uclahs-cds/pipeline-SQC-DNA/discussions)
-- [generate-SQC-BAM Pull Requests](https://github.com/uclahs-cds/pipeline-SQC-DNA/pulls) are also open for discussion
+- [Issue Tracker](https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/issues) to report errors and enhancement ideas.
+- Discussions can take place in [generate-SQC-BAM Discussions](https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/discussions)
+- [generate-SQC-BAM Pull Requests](https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/pulls) are also open for discussion
 
 ---
 
 ## Contributors
 
-Please see list of [Contributors](https://github.com/uclahs-cds/pipeline-SQC-DNA/graphs/contributors) at GitHub.
+Please see list of [Contributors](https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/graphs/contributors) at GitHub.
 
 ---
 
