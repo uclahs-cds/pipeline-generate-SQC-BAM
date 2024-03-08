@@ -8,6 +8,12 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+
+### Added
+
+### Changed
+
+## [1.0.0-rc.1] - 2024-03-08
 ### Added
 - Add `schema.yaml`
 - Add `template.config`
@@ -22,6 +28,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Add pipeline-Nextflow-module as submodule
 
 ### Changed
+- Changed pipeline name `pipeline-SQC-DNA` to `pipeline-generate-SQC-BAM`
 - Use defaults for `CollectWgsMetrics` parameters
 - Pipeline name in output dir changed to `generate-SQC-BAM`
 - Changed `remove_duplicates` option to `samtools_remove_duplicates`
