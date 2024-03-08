@@ -1,6 +1,6 @@
 ---
 category: "pipeline"
-description: "Quality control analyses for sample level data"
+description: "Sample level Quality Control analyses for BAM files"
 maintainers: "Boutros Lab Infrastructure <BoutrosLabInfrastructure@mednet.ucla.edu>"
 languages: ["Nextflow", "Docker"]
 dependencies: ["Java", "Nextflow", "Docker"]
