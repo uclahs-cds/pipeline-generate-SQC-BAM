@@ -20,6 +20,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Add example input YAMLs
 - Add pipeline-Nexflow-config as submodule
 - Add pipeline-Nextflow-module as submodule
+- Add workflow to build and deploy documentation GitHub Pages
+- Add workflow to run Nextflow configuration regression tests
 
 ### Changed
 - Use defaults for `CollectWgsMetrics` parameters
