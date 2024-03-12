@@ -1,8 +1,8 @@
 ---
 patient_id: 'patient_id'
 dataset_id: 'dataset_id'
-BAM:
-  input:
+input:
+  BAM:
     normal:
       - path: /absolute/path/to/normal.bam
         read_length: length
