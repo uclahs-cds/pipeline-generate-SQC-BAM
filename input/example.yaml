@@ -2,9 +2,10 @@
 patient_id: 'patient_id'
 dataset_id: 'dataset_id'
 input:
-  normal:
-    - path: /absolute/path/to/normal.bam
-      read_length: length
-  tumor:
-    - path: /absolute/path/to/tumor.bam
-      read_length: length
+  BAM:
+    normal:
+      - path: /absolute/path/to/normal.bam
+        read_length: length
+    tumor:
+      - path: /absolute/path/to/tumor.bam
+        read_length: length
