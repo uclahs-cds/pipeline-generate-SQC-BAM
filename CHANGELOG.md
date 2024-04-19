@@ -19,6 +19,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [1.0.0-rc.1] - 2024-03-08
 ### Added
+- Add Nextflow version requirement to `README`
 - Add `schema.yaml`
 - Add `template.config`
 - Add `Qualimap bamqc`
@@ -34,6 +35,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Add workflow to run Nextflow configuration regression tests
 
 ### Changed
+- Update repository/pipeline description
 - Changed pipeline name `pipeline-SQC-DNA` to `pipeline-generate-SQC-BAM`
 - Use defaults for `CollectWgsMetrics` parameters
 - Pipeline name in output dir changed to `generate-SQC-BAM`
