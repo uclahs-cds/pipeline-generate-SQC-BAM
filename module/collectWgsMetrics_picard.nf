@@ -20,7 +20,7 @@ process run_CollectWgsMetrics_Picard {
         saveAs: { "${task.process.replace(':', '/')}-${id}/log${file(it).getName()}" }
 
     input:
-        tuple val(orig_id), val(id), path(path), val(read_length), val(sample_type)
+        tuple val(orig_id), val(id), val(read_groups), path(path), val(read_length), val(sample_type)
         path reference
         path reference_index
 
