@@ -23,6 +23,9 @@ This pipeline takes BAMs and runs selected Quality Control (QC) steps. Available
 
 3. See the submission script, [here](https://github.com/uclahs-cds/tool-submit-nf), to submit your pipeline
 
+### Requirements
+Currently supported Nextflow versions: `v23.04.2`
+
 ---
 
 ## Flow Diagram
