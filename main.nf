@@ -84,10 +84,13 @@ log.info """\
         bamqc_additional_options: ${params.bamqc_additional_options}
 """
 
+// CHANGE: SAMPLES_TO_PROCESS by read_group.  Call stats 3 times, once by readgroup, once by library and once by sample
+//     - first check if more than one read group/library
+//    - picard and qualimap will be called by sample
 Channel
     .fromList(params.samples_to_process)
     .map { sample ->
-        return tuple(sample.orig_id, sample.id, sample.path, sample.read_length, sample.sample_type)
+        return tuple(sample.orig_id, sample.id, sample.read_groups, sample.libraries, sample.path, sample.read_length, sample.sample_type)
     }
     .set { samplesToProcessChannel }
 

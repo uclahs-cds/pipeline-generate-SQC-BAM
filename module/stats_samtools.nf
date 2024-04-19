@@ -20,7 +20,7 @@ process run_stats_SAMtools {
         saveAs: { "${task.process.replace(':', '/')}-${id}/log${file(it).getName()}" }
 
     input:
-        tuple val(orig_id), val(id), path(path), val(read_length), val(sample_type)
+        tuple val(orig_id), val(id), val(read_groups), path(path), val(read_length), val(sample_type)
 
     output:
         path "*stats.txt"
@@ -33,8 +33,13 @@ process run_stats_SAMtools {
         [:])
     rmdups = params.samtools_remove_duplicates ? "--remove-dups" : ""
 
+// CHANGE: SAMPLES_TO_PROCESS by read_group.  Call this process 3 times, once by readgroup, once by library and once by sample
+    read_groups_string = read_groups.join(" ")
+    println "read_groups_string: ${read_groups_string}"
+
     """
     set -euo pipefail
     samtools stats ${rmdups} ${params.samtools_stats_additional_options} ${path} > ${output_filename}_stats.txt
+    echo \${read_groups_string}
     """
 }
