@@ -17,7 +17,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Changed
 - Update SAMtools 1.18 to 1.20
-- Update NFTest for FastQC
+- Update NFTest for FastQC and new test sample
 - Update repository/pipeline description
 - Update Nextflow configuration test workflows
 
