@@ -16,10 +16,10 @@ cases:
     asserts:
       - actual: generate-SQC-BAM-*/TWGSAMIN000001/SAMtools-*/output/SAMtools-*_TWGSAMIN_HG002.N_stats.txt
         expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/SAMtools-1.18_TWGSAMIN_HG002.N_stats.txt
-        method: md5
+        script: test/assert_txt.sh
       - actual: generate-SQC-BAM-*/TWGSAMIN000001/SAMtools-*/output/SAMtools-*_TWGSAMIN_S2-v1.1.5_stats.txt
         expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/SAMtools-1.18_TWGSAMIN_S2-v1.1.5_stats.txt
-        method: md5
+        script: test/assert_txt.sh
       - actual: generate-SQC-BAM-*/TWGSAMIN000001/Picard-*/output/Picard-*_TWGSAMIN_HG002.N_wgs-metrics.txt
         expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/Picard-3.1.0_TWGSAMIN_HG002.N_wgs-metrics.txt
         script: test/assert_txt.sh
@@ -42,13 +42,13 @@ cases:
     asserts:
       - actual: generate-SQC-BAM-*/TWGSAMIN000001/SAMtools-*/output/SAMtools-*_TWGSAMIN_HG002.N_stats.txt
         expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/SAMtools-1.18_TWGSAMIN_HG002.N_stats.txt
-        method: md5
+        script: test/assert_txt.sh
       - actual: generate-SQC-BAM-*/TWGSAMIN000001/SAMtools-*/output/SAMtools-*_TWGSAMIN_S2-v1.1.5_stats.txt
         expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/SAMtools-1.18_TWGSAMIN_S2-v1.1.5_stats.txt
-        method: md5
+        script: test/assert_txt.sh
       - actual: generate-SQC-BAM-*/TWGSAMIN000001/SAMtools-*/output/SAMtools-*_TWGSAMIN_S2-v1.1.5.n1_stats.txt
         expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/SAMtools-1.18_TWGSAMIN_S2-v1.1.5.n1_stats.txt
-        method: md5
+        script: test/assert_txt.sh
       - actual: generate-SQC-BAM-*/TWGSAMIN000001/Picard-*/output/Picard-*_TWGSAMIN_HG002.N_wgs-metrics.txt
         expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/Picard-3.1.0_TWGSAMIN_HG002.N_wgs-metrics.txt
         script: test/assert_txt.sh
@@ -77,10 +77,10 @@ cases:
     asserts:
       - actual: generate-SQC-BAM-*/TWGSAMIN000001/SAMtools-*/output/SAMtools-*_TWGSAMIN_HG002.N_stats.txt
         expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/SAMtools-1.18_TWGSAMIN_HG002.N_stats.txt
-        method: md5
+        script: test/assert_txt.sh
       - actual: generate-SQC-BAM-*/TWGSAMIN000001/SAMtools-*/output/SAMtools-*_TWGSAMIN_S2-v1.1.5_stats.txt
         expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/SAMtools-1.18_TWGSAMIN_S2-v1.1.5_stats.txt
-        method: md5
+        script: test/assert_txt.sh
   - name: a_mini-collectwgsmetrics
     message: test collectwgsmetrics
     nf_script: main.nf
