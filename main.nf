@@ -22,6 +22,11 @@ include { run_bamqc_Qualimap } from './module/bamqc_qualimap' addParams(
     workflow_log_output_dir: "${params.log_output_dir}/process-log/Qualimap-${params.qualimap_version}"
     )
 
+include { assess_ReadQuality_FastQC } from './module/fastqc' addParams(
+    workflow_output_dir: "${params.output_dir_base}/FastQC-${params.fastqc_version}",
+    workflow_log_output_dir: "${params.log_output_dir}/process-log/FastQC-${params.fastqc_version}"
+    )
+
 include { indexFile } from './external/pipeline-Nextflow-module/modules/common/indexFile/main.nf'
 
 log.info """\
@@ -82,6 +87,10 @@ log.info """\
         qualimap_version: ${params.qualimap_version}
         bamqc_outformat: ${params.bamqc_outformat}
         bamqc_additional_options: ${params.bamqc_additional_options}
+
+    - FastQC options:
+        fastqc_version: ${params.fastqc_version}
+        fastqc_additional_options: ${params.fastqc_additional_options}
 """
 
 Channel
@@ -151,6 +160,11 @@ workflow {
             }
         run_stats_SAMtools_sample(
             samples_to_process_ch
+            )
+        }
+    if ('fastqc' in params.algorithms) {
+        assess_ReadQuality_FastQC(
+            samplesToProcessChannel
             )
         }
     if ('collectwgsmetrics' in params.algorithm) {

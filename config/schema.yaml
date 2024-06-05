@@ -12,10 +12,12 @@ algorithm:
   required: false
   help: 'List of QC algorithms'
   choices:
+    - fastqc
     - stats
     - collectwgsmetrics
     - bamqc
   default:
+    - fastqc
     - stats
     - collectwgsmetrics
 reference:
@@ -38,6 +40,12 @@ save_intermediate_files:
   required: false
   default: false
   help: 'The option to save the intermediate files'
+fastqc_additional_options:
+  type: 'String'
+  required: false
+  allow_empty: true
+  default: ''
+  help: 'Additional arguments for FastQC command'
 samtools_remove_duplicates:
   type: 'Bool'
   required: false
