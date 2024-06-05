@@ -14,10 +14,7 @@ process run_CollectWgsMetrics_Picard {
         mode: "copy",
         enabled: true
 
-    publishDir path: "${params.workflow_log_output_dir}",
-        pattern: ".command.*",
-        mode: "copy",
-        saveAs: { "${task.process.replace(':', '/')}-${sm_id}/log${file(it).getName()}" }
+    ext log_dir_suffix: { "-${sm_id}" }
 
     input:
         tuple path(path), val(unused), val(sm_id), val(unused), val(unused), val(unused), val(unused), val(read_length)

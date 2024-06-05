@@ -14,10 +14,7 @@ process assess_ReadQuality_FastQC {
         pattern: "${output_filename}",
         mode: "copy",
         enabled: true
-    publishDir path: "${params.workflow_log_output_dir}",
-        pattern: ".command.*",
-        mode: "copy",
-        saveAs: { "${task.process.replace(':', '/')}-${id}/log${file(it).getName()}" }
+    ext log_dir_suffix: { "-${id}" }
 
     input:
         tuple val(orig_id), val(id), path(path), val(read_length), val(sample_type)

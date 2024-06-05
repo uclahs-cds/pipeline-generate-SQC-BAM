@@ -16,10 +16,7 @@ process run_stats_SAMtools {
         enabled: true,
         saveAs: { "${outdir}/${file(it).getName()}" }
 
-    publishDir path: "${params.workflow_log_output_dir}",
-        pattern: ".command.*",
-        mode: "copy",
-        saveAs: { "${task.process.replace(':', '/')}-${log_suffix}/log${file(it).getName()}" }
+    ext log_dir_suffix: { "-${log_suffix}" }
 
     input:
         tuple path(path), val(unused), val(sm_id), val(rg_arg), val(rg_id), val(lib_id), val(unused), val(unused)
