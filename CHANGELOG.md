@@ -10,7 +10,9 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased]
 
 ### Added
+- Add FastQC workflow
 - Add per readgroup and per library functionality
+- Add `process_afterscript`
 - Add Nextflow version requirement to `README`
 
 ### Changed
