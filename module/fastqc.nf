@@ -23,7 +23,7 @@ process assess_ReadQuality_FastQC {
         path("${output_filename}")
 
     script:
-    output_filename = generate_standard_filename("SAMtools-${params.samtools_version}",
+    output_filename = generate_standard_filename("FastQC-${params.fastqc_version}",
         params.dataset_id,
         id,
         [:])
