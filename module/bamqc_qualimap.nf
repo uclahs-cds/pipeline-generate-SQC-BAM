@@ -16,10 +16,10 @@ process run_bamqc_Qualimap {
     publishDir path: "${params.workflow_log_output_dir}",
         pattern: ".command.*",
         mode: "copy",
-        saveAs: { "${task.process.replace(':', '/')}-${id}/log${file(it).getName()}" }
+        saveAs: { "${task.process.replace(':', '/')}-${sm_id}/log${file(it).getName()}" }
 
     input:
-        tuple val(orig_id), val(id), val(read_groups), path(path), val(read_length), val(sample_type)
+        tuple path(path), val(unused), val(sm_id), val(unused), val(unused), val(unused), val(unused), val(unused)
 
     output:
         path "*_stats", emit: stats
@@ -28,7 +28,7 @@ process run_bamqc_Qualimap {
     script:
     output_filename = generate_standard_filename("Qualimap-${params.qualimap_version}",
         params.dataset_id,
-        id,
+        sm_id,
         [:])
 
     """

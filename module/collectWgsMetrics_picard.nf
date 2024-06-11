@@ -17,10 +17,10 @@ process run_CollectWgsMetrics_Picard {
     publishDir path: "${params.workflow_log_output_dir}",
         pattern: ".command.*",
         mode: "copy",
-        saveAs: { "${task.process.replace(':', '/')}-${id}/log${file(it).getName()}" }
+        saveAs: { "${task.process.replace(':', '/')}-${sm_id}/log${file(it).getName()}" }
 
     input:
-        tuple val(orig_id), val(id), val(read_groups), path(path), val(read_length), val(sample_type)
+        tuple path(path), val(unused), val(sm_id), val(unused), val(unused), val(unused), val(unused), val(read_length)
         path reference
         path reference_index
 
@@ -31,7 +31,7 @@ process run_CollectWgsMetrics_Picard {
     script:
     output_filename = generate_standard_filename("Picard-${params.picard_version}",
         params.dataset_id,
-        id,
+        sm_id,
         [:])
     read_length_arg = read_length ? "-READ_LENGTH ${read_length}" : ""
     fast_algorithm_arg = params.cwm_use_fast_algorithm ? "-USE_FAST_ALGORITHM" : ""
