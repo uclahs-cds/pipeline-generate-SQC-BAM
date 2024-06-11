@@ -7,7 +7,7 @@ include { run_validate_PipeVal } from './external/pipeline-Nextflow-module/modul
         main_process: "./" //Save logs in <log_dir>/process-log/run_validate_PipeVal
         ]
     )
-include { run_stats_SAMtools } from './module/stats_samtools' addParams(
+include { run_stats_SAMtools as run_stats_SAMtools_readgroup; run_stats_SAMtools as run_stats_SAMtools_library; run_stats_SAMtools as run_stats_SAMtools_sample } from './module/stats_samtools' addParams(
     workflow_output_dir: "${params.output_dir_base}/SAMtools-${params.samtools_version}",
     workflow_log_output_dir: "${params.log_output_dir}/process-log/SAMtools-${params.samtools_version}"
     )
@@ -41,7 +41,7 @@ log.info """\
         qualimap: ${params.docker_image_qualimap}
 
     - input:
-        algorithm(s): ${params.algorithms}
+        algorithm(s): ${params.algorithm}
         dataset_id: ${params.dataset_id}
         patient_id: ${params.patient_id}
         tumor: ${params.samples_to_process.findAll{ it.sample_type == 'tumor' }['path']}
@@ -52,9 +52,9 @@ log.info """\
 
     - sample names extracted from input BAM files and sanitized:
         tumor in: ${params.samples_to_process.findAll{ it.sample_type == 'tumor' }['orig_id']}
-        tumor out: ${params.samples_to_process.findAll{ it.sample_type == 'tumor' }['id']}
+        tumor out: ${params.samples_to_process.findAll{ it.sample_type == 'tumor' }['sm_id']}
         normal in: ${params.samples_to_process.findAll{ it.sample_type == 'normal' }['orig_id']}
-        normal out: ${params.samples_to_process.findAll{ it.sample_type == 'normal' }['id']}
+        normal out: ${params.samples_to_process.findAll{ it.sample_type == 'normal' }['sm_id']}
 
     - output:
         output_dir: ${params.output_dir_base}
@@ -84,15 +84,29 @@ log.info """\
         bamqc_additional_options: ${params.bamqc_additional_options}
 """
 
-// CHANGE: SAMPLES_TO_PROCESS by read_group.  Call stats 3 times, once by readgroup, once by library and once by sample
-//     - first check if more than one read group/library
-//    - picard and qualimap will be called by sample
 Channel
     .fromList(params.samples_to_process)
-    .map { sample ->
-        return tuple(sample.orig_id, sample.id, sample.read_groups, sample.libraries, sample.path, sample.read_length, sample.sample_type)
+    .map { sm ->
+        def rg_arg = ""
+        return tuple(sm.path, sm.orig_id, sm.sm_id, rg_arg, null, null, sm.sample_type, sm.read_length)
     }
-    .set { samplesToProcessChannel }
+    .set { samples_to_process_ch }
+
+Channel
+    .fromList(params.libraries_to_process)
+    .map { lib ->
+        def rg_arg = lib.rgs.collect { "-r ${it}" }.join(' ')
+        return tuple(lib.path, null, lib.sm_id, rg_arg, null, lib.lib_id, null, null)
+    }
+    .set { libraries_to_process_ch }
+
+Channel
+    .fromList(params.readgroups_to_process)
+    .map { rg ->
+        def rg_arg = "-r ${rg.orig_rg_id}"
+        return tuple(rg.path, null, rg.sm_id, rg_arg, rg.rg_id, rg.lib_id, null, null)
+    }
+    .set { readgroups_to_process_ch }
 
 Channel
     .fromList(params.samples_to_process)
@@ -100,7 +114,7 @@ Channel
     .flatten()
     .set { files_to_validate_ch }
 
-if ('collectwgsmetrics' in params.algorithms) {
+if ('collectwgsmetrics' in params.algorithm) {
     if (!params.reference) {
         throw new Exception("Reference genome is required when using the 'collectwgsmetrics' algorithm. Please check the config file and try again.")
         }
@@ -124,22 +138,31 @@ workflow {
         storeDir: "${params.output_dir_base}/validation"
         )
 
-    if ('stats' in params.algorithms) {
-        run_stats_SAMtools(
-            samplesToProcessChannel
+    if ('stats' in params.algorithm) {
+        if (params.readgroups_to_process.size() > 0) {
+            run_stats_SAMtools_readgroup(
+                readgroups_to_process_ch
+                )
+            }
+        if (params.libraries_to_process.size() > 0) {
+            run_stats_SAMtools_library(
+                libraries_to_process_ch
+                )
+            }
+        run_stats_SAMtools_sample(
+            samples_to_process_ch
             )
         }
-
-    if ('collectwgsmetrics' in params.algorithms) {
+    if ('collectwgsmetrics' in params.algorithm) {
         run_CollectWgsMetrics_Picard(
-            samplesToProcessChannel,
+            samples_to_process_ch,
             params.reference,
             params.reference_index
             )
         }
-    if ('bamqc' in params.algorithms) {
+    if ('bamqc' in params.algorithm) {
         run_bamqc_Qualimap(
-            samplesToProcessChannel,
+            readgroups_to_process_ch,
             )
         }
     }
