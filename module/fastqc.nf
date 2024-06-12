@@ -14,10 +14,10 @@ process assess_ReadQuality_FastQC {
         pattern: "${output_filename}",
         mode: "copy",
         enabled: true
-    ext log_dir_suffix: { "-${id}" }
+    ext log_dir_suffix: { "-${sm_id}" }
 
     input:
-        tuple val(orig_id), val(id), path(path), val(read_length), val(sample_type)
+        tuple path(path), val(unused), val(sm_id), val(rg_arg), val(unused), val(unused), val(unused), val(read_length)
 
     output:
         path("${output_filename}")
@@ -25,7 +25,7 @@ process assess_ReadQuality_FastQC {
     script:
     output_filename = generate_standard_filename("FastQC-${params.fastqc_version}",
         params.dataset_id,
-        id,
+        sm_id,
         [:])
 
     """
