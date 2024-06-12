@@ -162,7 +162,7 @@ workflow {
         }
     if ('bamqc' in params.algorithm) {
         run_bamqc_Qualimap(
-            readgroups_to_process_ch,
+            samples_to_process_ch,
             )
         }
     }
