@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased]
 
 ### Added
+- Add per readgroup and per library functionality
 - Add Nextflow version requirement to `README`
 
 ### Changed
