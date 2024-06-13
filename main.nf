@@ -164,7 +164,7 @@ workflow {
         }
     if ('fastqc' in params.algorithm) {
         assess_ReadQuality_FastQC(
-            samples_to_process_ch
+            readgroups_to_process_ch
             )
         }
     if ('collectwgsmetrics' in params.algorithm) {
