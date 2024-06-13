@@ -14,30 +14,32 @@ process assess_ReadQuality_FastQC {
         pattern: "${output_filename}",
         mode: "copy",
         enabled: true
-    ext log_dir_suffix: { "-${sm_id}" }
+    ext log_dir_suffix: { "-${target}" }
 
     input:
-        tuple path(path), val(unused), val(sm_id), val(rg_arg), val(unused), val(unused), val(unused), val(read_length)
+        tuple path(path), val(unused), val(sm_id), val(rg_arg), val(rg_id), val(unused), val(unused), val(ununsed)
 
     output:
         path("${output_filename}")
 
     script:
+    target = "${sm_id}-${rg_id}"
     output_filename = generate_standard_filename("FastQC-${params.fastqc_version}",
         params.dataset_id,
-        sm_id,
+        target,
         [:])
 
     """
     set -euo pipefail
     mkdir "${output_filename}"
-    fastqc \
-        --outdir "${output_filename}" \
-        --threads ${task.cpus} \
-        --format bam \
+    samtools view -F 0x900 -h ${rg_arg} ${path} | \
+        samtools fastq | \
+        fastqc \
+        --outdir "./" \
+        --format fastq \
         --extract \
         --delete \
         ${params.fastqc_additional_options} \
-        ${path}
+        stdin:${output_filename}
     """
 }
