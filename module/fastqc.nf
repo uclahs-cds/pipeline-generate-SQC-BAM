@@ -11,7 +11,7 @@ process assess_ReadQuality_FastQC {
     container params.docker_image_fastqc
 
     publishDir path: "${params.workflow_output_dir}/output",
-        pattern: "${output_filename}",
+        pattern: "${sm_id}/${output_filename}_fastqc",
         mode: "copy",
         enabled: true
     ext log_dir_suffix: { "-${target}" }
@@ -20,7 +20,7 @@ process assess_ReadQuality_FastQC {
         tuple path(path), val(unused), val(sm_id), val(rg_arg), val(rg_id), val(unused), val(unused), val(ununsed)
 
     output:
-        path("${output_filename}")
+        path("${sm_id}/${output_filename}_fastqc")
 
     script:
     target = "${sm_id}-${rg_id}"
@@ -31,11 +31,11 @@ process assess_ReadQuality_FastQC {
 
     """
     set -euo pipefail
-    mkdir "${output_filename}"
+    mkdir -p ${sm_id}
     samtools view -F 0x900 -h ${rg_arg} ${path} | \
         samtools fastq | \
         fastqc \
-        --outdir "./" \
+        --outdir "${sm_id}" \
         --format fastq \
         --extract \
         --delete \

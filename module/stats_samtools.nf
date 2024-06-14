@@ -26,28 +26,23 @@ process run_stats_SAMtools {
         path ".command.*"
 
     script:
-    if (task.process == "run_stats_SAMtools_sample") {
-        output_filename = generate_standard_filename("SAMtools-${params.samtools_version}",
-            params.dataset_id,
-            sm_id,
-            [:])
+    if (params.stat_mode == "sample") {
+        filename_id = sm_id
         outdir = "."
         log_suffix = "${sm_id}"
-    } else if (task.process == "run_stats_SAMtools_library") {
-        output_filename = generate_standard_filename("SAMtools-${params.samtools_version}",
-            params.dataset_id,
-            lib_id,
-            [:])
+    } else if (params.stat_mode == "library") {
+        filename_id = lib_id
         outdir = sm_id
         log_suffix = "${sm_id}/${lib_id}"
-    } else if (task.process == "run_stats_SAMtools_readgroup") {
-        output_filename = generate_standard_filename("SAMtools-${params.samtools_version}",
-            params.dataset_id,
-            rg_id,
-            [:])
+    } else if (params.stat_mode == "readgroup") {
+        filename_id = rg_id
         outdir = "${sm_id}/${lib_id}"
         log_suffix = "${sm_id}/${lib_id}/${rg_id}"
     }
+    output_filename = generate_standard_filename("SAMtools-${params.samtools_version}",
+        params.dataset_id,
+        filename_id,
+        [:])
 
     rmdups = params.samtools_remove_duplicates ? "--remove-dups" : ""
 

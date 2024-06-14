@@ -7,9 +7,22 @@ include { run_validate_PipeVal } from './external/pipeline-Nextflow-module/modul
         main_process: "./" //Save logs in <log_dir>/process-log/run_validate_PipeVal
         ]
     )
-include { run_stats_SAMtools as run_stats_SAMtools_readgroup; run_stats_SAMtools as run_stats_SAMtools_library; run_stats_SAMtools as run_stats_SAMtools_sample } from './module/stats_samtools' addParams(
+include { run_stats_SAMtools as run_stats_SAMtools_readgroup } from './module/stats_samtools' addParams(
     workflow_output_dir: "${params.output_dir_base}/SAMtools-${params.samtools_version}",
-    workflow_log_output_dir: "${params.log_output_dir}/process-log/SAMtools-${params.samtools_version}"
+    workflow_log_output_dir: "${params.log_output_dir}/process-log/SAMtools-${params.samtools_version}",
+    stat_mode: "readgroup"
+    )
+
+include { run_stats_SAMtools as run_stats_SAMtools_library } from './module/stats_samtools' addParams(
+    workflow_output_dir: "${params.output_dir_base}/SAMtools-${params.samtools_version}",
+    workflow_log_output_dir: "${params.log_output_dir}/process-log/SAMtools-${params.samtools_version}",
+    stat_mode: "library"
+    )
+
+include { run_stats_SAMtools as run_stats_SAMtools_sample } from './module/stats_samtools' addParams(
+    workflow_output_dir: "${params.output_dir_base}/SAMtools-${params.samtools_version}",
+    workflow_log_output_dir: "${params.log_output_dir}/process-log/SAMtools-${params.samtools_version}",
+    stat_mode: "sample"
     )
 
 include { run_CollectWgsMetrics_Picard } from './module/collectWgsMetrics_picard' addParams(
@@ -148,12 +161,12 @@ workflow {
         )
 
     if ('stats' in params.algorithm) {
-        if (params.readgroups_to_process.size() > 0) {
+        if (params.readgroups_to_process.size() > 1) {
             run_stats_SAMtools_readgroup(
                 readgroups_to_process_ch
                 )
             }
-        if (params.libraries_to_process.size() > 0) {
+        if (params.libraries_to_process.size() > 1) {
             run_stats_SAMtools_library(
                 libraries_to_process_ch
                 )
