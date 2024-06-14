@@ -6,6 +6,68 @@ global:
   clean_logs: true
 
 cases:
+  - name: hg003-all-tools
+    message: test all tools with downsampled HG003 subsetted to 6 readgroups and 3 libraries
+    nf_script: main.nf
+    nf_config: test/config/all-tools.config
+    params_file: test/yaml/HG003_0.05x-selected-readgroups.yaml
+    skip: false
+    verbose: true
+    asserts:
+      - actual: generate-SQC-BAM-*/NA24149/FastQC-*/output/HG003/FastQC-*_GIAB_HG003-HG003.H9YY4ADXX.3F1.L002-001.SeqL002-001_fastqc/fastqc_data.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/FastQC-0.12.1-samtools-1.20_GIAB_HG003-HG003.H9YY4ADXX.3F1.L002-001.SeqL002-001_fastqc/fastqc_data.txt
+        script: test/assert_txt.sh
+      - actual: generate-SQC-BAM-*/NA24149/FastQC-*/output/HG003/FastQC-*_GIAB_HG003-HG003.HA0L6ADXX.3F1.L001-001.SeqL001-001_fastqc/fastqc_data.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/FastQC-0.12.1-samtools-1.20_GIAB_HG003-HG003.HA0L6ADXX.3F1.L001-001.SeqL001-001_fastqc/fastqc_data.txt
+        script: test/assert_txt.sh
+      - actual: generate-SQC-BAM-*/NA24149/FastQC-*/output/HG003/FastQC-*_GIAB_HG003-HG003.HA0L6ADXX.3F1.L002-001.SeqL002-001_fastqc/fastqc_data.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/FastQC-0.12.1-samtools-1.20_GIAB_HG003-HG003.HA0L6ADXX.3F1.L002-001.SeqL002-001_fastqc/fastqc_data.txt
+        script: test/assert_txt.sh
+      - actual: generate-SQC-BAM-*/NA24149/FastQC-*/output/HG003/FastQC-*_GIAB_HG003-HG003.HA660ADXX.3L1.L001-001.SeqL001-001_fastqc/fastqc_data.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/FastQC-0.12.1-samtools-1.20_GIAB_HG003-HG003.HA660ADXX.3L1.L001-001.SeqL001-001_fastqc/fastqc_data.txt
+        script: test/assert_txt.sh
+      - actual: generate-SQC-BAM-*/NA24149/FastQC-*/output/HG003/FastQC-*_GIAB_HG003-HG003.HA660ADXX.3L1.L002-002.SeqL002-002_fastqc/fastqc_data.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/FastQC-0.12.1-samtools-1.20_GIAB_HG003-HG003.HA660ADXX.3L1.L002-002.SeqL002-002_fastqc/fastqc_data.txt
+        script: test/assert_txt.sh
+      - actual: generate-SQC-BAM-*/NA24149/FastQC-*/output/HG003/FastQC-*_GIAB_HG003-HG003.HA660ADXX.3L1.L002-005.SeqL002-005_fastqc/fastqc_data.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/FastQC-0.12.1-samtools-1.20_GIAB_HG003-HG003.HA660ADXX.3L1.L002-005.SeqL002-005_fastqc/fastqc_data.txt
+        script: test/assert_txt.sh
+      - actual: generate-SQC-BAM-*/NA24149/SAMtools-*/output/SAMtools-*_GIAB_HG003_stats.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/SAMtools-1.18_GIAB_HG003_stats.txt
+        script: test/assert_txt.sh
+      - actual: generate-SQC-BAM-*/NA24149/SAMtools-*/output/HG003/SAMtools-*_GIAB_HG003.H9YY4ADXX.3F1_stats.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/SAMtools-1.18_GIAB_HG003.H9YY4ADXX.3F1_stats.txt
+        script: test/assert_txt.sh
+      - actual: generate-SQC-BAM-*/NA24149/SAMtools-*/output/HG003/SAMtools-*_GIAB_HG003.HA0L6ADXX.3F1_stats.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/SAMtools-1.18_GIAB_HG003.HA0L6ADXX.3F1_stats.txt
+        script: test/assert_txt.sh
+      - actual: generate-SQC-BAM-*/NA24149/SAMtools-*/output/HG003/SAMtools-*_GIAB_HG003.HA660ADXX.3L1_stats.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/SAMtools-1.18_GIAB_HG003.HA660ADXX.3L1_stats.txt
+        script: test/assert_txt.sh
+      - actual: generate-SQC-BAM-*/NA24149/SAMtools-*/output/HG003/HG003.H9YY4ADXX.3F1/SAMtools-*_GIAB_HG003.H9YY4ADXX.3F1.L002-001.SeqL002-001_stats.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/SAMtools-1.18_GIAB_HG003.H9YY4ADXX.3F1.L002-001.SeqL002-001_stats.txt
+        script: test/assert_txt.sh
+      - actual: generate-SQC-BAM-*/NA24149/SAMtools-*/output/HG003/HG003.HA0L6ADXX.3F1/SAMtools-*_GIAB_HG003.HA0L6ADXX.3F1.L001-001.SeqL001-001_stats.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/SAMtools-1.18_GIAB_HG003.HA0L6ADXX.3F1.L001-001.SeqL001-001_stats.txt
+        script: test/assert_txt.sh
+      - actual: generate-SQC-BAM-*/NA24149/SAMtools-*/output/HG003/HG003.HA0L6ADXX.3F1/SAMtools-*_GIAB_HG003.HA0L6ADXX.3F1.L002-001.SeqL002-001_stats.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/SAMtools-1.18_GIAB_HG003.HA0L6ADXX.3F1.L002-001.SeqL002-001_stats.txt
+        script: test/assert_txt.sh
+      - actual: generate-SQC-BAM-*/NA24149/SAMtools-*/output/HG003/HG003.HA660ADXX.3L1/SAMtools-*_GIAB_HG003.HA660ADXX.3L1.L001-001.SeqL001-001_stats.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/SAMtools-1.18_GIAB_HG003.HA660ADXX.3L1.L001-001.SeqL001-001_stats.txt
+        script: test/assert_txt.sh
+      - actual: generate-SQC-BAM-*/NA24149/SAMtools-*/output/HG003/HG003.HA660ADXX.3L1/SAMtools-*_GIAB_HG003.HA660ADXX.3L1.L002-002.SeqL002-002_stats.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/SAMtools-1.18_GIAB_HG003.HA660ADXX.3L1.L002-002.SeqL002-002_stats.txt
+        script: test/assert_txt.sh
+      - actual: generate-SQC-BAM-*/NA24149/SAMtools-*/output/HG003/HG003.HA660ADXX.3L1/SAMtools-*_GIAB_HG003.HA660ADXX.3L1.L002-005.SeqL002-005_stats.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/SAMtools-1.18_GIAB_HG003.HA660ADXX.3L1.L002-005.SeqL002-005_stats.txt
+        script: test/assert_txt.sh
+      - actual: generate-SQC-BAM-*/NA24149/Picard-3.1.0/output/Picard-3.1.0_GIAB_HG003_wgs-metrics.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/Picard-3.1.0_GIAB_HG003_wgs-metrics.txt
+        script: test/assert_txt.sh
+      - actual: generate-SQC-BAM-*/NA24149/Qualimap-2.3/output/Qualimap-2.3_GIAB_HG003_stats/genome_results.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/Qualimap-2.3_GIAB_HG003_stats/genome_results.txt
+        script: test/assert_txt.sh
   - name: a_mini-all-tools
     message: test all tools
     nf_script: main.nf
@@ -14,11 +76,11 @@ cases:
     skip: false
     verbose: true
     asserts:
-      - actual: generate-SQC-BAM-*/TWGSAMIN000001/FastQC-*/output/FastQC-*_TWGSAMIN_HG002.N/HG002.N_fastqc/fastqc_data.txt
-        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/FastQC-0.12.1-samtools-1.20_TWGSAMIN_HG002.N/HG002.N_fastqc/fastqc_data.txt
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/FastQC-*/output/HG002.N/FastQC-*_TWGSAMIN_HG002.N-HG002.N.seq1.Seq1_fastqc/fastqc_data.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/FastQC-0.12.1-samtools-1.20_TWGSAMIN_HG002.N-HG002.N.seq1.Seq1_fastqc/fastqc_data.txt
         script: test/assert_txt.sh
-      - actual: generate-SQC-BAM-*/TWGSAMIN000001/FastQC-*/output/FastQC-*_TWGSAMIN_S2-v1.1.5/S2-v1.1.5_fastqc/fastqc_data.txt
-        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/FastQC-0.12.1-samtools-1.20_TWGSAMIN_S2-v1.1.5/S2-v1.1.5_fastqc/fastqc_data.txt
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/FastQC-*/output/S2-v1.1.5/FastQC-*_TWGSAMIN_S2-v1.1.5-S2-v1.1.5.seq1.Seq1_fastqc/fastqc_data.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/FastQC-0.12.1-samtools-1.20_TWGSAMIN_S2-v1.1.5-S2-v1.1.5.seq1.Seq1_fastqc/fastqc_data.txt
         script: test/assert_txt.sh
       - actual: generate-SQC-BAM-*/TWGSAMIN000001/SAMtools-*/output/SAMtools-*_TWGSAMIN_HG002.N_stats.txt
         expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/SAMtools-1.18_TWGSAMIN_HG002.N_stats.txt
@@ -46,14 +108,14 @@ cases:
     skip: false
     verbose: true
     asserts:
-      - actual: generate-SQC-BAM-*/TWGSAMIN000001/FastQC-*/output/FastQC-*_TWGSAMIN_HG002.N/HG002.N_fastqc/fastqc_data.txt
-        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/FastQC-0.12.1-samtools-1.20_TWGSAMIN_HG002.N/HG002.N_fastqc/fastqc_data.txt
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/FastQC-*/output/HG002.N/FastQC-*_TWGSAMIN_HG002.N-HG002.N.seq1.Seq1_fastqc/fastqc_data.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/FastQC-0.12.1-samtools-1.20_TWGSAMIN_HG002.N-HG002.N.seq1.Seq1_fastqc/fastqc_data.txt
         script: test/assert_txt.sh
-      - actual: generate-SQC-BAM-*/TWGSAMIN000001/FastQC-*/output/FastQC-*_TWGSAMIN_S2-v1.1.5/S2-v1.1.5_fastqc/fastqc_data.txt
-        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/FastQC-0.12.1-samtools-1.20_TWGSAMIN_S2-v1.1.5/S2-v1.1.5_fastqc/fastqc_data.txt
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/FastQC-*/output/S2-v1.1.5/FastQC-*_TWGSAMIN_S2-v1.1.5-S2-v1.1.5.seq1.Seq1_fastqc/fastqc_data.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/FastQC-0.12.1-samtools-1.20_TWGSAMIN_S2-v1.1.5-S2-v1.1.5.seq1.Seq1_fastqc/fastqc_data.txt
         script: test/assert_txt.sh
-      - actual: generate-SQC-BAM-*/TWGSAMIN000001/FastQC-*/output/FastQC-*_TWGSAMIN_S2-v1.1.5.n1/S2-v1.1.5.n1_SMadjust_fastqc/fastqc_data.txt
-        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/FastQC-0.12.1-samtools-1.20_TWGSAMIN_S2-v1.1.5.n1/S2-v1.1.5.n1_SMadjust_fastqc/fastqc_data.txt
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/FastQC-*/output/S2-v1.1.5.n1/FastQC-*_TWGSAMIN_S2-v1.1.5.n1-S2-v1.1.5.seq1.Seq1_fastqc/fastqc_data.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/FastQC-0.12.1-samtools-1.20_TWGSAMIN_S2-v1.1.5.n1-S2-v1.1.5.seq1.Seq1_fastqc/fastqc_data.txt
         script: test/assert_txt.sh
       - actual: generate-SQC-BAM-*/TWGSAMIN000001/SAMtools-*/output/SAMtools-*_TWGSAMIN_HG002.N_stats.txt
         expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/SAMtools-1.18_TWGSAMIN_HG002.N_stats.txt
@@ -90,11 +152,11 @@ cases:
     skip: true
     verbose: true
     asserts:
-      - actual: generate-SQC-BAM-*/TWGSAMIN000001/FastQC-*/output/FastQC-*_TWGSAMIN_HG002.N/HG002.N_fastqc/fastqc_data.txt
-        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/FastQC-0.12.1-samtools-1.20_TWGSAMIN_HG002.N/HG002.N_fastqc/fastqc_data.txt
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/FastQC-*/output/HG002.N/FastQC-*_TWGSAMIN_HG002.N-HG002.N.seq1.Seq1_fastqc/fastqc_data.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/FastQC-0.12.1-samtools-1.20_TWGSAMIN_HG002.N-HG002.N.seq1.Seq1_fastqc/fastqc_data.txt
         script: test/assert_txt.sh
-      - actual: generate-SQC-BAM-*/TWGSAMIN000001/FastQC-*/output/FastQC-*_TWGSAMIN_S2-v1.1.5/S2-v1.1.5_fastqc/fastqc_data.txt
-        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/FastQC-0.12.1-samtools-1.20_TWGSAMIN_S2-v1.1.5/S2-v1.1.5_fastqc/fastqc_data.txt
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/FastQC-*/output/S2-v1.1.5/FastQC-*_TWGSAMIN_S2-v1.1.5-S2-v1.1.5.seq1.Seq1_fastqc/fastqc_data.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/FastQC-0.12.1-samtools-1.20_TWGSAMIN_S2-v1.1.5-S2-v1.1.5.seq1.Seq1_fastqc/fastqc_data.txt
         script: test/assert_txt.sh
   - name: a_mini-stats
     message: test samtools stats
