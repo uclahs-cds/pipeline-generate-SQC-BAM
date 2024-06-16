@@ -32,9 +32,10 @@ process assess_ReadQuality_FastQC {
     """
     set -euo pipefail
     mkdir -p ${sm_id}
-    samtools view -F 0x900 -h ${rg_arg} ${path} | \
-        samtools fastq | \
+    samtools view --threads ${task.cpus} --excl-flags 0x900 --with-header ${rg_arg} ${path} | \
+        samtools fastq --threads ${task.cpus} | \
         fastqc \
+        --threads ${task.cpus} \
         --outdir "${sm_id}" \
         --format fastq \
         --extract \
