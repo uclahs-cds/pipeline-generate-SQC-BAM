@@ -16,7 +16,7 @@ process run_bamqc_Qualimap {
     ext log_dir_suffix: { "-${sm_id}" }
 
     input:
-        tuple path(path), val(orig_id), val(sm_id), val(rg_arg), val(rg_id), val(lib_id), val(sm_type), val(read_length)
+        tuple path(bam), path(bam_index), val(orig_id), val(sm_id), val(rg_arg), val(rg_id), val(lib_id), val(sm_type), val(read_length)
 
     output:
         path "*_stats", emit: stats
@@ -32,7 +32,7 @@ process run_bamqc_Qualimap {
     set -euo pipefail
     qualimap bamqc \
         --java-mem-size=${(task.memory * params.jvm_fraction).getMega()}M \
-        -bam ${path} \
+        -bam ${bam} \
         -outdir ${output_filename}_stats \
         -outformat ${params.bamqc_outformat} \
         -outfile ${output_filename} \

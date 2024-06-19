@@ -17,7 +17,7 @@ process run_stats_SAMtools {
     ext log_dir_suffix: { "-${filename_id}" }
 
     input:
-        tuple path(path), val(orig_id), val(sm_id), val(rg_arg), val(rg_id), val(lib_id), val(sm_type), val(read_length)
+        tuple path(bam), path(bam_index), val(orig_id), val(sm_id), val(rg_arg), val(rg_id), val(lib_id), val(sm_type), val(read_length)
 
     output:
         path "*stats.txt"
@@ -43,6 +43,6 @@ process run_stats_SAMtools {
 
     """
     set -euo pipefail
-    samtools view -h ${rg_arg} ${path} | samtools stats ${rmdups} ${params.stats_additional_options} > ${output_filename}_stats.txt
+    samtools view -h ${rg_arg} ${bam} | samtools stats ${rmdups} ${params.stats_additional_options} > ${output_filename}_stats.txt
     """
 }
