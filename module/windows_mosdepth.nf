@@ -16,7 +16,7 @@ process assess_coverage_mosdepth {
     ext log_dir_suffix: { "-${sm_id}" }
 
     input:
-        tuple path(bam), path(bam_index), val(unused), val(sm_id), val(unused), val(unused), val(unused), val(unused), val(unused)
+        tuple path(bam), path(bam_index), val(orig_id), val(sm_id), val(rg_arg), val(rg_id), val(lib_id), val(sm_type), val(read_length)
 
     output:
         path "${output_filename}*"
