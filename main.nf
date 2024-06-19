@@ -54,6 +54,11 @@ include { run_bamqc_Qualimap } from './module/bamqc_qualimap' addParams(
     )
 
 
+include { assess_coverage_mosdepth } from './module/windows_mosdepth' addParams(
+    workflow_output_dir: "${params.output_dir_base}/mosdepth-${params.mosdepth_version}",
+    workflow_log_output_dir: "${params.log_output_dir}/process-log/mosdepth-${params.mosdepth_version}"
+    )
+
 include { indexFile } from './external/pipeline-Nextflow-module/modules/common/indexFile/main.nf'
 
 log.info """\
@@ -76,9 +81,9 @@ log.info """\
         algorithm(s): ${params.algorithm}
         dataset_id: ${params.dataset_id}
         patient_id: ${params.patient_id}
-        tumor: ${params.samples_to_process.findAll{ it.sample_type == 'tumor' }['path']}
+        tumor: ${params.samples_to_process.findAll{ it.sample_type == 'tumor' }['bam']}
         tumor read length: ${params.samples_to_process.findAll{ it.sample_type == 'tumor' }['read_length']}
-        normal: ${params.samples_to_process.findAll{ it.sample_type == 'normal' }['path']}
+        normal: ${params.samples_to_process.findAll{ it.sample_type == 'normal' }['bam']}
         normal read length: ${params.samples_to_process.findAll{ it.sample_type == 'normal' }['read_length']}
         reference: ${params.reference}
 
@@ -109,6 +114,10 @@ log.info """\
         fastqc_level: ${params.fastqc_level}
         fastqc_additional_options: ${params.fastqc_additional_options}
 
+    - mosdepth options:
+        mosdepth_version: ${params.mosdepth_version}
+        mosdepth_additional_options: ${params.mosdepth_additional_options}
+
     - picard CollectWgsMetrics options:
         picard_version: ${params.picard_version}
         cwm_minimum_coverage_cap: ${params.cwm_coverage_cap}
@@ -127,7 +136,7 @@ Channel
     .fromList(params.samples_to_process)
     .map { sm ->
         def rg_arg = ""
-        return tuple(sm.path, sm.orig_id, sm.sm_id, rg_arg, null, null, sm.sample_type, sm.read_length)
+        return tuple(sm.bam, indexFile(sm.bam), sm.orig_id, sm.sm_id, rg_arg, null, null, sm.sample_type, sm.read_length)
     }
     .set { samples_to_process_ch }
 
@@ -135,7 +144,7 @@ Channel
     .fromList(params.libraries_to_process)
     .map { lib ->
         def rg_arg = lib.rgs.collect { "-r ${it}" }.join(' ')
-        return tuple(lib.path, null, lib.sm_id, rg_arg, null, lib.lib_id, null, null)
+        return tuple(lib.bam, indexFile(lib.bam), null, lib.sm_id, rg_arg, null, lib.lib_id, null, null)
     }
     .set { libraries_to_process_ch }
 
@@ -143,7 +152,7 @@ Channel
     .fromList(params.readgroups_to_process)
     .map { rg ->
         def rg_arg = "-r ${rg.orig_rg_id}"
-        return tuple(rg.path, null, rg.sm_id, rg_arg, rg.rg_id, rg.lib_id, null, null)
+        return tuple(rg.bam, indexFile(rg.bam), null, rg.sm_id, rg_arg, rg.rg_id, rg.lib_id, null, null)
     }
     .set { readgroups_to_process_ch }
 
@@ -178,7 +187,7 @@ Channel
 // Set up file validation channel
 Channel
     .fromList(params.samples_to_process)
-    .map{ it -> [it['path'], indexFile(it['path'])] }
+    .map{ it -> [it['bam'], indexFile(it['bam'])] }
     .flatten()
     .set { files_to_validate_ch }
 
@@ -232,6 +241,11 @@ workflow {
                 samples_to_process_ch
                 )
             }
+        }
+    if ('coverage' in params.algorithm) {
+        assess_coverage_mosdepth(
+            samples_to_process_ch
+            )
         }
     if ('collectwgsmetrics' in params.algorithm) {
         run_CollectWgsMetrics_Picard(

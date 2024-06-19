@@ -13,12 +13,13 @@ algorithm:
   help: 'List of QC algorithms'
   choices:
     - fastqc
+    - coverage
     - stats
     - collectwgsmetrics
     - bamqc
   default:
     - stats
-    - collectwgsmetrics
+    - coverage
 reference:
   type: 'Path'
   mode: 'r'
@@ -76,6 +77,22 @@ stats_additional_options:
   allow_empty: true
   default: ''
   help: 'Additional arguments for SAMtools stats command'
+mosdepth_use_fast_algorithm:
+  type: 'Bool'
+  required: false
+  default: true
+  help: 'fast algorithm ignores read pair overlaps and CIGAR information'
+mosdepth_window_size:
+  type: 'Integer'
+  required: false
+  default: 500
+  help: 'Window size for mosdepth'
+mosdepth_additional_options:
+  type: 'String'
+  required: false
+  allow_empty: true
+  default: ''
+  help: 'Additional arguments for mosdepth command'
 cwm_coverage_cap:
   type: 'Integer'
   required: false
