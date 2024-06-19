@@ -19,7 +19,7 @@ algorithm:
     - bamqc
   default:
     - stats
-    - collectwgsmetrics
+    - coverage
 reference:
   type: 'Path'
   mode: 'r'
