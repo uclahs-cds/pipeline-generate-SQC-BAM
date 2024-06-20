@@ -5,4 +5,4 @@ maintainers: "Boutros Lab Infrastructure <BoutrosLabInfrastructure@mednet.ucla.e
 languages: ["Nextflow", "Docker"]
 dependencies: ["Java", "Nextflow", "Docker"]
 references: "https://uclahs-cds.atlassian.net/wiki/spaces/BOUTROSLAB/pages/3189620/Guide+to+Nextflow"
-tools: ["FastQC:v0.12.1", "SAMtools:v1.20", "mosdepth:dev", "Picard:v3.1.0", "Qualimap:v2.3"]
+tools: ["FastQC:v0.12.1", "SAMtools:v1.20", "mosdepth:0.3.8", "Picard:v3.1.0", "Qualimap:v2.3"]
