@@ -80,8 +80,10 @@ input:
 #### SAMtools specific configuration
 | Field | Type | Required | Description |
 | ----- | ---- | ------------ | ------------------------ |
-| remove_duplicates | boolean | no | Ignore reads marked as duplicate. default = `false` |
-| samtools_stats_additional_options | string | no | Any additional options recognized by `samtools stats` |
+| stats_max_rgs_to_process_separately | integer | no | If a sample has more than this number of readgroups, `SAMtools stats` will not run per readgroup analysis. Default = 20 |
+| stats_max_libs_to_process_separately | integer | no | If a sample has more than this number of libraries, `SAMtools stats` will not run per library analysis. Default = 20 |
+| stats_remove_duplicates | boolean | no | Ignore reads marked as duplicate. default = `false` |
+| stats_additional_options | string | no | Any additional options recognized by `samtools stats` |
 
 #### Picard specific configuration
 | Field | Type | Required | Description |
