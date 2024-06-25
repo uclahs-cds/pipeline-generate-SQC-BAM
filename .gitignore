@@ -80,3 +80,8 @@ work/
 *.gz
 *.tar
 *.zip
+
+# Other
+test/*
+test/*/*
+slurm-*.out
