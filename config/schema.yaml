@@ -40,18 +40,38 @@ save_intermediate_files:
   required: false
   default: false
   help: 'The option to save the intermediate files'
+fastqc_level:
+  type: 'List'
+  required: false
+  help: 'FastQC level of analysis'
+  choices:
+    - readgroup
+    - library
+    - sample
+  default:
+    - readgroup
 fastqc_additional_options:
   type: 'String'
   required: false
   allow_empty: true
   default: ''
   help: 'Additional arguments for FastQC command'
-samtools_remove_duplicates:
+stats_max_rgs_to_process_separately:
+  type: 'Integer'
+  required: false
+  default: 20
+  help: 'Maximum number of read groups to process separately'
+stats_max_libs_to_process_separately:
+  type: 'Integer'
+  required: false
+  default: 20
+  help: 'Maximum number of libraries to process separately'
+stats_remove_duplicates:
   type: 'Bool'
   required: false
   default: false
   help: 'SAMtools stats option to remove duplicates'
-samtools_stats_additional_options:
+stats_additional_options:
   type: 'String'
   required: false
   allow_empty: true

@@ -25,6 +25,24 @@ include { run_stats_SAMtools as run_stats_SAMtools_sample } from './module/stats
     stat_mode: "sample"
     )
 
+include { assess_ReadQuality_FastQC as assess_ReadQuality_FastQC_readgroup } from './module/fastqc' addParams(
+    workflow_output_dir: "${params.output_dir_base}/FastQC-${params.fastqc_version}",
+    workflow_log_output_dir: "${params.log_output_dir}/process-log/FastQC-${params.fastqc_version}",
+    stat_mode: "readgroup"
+    )
+
+include { assess_ReadQuality_FastQC as assess_ReadQuality_FastQC_library } from './module/fastqc' addParams(
+    workflow_output_dir: "${params.output_dir_base}/FastQC-${params.fastqc_version}",
+    workflow_log_output_dir: "${params.log_output_dir}/process-log/FastQC-${params.fastqc_version}",
+    stat_mode: "library"
+    )
+
+include { assess_ReadQuality_FastQC as assess_ReadQuality_FastQC_sample } from './module/fastqc' addParams(
+    workflow_output_dir: "${params.output_dir_base}/FastQC-${params.fastqc_version}",
+    workflow_log_output_dir: "${params.log_output_dir}/process-log/FastQC-${params.fastqc_version}",
+    stat_mode: "sample"
+    )
+
 include { run_CollectWgsMetrics_Picard } from './module/collectWgsMetrics_picard' addParams(
     workflow_output_dir: "${params.output_dir_base}/Picard-${params.picard_version}",
     workflow_log_output_dir: "${params.log_output_dir}/process-log/Picard-${params.picard_version}"
@@ -35,10 +53,6 @@ include { run_bamqc_Qualimap } from './module/bamqc_qualimap' addParams(
     workflow_log_output_dir: "${params.log_output_dir}/process-log/Qualimap-${params.qualimap_version}"
     )
 
-include { assess_ReadQuality_FastQC } from './module/fastqc' addParams(
-    workflow_output_dir: "${params.output_dir_base}/FastQC-${params.fastqc_version}",
-    workflow_log_output_dir: "${params.log_output_dir}/process-log/FastQC-${params.fastqc_version}"
-    )
 
 include { indexFile } from './external/pipeline-Nextflow-module/modules/common/indexFile/main.nf'
 
@@ -85,8 +99,10 @@ log.info """\
 
     - samtools stats options:
         samtools_version: ${params.samtools_version}
-        samtools_remove_duplicates: ${params.samtools_remove_duplicates}
-        samtools_stats_additional_options: ${params.samtools_stats_additional_options}
+        stats_max_rgs_to_process_separately: ${params.stats_max_rgs_to_process_separately}
+        stats_max_libs_to_process_separately: ${params.stats_max_libs_to_process_separately}
+        stats_remove_duplicates: ${params.stats_remove_duplicates}
+        stats_additional_options: ${params.stats_additional_options}
 
     - picard CollectWgsMetrics options:
         picard_version: ${params.picard_version}
@@ -154,19 +170,21 @@ if ('collectwgsmetrics' in params.algorithm) {
 
 workflow {
     // Input file validation
-    run_validate_PipeVal(files_to_validate_ch)
-    run_validate_PipeVal.out.validation_result.collectFile(
-        name: 'input_validation.txt', newLine: true,
-        storeDir: "${params.output_dir_base}/validation"
-        )
+//    run_validate_PipeVal(files_to_validate_ch)
+//    run_validate_PipeVal.out.validation_result.collectFile(
+//        name: 'input_validation.txt', newLine: true,
+//        storeDir: "${params.output_dir_base}/validation"
+//        )
 
     if ('stats' in params.algorithm) {
-        if (params.readgroups_to_process.size() > 1) {
+        if (params.readgroups_to_process.size() > 1 \
+            && params.readgroups_to_process.size() <= params.stats_max_rgs_to_process_separately) {
             run_stats_SAMtools_readgroup(
                 readgroups_to_process_ch
                 )
             }
-        if (params.libraries_to_process.size() > 1) {
+        if (params.libraries_to_process.size() > 1 \
+            && params.libraries_to_process.size() <= params.stats_max_libs_to_process_separately) {
             run_stats_SAMtools_library(
                 libraries_to_process_ch
                 )
@@ -176,9 +194,21 @@ workflow {
             )
         }
     if ('fastqc' in params.algorithm) {
-        assess_ReadQuality_FastQC(
-            readgroups_to_process_ch
-            )
+        if ('readgroup' in params.fastqc_level) {
+            assess_ReadQuality_FastQC_readgroup(
+                readgroups_to_process_ch
+                )
+            }
+        if ('library' in params.fastqc_level) {
+            assess_ReadQuality_FastQC_library(
+                libraries_to_process_ch
+                )
+            }
+        if ('sample' in params.fastqc_level) {
+            assess_ReadQuality_FastQC_sample(
+                samples_to_process_ch
+                )
+            }
         }
     if ('collectwgsmetrics' in params.algorithm) {
         run_CollectWgsMetrics_Picard(
