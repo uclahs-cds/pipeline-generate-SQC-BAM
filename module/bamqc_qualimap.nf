@@ -16,7 +16,7 @@ process run_bamqc_Qualimap {
     ext log_dir_suffix: { "-${sm_id}" }
 
     input:
-        tuple path(path), val(unused), val(sm_id), val(unused), val(unused), val(unused), val(unused), val(unused)
+        tuple path(path), val(orig_id), val(sm_id), val(rg_arg), val(rg_id), val(lib_id), val(sm_type), val(read_length)
 
     output:
         path "*_stats", emit: stats

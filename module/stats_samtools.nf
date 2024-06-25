@@ -18,7 +18,7 @@ process run_stats_SAMtools {
     ext log_dir_suffix: { "-${outdir}/${filename_id}" }
 
     input:
-        tuple path(path), val(unused), val(sm_id), val(rg_arg), val(rg_id), val(lib_id), val(unused), val(unused)
+        tuple path(path), val(orig_id), val(sm_id), val(rg_arg), val(rg_id), val(lib_id), val(sm_type), val(read_length)
 
     output:
         path "*stats.txt"

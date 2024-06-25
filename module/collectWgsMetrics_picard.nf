@@ -17,7 +17,7 @@ process run_CollectWgsMetrics_Picard {
     ext log_dir_suffix: { "-${sm_id}" }
 
     input:
-        tuple path(path), val(unused), val(sm_id), val(unused), val(unused), val(unused), val(unused), val(read_length)
+        tuple path(path), val(orig_id), val(sm_id), val(rg_arg), val(rg_id), val(lib_id), val(sm_type), val(read_length)
         path reference
         path reference_index
 
