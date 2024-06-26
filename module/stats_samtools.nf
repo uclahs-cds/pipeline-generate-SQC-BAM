@@ -4,7 +4,6 @@
 *
 */
 
-
 include { generate_standard_filename } from '../external/pipeline-Nextflow-module/modules/common/generate_standardized_filename/main.nf'
 
 process run_stats_SAMtools {
@@ -15,7 +14,7 @@ process run_stats_SAMtools {
         mode: "copy",
         enabled: true,
         saveAs: { "${outdir}/${file(it).getName()}" }
-    ext log_dir_suffix: { "-${outdir}/${filename_id}" }
+    ext log_dir_suffix: { "-${filename_id}" }
 
     input:
         tuple path(path), val(orig_id), val(sm_id), val(rg_arg), val(rg_id), val(lib_id), val(sm_type), val(read_length)
