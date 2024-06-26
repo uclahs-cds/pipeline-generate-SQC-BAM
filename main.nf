@@ -99,10 +99,15 @@ log.info """\
 
     - samtools stats options:
         samtools_version: ${params.samtools_version}
-        stats_max_rgs_to_process_separately: ${params.stats_max_rgs_to_process_separately}
-        stats_max_libs_to_process_separately: ${params.stats_max_libs_to_process_separately}
+        stats_max_rgs_per_sample: ${params.stats_max_rgs_per_sample}
+        stats_max_libs_per_sample: ${params.stats_max_libs_per_sample}
         stats_remove_duplicates: ${params.stats_remove_duplicates}
         stats_additional_options: ${params.stats_additional_options}
+
+    - FastQC options:
+        fastqc_version: ${params.fastqc_version}
+        fastqc_level: ${params.fastqc_level}
+        fastqc_additional_options: ${params.fastqc_additional_options}
 
     - picard CollectWgsMetrics options:
         picard_version: ${params.picard_version}
@@ -116,10 +121,6 @@ log.info """\
         qualimap_version: ${params.qualimap_version}
         bamqc_outformat: ${params.bamqc_outformat}
         bamqc_additional_options: ${params.bamqc_additional_options}
-
-    - FastQC options:
-        fastqc_version: ${params.fastqc_version}
-        fastqc_additional_options: ${params.fastqc_additional_options}
 """
 
 Channel
@@ -146,6 +147,35 @@ Channel
     }
     .set { readgroups_to_process_ch }
 
+// For stats, avoid re-processing samples with only one library or readgroup,
+// and samples with more than the specified maximum number of libraries or readgroups
+def stats_libraries = params.libraries_to_process.findAll { lib ->
+    def sample_libs = params.libraries_to_process.findAll { it.sm_id == lib.sm_id }
+    return sample_libs.size() > 1 && sample_libs.size() <= params.stats_max_libs_per_sample
+    }
+
+Channel
+    .fromList(stats_libraries)
+    .map { lib ->
+        def rg_arg = lib.rgs.collect { "-r ${it}" }.join(' ')
+        return tuple(lib.path, null, lib.sm_id, rg_arg, null, lib.lib_id, null, null)
+    }
+    .set { stats_libraries_ch }
+
+def stats_readgroups = params.readgroups_to_process.findAll { rg ->
+    def sample_rgs = params.readgroups_to_process.findAll { it.sm_id == rg.sm_id }
+    return sample_rgs.size() > 1 && sample_rgs.size() <= params.stats_max_rgs_per_sample
+    }
+
+Channel
+    .fromList(stats_readgroups)
+    .map { rg ->
+        def rg_arg = "-r ${rg.orig_rg_id}"
+        return tuple(rg.path, null, rg.sm_id, rg_arg, rg.rg_id, rg.lib_id, null, null)
+    }
+    .set { stats_readgroups_ch }
+
+// Set up file validation channel
 Channel
     .fromList(params.samples_to_process)
     .map{ it -> [it['path'], indexFile(it['path'])] }
@@ -169,42 +199,35 @@ if ('collectwgsmetrics' in params.algorithm) {
     }
 
 workflow {
-    // Input file validation
-//    run_validate_PipeVal(files_to_validate_ch)
-//    run_validate_PipeVal.out.validation_result.collectFile(
-//        name: 'input_validation.txt', newLine: true,
-//        storeDir: "${params.output_dir_base}/validation"
-//        )
+    run_validate_PipeVal(files_to_validate_ch)
+    run_validate_PipeVal.out.validation_result.collectFile(
+        name: 'input_validation.txt', newLine: true,
+        storeDir: "${params.output_dir_base}/validation"
+        )
 
     if ('stats' in params.algorithm) {
-        if (params.readgroups_to_process.size() > 1 \
-            && params.readgroups_to_process.size() <= params.stats_max_rgs_to_process_separately) {
-            run_stats_SAMtools_readgroup(
-                readgroups_to_process_ch
-                )
-            }
-        if (params.libraries_to_process.size() > 1 \
-            && params.libraries_to_process.size() <= params.stats_max_libs_to_process_separately) {
-            run_stats_SAMtools_library(
-                libraries_to_process_ch
-                )
-            }
+        run_stats_SAMtools_readgroup(
+            stats_readgroups_ch
+            )
+        run_stats_SAMtools_library(
+            stats_libraries_ch
+            )
         run_stats_SAMtools_sample(
             samples_to_process_ch
             )
         }
     if ('fastqc' in params.algorithm) {
-        if ('readgroup' in params.fastqc_level) {
+        if (params.fastqc_level == 'readgroup') {
             assess_ReadQuality_FastQC_readgroup(
                 readgroups_to_process_ch
                 )
             }
-        if ('library' in params.fastqc_level) {
+        else if (params.fastqc_level == 'library') {
             assess_ReadQuality_FastQC_library(
                 libraries_to_process_ch
                 )
             }
-        if ('sample' in params.fastqc_level) {
+        else if (params.fastqc_level == 'sample') {
             assess_ReadQuality_FastQC_sample(
                 samples_to_process_ch
                 )
