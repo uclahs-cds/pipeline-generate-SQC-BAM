@@ -85,7 +85,7 @@ cases:
       - actual: generate-SQC-BAM-*/TWGSAMIN000001/Qualimap-*/output/Qualimap-*_TWGSAMIN_S2-v1.1.5_stats/genome_results.txt
         expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/Qualimap-2.3_TWGSAMIN_S2-v1.1.5_stats/genome_results.txt
         method: md5
-  - name: a_mini-all-tools-multiple-samples
+  - name: a_mini-multiple-samples-all-tools
     message: test all tools with 1 normal and 2 tumor samples (single readgroups)
     nf_script: main.nf
     nf_config: test/config/all-tools.config
