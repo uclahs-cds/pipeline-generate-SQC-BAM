@@ -17,7 +17,6 @@ algorithm:
     - collectwgsmetrics
     - bamqc
   default:
-    - fastqc
     - stats
     - collectwgsmetrics
 reference:
