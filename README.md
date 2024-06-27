@@ -132,23 +132,23 @@ base_resource_update {
     ]
 }
 ```
-- To double memory for `run_CollectWgsMetrics_Picard` and triple memory for `run_stats_SAMtools` and `run_bamqc_Qualimap`:
+- To double memory for `run_CollectWgsMetrics_Picard` and triple memory for `run_statsSamples_SAMtools` and `run_bamqc_Qualimap`:
 ```Nextflow
 base_resource_update {
     memory = [
         ['run_CollectWgsMetrics_Picard', 2],
-        [['run_stats_SAMtools', 'run_bamqc_Qualimap'], 3]
+        [['run_statsSamples_SAMtools', 'run_bamqc_Qualimap'], 3]
     ]
 }
 ```
-- To double CPUs and memory for `run_CollectWgsMetrics_Picard` and double memory for `run_stats_SAMtools`:
+- To double CPUs and memory for `run_CollectWgsMetrics_Picard` and double memory for `run_statsSamples_SAMtools`:
 ```Nextflow
 base_resource_update {
     cpus = [
         ['run_CollectWgsMetrics_Picard', 2]
     ]
     memory = [
-        [['run_CollectWgsMetrics_Picard', 'run_stats_SAMtools'], 2]
+        [['run_CollectWgsMetrics_Picard', 'run_statsSamples_SAMtools'], 2]
     ]
 }
 ```
