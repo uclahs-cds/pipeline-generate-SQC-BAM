@@ -7,37 +7,37 @@ include { run_validate_PipeVal } from './external/pipeline-Nextflow-module/modul
         main_process: "./" //Save logs in <log_dir>/process-log/run_validate_PipeVal
         ]
     )
-include { run_stats_SAMtools as run_stats_SAMtools_readgroup } from './module/stats_samtools' addParams(
+include { run_stats_SAMtools as run_statsReadgroups_SAMtools } from './module/stats_samtools' addParams(
     workflow_output_dir: "${params.output_dir_base}/SAMtools-${params.samtools_version}",
     workflow_log_output_dir: "${params.log_output_dir}/process-log/SAMtools-${params.samtools_version}",
     stat_mode: "readgroup"
     )
 
-include { run_stats_SAMtools as run_stats_SAMtools_library } from './module/stats_samtools' addParams(
+include { run_stats_SAMtools as run_statsLibraries_SAMtools } from './module/stats_samtools' addParams(
     workflow_output_dir: "${params.output_dir_base}/SAMtools-${params.samtools_version}",
     workflow_log_output_dir: "${params.log_output_dir}/process-log/SAMtools-${params.samtools_version}",
     stat_mode: "library"
     )
 
-include { run_stats_SAMtools as run_stats_SAMtools_sample } from './module/stats_samtools' addParams(
+include { run_stats_SAMtools as run_statsSamples_SAMtools } from './module/stats_samtools' addParams(
     workflow_output_dir: "${params.output_dir_base}/SAMtools-${params.samtools_version}",
     workflow_log_output_dir: "${params.log_output_dir}/process-log/SAMtools-${params.samtools_version}",
     stat_mode: "sample"
     )
 
-include { assess_ReadQuality_FastQC as assess_ReadQuality_FastQC_readgroup } from './module/fastqc' addParams(
+include { assess_ReadQuality_FastQC as assess_ReadQualityReadgroups_FastQC } from './module/fastqc' addParams(
     workflow_output_dir: "${params.output_dir_base}/FastQC-${params.fastqc_version}",
     workflow_log_output_dir: "${params.log_output_dir}/process-log/FastQC-${params.fastqc_version}",
     stat_mode: "readgroup"
     )
 
-include { assess_ReadQuality_FastQC as assess_ReadQuality_FastQC_library } from './module/fastqc' addParams(
+include { assess_ReadQuality_FastQC as assess_ReadQualityLibraries_FastQC } from './module/fastqc' addParams(
     workflow_output_dir: "${params.output_dir_base}/FastQC-${params.fastqc_version}",
     workflow_log_output_dir: "${params.log_output_dir}/process-log/FastQC-${params.fastqc_version}",
     stat_mode: "library"
     )
 
-include { assess_ReadQuality_FastQC as assess_ReadQuality_FastQC_sample } from './module/fastqc' addParams(
+include { assess_ReadQuality_FastQC as assess_ReadQualitySamples_FastQC } from './module/fastqc' addParams(
     workflow_output_dir: "${params.output_dir_base}/FastQC-${params.fastqc_version}",
     workflow_log_output_dir: "${params.log_output_dir}/process-log/FastQC-${params.fastqc_version}",
     stat_mode: "sample"
@@ -217,29 +217,29 @@ workflow {
         )
 
     if ('stats' in params.algorithm) {
-        run_stats_SAMtools_readgroup(
+        run_statsReadgroups_SAMtools(
             stats_readgroups_ch
             )
-        run_stats_SAMtools_library(
+        run_statsLibraries_SAMtools(
             stats_libraries_ch
             )
-        run_stats_SAMtools_sample(
+        run_statsSamples_SAMtools(
             samples_to_process_ch
             )
         }
     if ('fastqc' in params.algorithm) {
         if (params.fastqc_level == 'readgroup') {
-            assess_ReadQuality_FastQC_readgroup(
+            assess_ReadQualityReadgroups_FastQC(
                 readgroups_to_process_ch
                 )
             }
         else if (params.fastqc_level == 'library') {
-            assess_ReadQuality_FastQC_library(
+            assess_ReadQualityLibraries_FastQC(
                 libraries_to_process_ch
                 )
             }
         else if (params.fastqc_level == 'sample') {
-            assess_ReadQuality_FastQC_sample(
+            assess_ReadQualitySamples_FastQC(
                 samples_to_process_ch
                 )
             }
