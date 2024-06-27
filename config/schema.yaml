@@ -20,7 +20,7 @@ algorithm:
   default:
     - fastqc
     - stats
-    - coverage
+    - collectwgsmetrics
 reference:
   type: 'Path'
   mode: 'r'
