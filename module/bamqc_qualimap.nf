@@ -34,7 +34,7 @@ process run_bamqc_Qualimap {
         --java-mem-size=${(task.memory * params.jvm_fraction).getMega()}M \
         -bam ${bam} \
         -outdir ${output_filename}_stats \
-        -outformat ${params.bamqc_outformat} \
+        -outformat ${params.bamqc_output_format} \
         -outfile ${output_filename} \
         -nt ${task.cpus} \
         -c \

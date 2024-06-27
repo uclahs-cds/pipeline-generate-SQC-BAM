@@ -130,7 +130,7 @@ log.info """\
 
     - Qualimap bamqc options:
         qualimap_version: ${params.qualimap_version}
-        bamqc_outformat: ${params.bamqc_outformat}
+        bamqc_output_format: ${params.bamqc_output_format}
         bamqc_additional_options: ${params.bamqc_additional_options}
 """
 
