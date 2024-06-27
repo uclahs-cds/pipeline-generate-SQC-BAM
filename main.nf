@@ -167,7 +167,7 @@ Channel
     .fromList(stats_libraries)
     .map { lib ->
         def rg_arg = lib.rgs.collect { "-r ${it}" }.join(' ')
-        return tuple(lib.path, null, lib.sm_id, rg_arg, null, lib.lib_id, null, null)
+        return tuple(lib.bam, indexFile(lib.bam), null, lib.sm_id, rg_arg, null, lib.lib_id, null, null)
     }
     .set { stats_libraries_ch }
 
@@ -180,7 +180,7 @@ Channel
     .fromList(stats_readgroups)
     .map { rg ->
         def rg_arg = "-r ${rg.orig_rg_id}"
-        return tuple(rg.path, null, rg.sm_id, rg_arg, rg.rg_id, rg.lib_id, null, null)
+        return tuple(rg.bam, indexFile(rg.bam), null, rg.sm_id, rg_arg, rg.rg_id, rg.lib_id, null, null)
     }
     .set { stats_readgroups_ch }
 
