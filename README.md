@@ -103,7 +103,7 @@ input:
 #### Qualimap specific configuration
 | Field | Type | Required | Description |
 | ----- | ---- | ------------ | ------------------------ |
-| bamqc_outformat | string | no | Choice of 'pdf' or 'html', default = 'pdf' |
+| bamqc_output_format | string | no | Choice of 'pdf' or 'html', default = 'pdf' |
 | bamqc_additional_options | string | no | Any additional options recognized by `bamqc` |
 
 #### Base resource allocation updaters
