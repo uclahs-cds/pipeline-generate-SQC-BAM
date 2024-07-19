@@ -13,13 +13,10 @@ process run_bamqc_Qualimap {
         mode: "copy",
         enabled: true
 
-    publishDir path: "${params.workflow_log_output_dir}",
-        pattern: ".command.*",
-        mode: "copy",
-        saveAs: { "${task.process.replace(':', '/')}-${id}/log${file(it).getName()}" }
+    ext log_dir_suffix: { "-${sm_id}" }
 
     input:
-        tuple val(orig_id), val(id), path(path), val(read_length), val(sample_type)
+        tuple path(path), val(orig_id), val(sm_id), val(rg_arg), val(rg_id), val(lib_id), val(sm_type), val(read_length)
 
     output:
         path "*_stats", emit: stats
@@ -28,7 +25,7 @@ process run_bamqc_Qualimap {
     script:
     output_filename = generate_standard_filename("Qualimap-${params.qualimap_version}",
         params.dataset_id,
-        id,
+        sm_id,
         [:])
 
     """
@@ -37,7 +34,7 @@ process run_bamqc_Qualimap {
         --java-mem-size=${(task.memory * params.jvm_fraction).getMega()}M \
         -bam ${path} \
         -outdir ${output_filename}_stats \
-        -outformat ${params.bamqc_outformat} \
+        -outformat ${params.bamqc_output_format} \
         -outfile ${output_filename} \
         -nt ${task.cpus} \
         -c \

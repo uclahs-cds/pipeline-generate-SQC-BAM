@@ -7,11 +7,12 @@ dataset_id:
   type: 'String'
   required: true
   help: 'Dataset identifier'
-algorithms:
+algorithm:
   type: 'List'
   required: false
   help: 'List of QC algorithms'
   choices:
+    - fastqc
     - stats
     - collectwgsmetrics
     - bamqc
@@ -38,12 +39,38 @@ save_intermediate_files:
   required: false
   default: false
   help: 'The option to save the intermediate files'
-samtools_remove_duplicates:
+fastqc_level:
+  type: 'String'
+  required: true
+  help: 'FastQC level of analysis'
+  choices:
+    - readgroup
+    - library
+    - sample
+  default:
+    - sample
+fastqc_additional_options:
+  type: 'String'
+  required: false
+  allow_empty: true
+  default: ''
+  help: 'Additional arguments for FastQC command'
+stats_max_rgs_per_sample:
+  type: 'Integer'
+  required: false
+  default: 20
+  help: 'Maximum number of read groups to process separately'
+stats_max_libs_per_sample:
+  type: 'Integer'
+  required: false
+  default: 20
+  help: 'Maximum number of libraries to process separately'
+stats_remove_duplicates:
   type: 'Bool'
   required: false
   default: false
   help: 'SAMtools stats option to remove duplicates'
-samtools_stats_additional_options:
+stats_additional_options:
   type: 'String'
   required: false
   allow_empty: true

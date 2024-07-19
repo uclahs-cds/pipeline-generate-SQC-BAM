@@ -1,29 +1,30 @@
 /*
-*   SAMtools stats
-*   This module runs SAMtools stats on a BAM file
+*   Nextflow module for running FASTQC
 *
+*   @input fq_path path path to the input FASTQ file
+*   @output fastqc_output_dir dir unzipped FASTQC output directory
 */
 
 include { generate_standard_filename } from '../external/pipeline-Nextflow-module/modules/common/generate_standardized_filename/main.nf'
 
-process run_stats_SAMtools {
-    container params.docker_image_samtools
+process assess_ReadQuality_FastQC {
+    container params.docker_image_fastqc
 
     publishDir path: "${params.workflow_output_dir}/output",
-        pattern: "*stats.txt",
+        pattern: "${outdir}/${output_filename}_fastqc",
         mode: "copy",
-        enabled: true,
-        saveAs: { "${outdir}/${file(it).getName()}" }
+        enabled: true
     ext log_dir_suffix: { "-${filename_id}" }
 
     input:
         tuple path(path), val(orig_id), val(sm_id), val(rg_arg), val(rg_id), val(lib_id), val(sm_type), val(read_length)
 
     output:
-        path "*stats.txt"
+        path "${outdir}/${output_filename}_fastqc"
         path ".command.*"
 
     script:
+
     if (params.stat_mode == "sample") {
         filename_id = sm_id
         outdir = "by-sample"
@@ -34,15 +35,24 @@ process run_stats_SAMtools {
         filename_id = sm_id + "-" + lib_id + "-" + rg_id
         outdir = "by-readgroup"
     }
-    output_filename = generate_standard_filename("SAMtools-${params.samtools_version}",
+
+    output_filename = generate_standard_filename("FastQC-${params.fastqc_version}",
         params.dataset_id,
         filename_id,
         [:])
 
-    rmdups = params.stats_remove_duplicates ? "--remove-dups" : ""
-
     """
     set -euo pipefail
-    samtools view -h ${rg_arg} ${path} | samtools stats ${rmdups} ${params.stats_additional_options} > ${output_filename}_stats.txt
+    mkdir -p ${outdir}
+    samtools view --threads ${task.cpus} --excl-flags 0x900 --with-header ${rg_arg} ${path} | \
+        samtools fastq --threads ${task.cpus} | \
+        fastqc \
+        --threads ${task.cpus} \
+        --outdir "${outdir}" \
+        --format fastq \
+        --extract \
+        --delete \
+        ${params.fastqc_additional_options} \
+        stdin:${output_filename}
     """
 }
