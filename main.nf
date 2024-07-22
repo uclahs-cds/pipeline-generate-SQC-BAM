@@ -116,11 +116,13 @@ log.info """\
 
     - mosdepth options:
         mosdepth_version: ${params.mosdepth_version}
+        mosdepth_window_size: ${params.mosdepth_window_size}
+        mosdepth_use_fast_algorithm: ${params.mosdepth_use_fast_algorithm}
         mosdepth_additional_options: ${params.mosdepth_additional_options}
 
     - picard CollectWgsMetrics options:
         picard_version: ${params.picard_version}
-        cwm_minimum_coverage_cap: ${params.cwm_coverage_cap}
+        cwm_coverage_cap: ${params.cwm_coverage_cap}
         cwm_minimum_mapping_quality: ${params.cwm_minimum_mapping_quality}
         cwm_minimum_base_quality: ${params.cwm_minimum_base_quality}
         cwm_use_fast_algorithm: ${params.cwm_use_fast_algorithm}
