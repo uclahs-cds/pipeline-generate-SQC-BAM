@@ -32,9 +32,9 @@ process run_CollectWgsMetrics_Picard {
         [:])
     read_length_arg = read_length ? "-READ_LENGTH ${read_length}" : ""
     fast_algorithm_arg = params.cwm_use_fast_algorithm ? "-USE_FAST_ALGORITHM" : ""
-    coverage_cap_arg = params.cwm_coverage_cap ? "-COVERAGE_CAP ${params.cwm_coverage_cap}" : ""
-    minimum_mapping_quality_arg = params.cwm_minimum_mapping_quality ? "-MINIMUM_MAPPING_QUALITY ${params.cwm_minimum_mapping_quality}" : ""
-    minimum_base_quality_arg = params.cwm_minimum_base_quality ? "-MINIMUM_BASE_QUALITY ${params.cwm_minimum_base_quality}" : ""
+    coverage_cap_arg = (params.cwm_coverage_cap != null) ? "-COVERAGE_CAP ${params.cwm_coverage_cap}" : ""
+    minimum_mapping_quality_arg = (params.cwm_minimum_mapping_quality != null) ? "-MINIMUM_MAPPING_QUALITY ${params.cwm_minimum_mapping_quality}" : ""
+    minimum_base_quality_arg = (params.cwm_minimum_base_quality != null) ? "-MINIMUM_BASE_QUALITY ${params.cwm_minimum_base_quality}" : ""
 
     """
     set -euo pipefail
