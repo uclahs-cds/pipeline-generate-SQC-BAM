@@ -14,6 +14,7 @@ algorithm:
   choices:
     - fastqc
     - coverage
+    - quantize
     - stats
     - collectwgsmetrics
     - bamqc
@@ -93,6 +94,43 @@ mosdepth_additional_options:
   allow_empty: true
   default: ''
   help: 'Additional arguments for mosdepth command'
+mosdepth_quantize_cutoffs:
+  type: 'String'
+  required: false
+  allow_empty: true
+  default: ''
+  help: 'Quantize coverage values into these bins'
+mosdepth_quantize_use_fast_algorithm:
+  type: 'Bool'
+  required: false
+  default: false
+  help: 'Use fast algorithm for quantizing coverage values'
+mosdepth_q0_label:
+  type: 'String'
+  required: false
+  default: 'Q0'
+  help: 'Label for lowest coverage bin'
+mosdepth_q1_label:
+  type: 'String'
+  required: false
+  default: 'Q1'
+  help: 'Label for second lowest coverage bin'
+mosdepth_q2_label:
+  type: 'String'
+  required: false
+  default: 'Q2'
+  help: 'Label for third lowest coverage bin'
+mosdepth_q3_label:
+  type: 'String'
+  required: false
+  default: 'Q3'
+  help: 'Label for highest coverage bin'
+mosdepth_quantize_additional_options:
+  type: 'String'
+  required: false
+  allow_empty: true
+  default: ''
+  help: 'Additional arguments for mosdepth-quantize command'
 cwm_coverage_cap:
   type: 'Integer'
   required: false
