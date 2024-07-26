@@ -53,8 +53,12 @@ include { run_bamqc_Qualimap } from './module/bamqc_qualimap' addParams(
     workflow_log_output_dir: "${params.log_output_dir}/process-log/Qualimap-${params.qualimap_version}"
     )
 
-
 include { assess_coverage_mosdepth } from './module/windows_mosdepth' addParams(
+    workflow_output_dir: "${params.output_dir_base}/mosdepth-${params.mosdepth_version}",
+    workflow_log_output_dir: "${params.log_output_dir}/process-log/mosdepth-${params.mosdepth_version}"
+    )
+
+include { quantize_coverage_mosdepth } from './module/quantize_mosdepth' addParams(
     workflow_output_dir: "${params.output_dir_base}/mosdepth-${params.mosdepth_version}",
     workflow_log_output_dir: "${params.log_output_dir}/process-log/mosdepth-${params.mosdepth_version}"
     )
@@ -116,9 +120,18 @@ log.info """\
 
     - mosdepth options:
         mosdepth_version: ${params.mosdepth_version}
+    - mosdepth windows options:
         mosdepth_window_size: ${params.mosdepth_window_size}
         mosdepth_use_fast_algorithm: ${params.mosdepth_use_fast_algorithm}
         mosdepth_additional_options: ${params.mosdepth_additional_options}
+    - mosdepth quantize options:
+        mosdepth_quantize_cutoffs: ${params.mosdepth_quantize_cutoffs}
+        mosdepth_quantize_use_fast_algorithm: ${params.mosdepth_quantize_use_fast_algorithm}
+        mosdepth_q0_label: ${params.mosdepth_q0_label}
+        mosdepth_q1_label: ${params.mosdepth_q1_label}
+        mosdepth_q2_label: ${params.mosdepth_q2_label}
+        mosdepth_q3_label: ${params.mosdepth_q3_label}
+        mosdepth_quantize_additional_options: ${params.mosdepth_quantize_additional_options}
 
     - picard CollectWgsMetrics options:
         picard_version: ${params.picard_version}
@@ -246,6 +259,11 @@ workflow {
         }
     if ('coverage' in params.algorithm) {
         assess_coverage_mosdepth(
+            samples_to_process_ch
+            )
+        }
+    if ('quantize' in params.algorithm) {
+        quantize_coverage_mosdepth(
             samples_to_process_ch
             )
         }
