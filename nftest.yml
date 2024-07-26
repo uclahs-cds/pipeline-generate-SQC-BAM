@@ -47,12 +47,38 @@ cases:
       - actual: generate-SQC-BAM-*/NA24149/SAMtools-*/output/by-readgroup/SAMtools-*_GIAB_HG003-HG003.HA660ADXX.3L1-HG003.HA660ADXX.3L1.L002-005.SeqL002-005_stats.txt
         expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/SAMtools-1.20_GIAB_HG003-HG003.HA660ADXX.3L1-HG003.HA660ADXX.3L1.L002-005.SeqL002-005_stats.txt
         script: test/assert_txt.sh
-      - actual: generate-SQC-BAM-*/NA24149/Picard-3.1.0/output/Picard-3.1.0_GIAB_HG003_wgs-metrics.txt
+      - actual: generate-SQC-BAM-*/NA24149/Picard-*/output/Picard-*_GIAB_HG003_wgs-metrics.txt
         expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/Picard-3.1.0_GIAB_HG003_wgs-metrics.txt
         script: test/assert_txt.sh
-      - actual: generate-SQC-BAM-*/NA24149/Qualimap-2.3/output/Qualimap-2.3_GIAB_HG003_stats/genome_results.txt
+      - actual: generate-SQC-BAM-*/NA24149/Qualimap-*/output/Qualimap-*_GIAB_HG003_stats/genome_results.txt
         expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/Qualimap-2.3_GIAB_HG003_stats/genome_results.txt
         script: test/assert_txt.sh
+      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth*_GIAB_HG003-window500.mosdepth.global.dist.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth3.1.0_GIAB_HG003-window500.mosdepth.global.dist.txt
+        method: md5
+      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth*_GIAB_HG003-window500.mosdepth.region.dist.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth3.1.0_GIAB_HG003-window500.mosdepth.region.dist.txt
+        method: md5
+      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth*_GIAB_HG003-window500.mosdepth.summary.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth3.1.0_GIAB_HG003-window500.mosdepth.summary.txt
+        method: md5
+  - name: hg003-coverage
+    message: test mosdepth coverage
+    nf_script: main.nf
+    nf_config: test/config/coverage.config
+    params_file: test/yaml/HG003_0.05x-selected-readgroups.yaml
+    skip: true
+    verbose: true
+    asserts:
+      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth*_GIAB_HG003-window500.mosdepth.global.dist.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth3.1.0_GIAB_HG003-window500.mosdepth.global.dist.txt
+        method: md5
+      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth*_GIAB_HG003-window500.mosdepth.region.dist.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth3.1.0_GIAB_HG003-window500.mosdepth.region.dist.txt
+        method: md5
+      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth*_GIAB_HG003-window500.mosdepth.summary.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth3.1.0_GIAB_HG003-window500.mosdepth.summary.txt
+        method: md5
   - name: a_mini-all-tools
     message: test all tools with a_mini, single readgroup normal and tumor
     nf_script: main.nf
