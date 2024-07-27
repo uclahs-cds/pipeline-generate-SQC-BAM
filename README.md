@@ -38,7 +38,6 @@ Currently supported Nextflow versions: `v23.04.2`
 
 ## Pipeline Steps
 Each of the below algorithms, if selected, will run in parallel subject to available resources.
- - Note about duplicated reads: `SAMtools stats` does not ignore reads marked as duplicate by default. The option `samtools_remove_duplicates` can be set to `true` to override this. `Picard CollectWgsMetrics` and `Qualimap bamqc` do ignore reads marked as duplicate by default.
 
 ### 1. SAMtools stats
 [samtools stats](https://www.htslib.org/doc/samtools-stats.html) collects basic statistics from BAM files including read counts, qualities, GC content, insert sizes, read lengths, proper pairing, and duplicated bases.
@@ -48,6 +47,12 @@ Each of the below algorithms, if selected, will run in parallel subject to avail
 
 ### 3. Qualimap bamqc
 [qualimap bamqc](http://qualimap.conesalab.org/doc_html/analysis.html#bam-qc) collects basic statistics and coverage metrics from BAM files. Example output: [html](https://kokonech.github.io/qualimap/HG00096.chr20_bamqc/qualimapReport.html) [pdf](https://kokonech.github.io/qualimap/ERR089819_report.pdf). `Qualimap bamqc` uses a lot of memory and should not be run within `uclahs-cds/metapipeline-DNA`.
+
+### 4. FastQC
+[FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/) aims to provide a QC report which can spot problems which originate either in the sequencer or in the starting library material.
+
+### 5. mosdepth windows
+[mosdepth](https://github.com/brentp/mosdepth) by windows provides fast BAM/CRAM depth calculation.
 
 ---
 
@@ -73,7 +78,7 @@ input:
 
 | Field | Type | Required | Description |
 | ----- | ---- | ------------ | ------------------------ |
-| `algorithm` | list | no | List of tools to be run: ['stats', 'collectwgsmetrics', 'bamqc'], default = ['stats', 'collectwgsmetrics'] |
+| `algorithm` | list | no | List of tools to be run: ['fastqc', 'stats', 'collectwgsmetrics', 'windows', 'bamqc'], default = ['stats', 'collectwgsmetrics'] |
 | `reference` | path | yes/no | Reference fasta is required only for `CollectWgsMetrics` |
 | `output_dir` | path | yes | Not required if `blcds_registered_dataset` = `true` |
 | `blcds_registered_dataset` | boolean | no | Default is `false`. Only `uclahs_cds` users should change this. When `true`, BLCDS folder structure is used |
@@ -84,7 +89,7 @@ input:
 | ----- | ---- | ------------ | ------------------------ |
 | stats_max_rgs_per_sample | integer | no | If a sample has more than this number of readgroups, `SAMtools stats` will not run per readgroup analysis. Default = 20 |
 | stats_max_libs_per_sample | integer | no | If a sample has more than this number of libraries, `SAMtools stats` will not run per library analysis. Default = 20 |
-| stats_remove_duplicates | boolean | no | Ignore reads marked as duplicate. default = `false` |
+| stats_remove_duplicates | boolean | no | Ignore reads marked as duplicate. Default = `false` |
 | stats_additional_options | string | no | Any additional options recognized by `samtools stats` |
 
 #### FastQC specific configuration
@@ -101,6 +106,13 @@ input:
 | cwm_minimum_base_quality | integer | no | Ignore bases with quality below this value. Default = 20 |
 | cwm_use_fast_algorithm | boolean | no | If `true`, fast algorithm is used |
 | cwm_additional_options | string | no | Any additional options recognized by `CollectWgsMetrics` |
+
+#### mosdepth windows specific configuration
+| Field | Type | Required | Description |
+| ----- | ---- | ------------ | ------------------------ |
+| mosdepth_use_fast_algorithm | boolean | no | `fast` algorithm ignores read pair overlaps and CIGARs. It should not be used on libraries with small insert sizes. Default = `false` |
+| mosdepth_window_size | integer | no | Size for `mosdepth windows` coverage calculations |
+| mosdepth_additional_options | string | no | Any additional options recognized by `mosdepth` |
 
 #### Qualimap specific configuration
 | Field | Type | Required | Description |
@@ -163,6 +175,11 @@ base_resource_update {
 | `{SAMtools-version}_{dataset_id}_{sample_id}_stats.txt` | SAMtools stats results |
 | `{Picard-version}_{dataset_id}_{sample_id}_wgs-metrics.txt` | Picard CollectWgsMetrics results |
 | `{Qualimap-version}_{dataset_id}_{sample_id}_stats` | Directory of Qualimap results, including, `genome_results.txt` and either `.pdf` or `.html and supporting directories`|
+| `{FastQC-version}_{dataset_id}_{sample_id}_fastqc` | Directory of FastQC results |
+| `{mosdepth-version}_{dataset_id}_{sample_id}-{window_size}.mosdepth.summary.txt` | Coverage by region with a final line for `total` |
+| `{mosdepth-version}_{dataset_id}_{sample_id}-{window_size}.mosdepth.global.dist.txt` | a cumulative distribution indicating the proportion of total bases that were covered for at least a given coverage value |
+| `{mosdepth-version}_{dataset_id}_{sample_id}-{window_size}.mosdepth.region.dist.txt` | a cumulative distribution indicating the proportion of the windows that were covered for at least a given coverage value |
+| `{mosdepth-version}_{dataset_id}_{sample_id}-{window_size}.regions.bed.gz` | Bedfile giving coverage for each window |
 
 ---
 
@@ -171,6 +188,8 @@ base_resource_update {
 1. [SAMtools stats](https://www.htslib.org/doc/samtools-stats.html)
 2. [Picard CollectWgsMetrics](https://gatk.broadinstitute.org/hc/en-us/articles/4414602403355-CollectWgsMetrics-Picard)
 3. [Qualimap bamqc](http://qualimap.conesalab.org/doc_html/analysis.html#bam-qc)
+4. [FastQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
+5. [mosdepth](https://doi.org/10.1093/bioinformatics/btx699)
 
 ---
 
