@@ -13,7 +13,7 @@ algorithm:
   help: 'List of QC algorithms'
   choices:
     - fastqc
-    - coverage
+    - windows
     - stats
     - collectwgsmetrics
     - bamqc
@@ -86,7 +86,7 @@ mosdepth_window_size:
   type: 'Integer'
   required: false
   default: 500
-  help: 'Window size for mosdepth'
+  help: 'Window size for mosdepth coverage calculation'
 mosdepth_additional_options:
   type: 'String'
   required: false

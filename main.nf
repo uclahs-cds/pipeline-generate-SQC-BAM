@@ -244,7 +244,7 @@ workflow {
                 )
             }
         }
-    if ('coverage' in params.algorithm) {
+    if ('windows' in params.algorithm) {
         assess_coverage_mosdepth(
             samples_to_process_ch
             )

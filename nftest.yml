@@ -62,10 +62,10 @@ cases:
       - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth*_GIAB_HG003-window500.mosdepth.summary.txt
         expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth3.1.0_GIAB_HG003-window500.mosdepth.summary.txt
         method: md5
-  - name: hg003-coverage
+  - name: hg003-windows
     message: test mosdepth coverage
     nf_script: main.nf
-    nf_config: test/config/coverage.config
+    nf_config: test/config/windows.config
     params_file: test/yaml/HG003_0.05x-selected-readgroups.yaml
     skip: true
     verbose: true
