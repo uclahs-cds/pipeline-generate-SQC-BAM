@@ -96,9 +96,8 @@ mosdepth_additional_options:
   help: 'Additional arguments for mosdepth command'
 mosdepth_quantize_cutoffs:
   type: 'String'
-  required: false
+  required: true
   allow_empty: true
-  default: ''
   help: 'Quantize coverage values into these bins'
 mosdepth_quantize_use_fast_algorithm:
   type: 'Bool'
