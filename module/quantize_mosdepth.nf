@@ -42,7 +42,7 @@ process quantize_coverage_mosdepth {
         --threads ${task.cpus} \
         --quantize ${params.mosdepth_quantize_cutoffs} \
         ${params.mosdepth_quantize_additional_options} \
-        ${output_filename}.quantize-${quantize_output_suffix} \
+        ${output_filename}-quantize-${quantize_output_suffix} \
         ${bam}
     """
 }
