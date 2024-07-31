@@ -25,6 +25,11 @@ include { run_stats_SAMtools as run_statsSamples_SAMtools } from './module/stats
     stat_mode: "sample"
     )
 
+include { run_depth_SAMtools } from './module/depth_samtools' addParams(
+    workflow_output_dir: "${params.output_dir_base}/SAMtools-${params.samtools_version}",
+    workflow_log_output_dir: "${params.log_output_dir}/process-log/SAMtools-${params.samtools_version}"
+    )
+
 include { assess_ReadQuality_FastQC as assess_ReadQualityReadgroups_FastQC } from './module/fastqc' addParams(
     workflow_output_dir: "${params.output_dir_base}/FastQC-${params.fastqc_version}",
     workflow_log_output_dir: "${params.log_output_dir}/process-log/FastQC-${params.fastqc_version}",
@@ -103,6 +108,15 @@ log.info """\
         stats_max_libs_per_sample: ${params.stats_max_libs_per_sample}
         stats_remove_duplicates: ${params.stats_remove_duplicates}
         stats_additional_options: ${params.stats_additional_options}
+
+    - SAMtools depth options:
+        depth_output_all_positions: ${params.depth_output_all_positions}
+        depth_minimum_base_quality: ${params.depth_minimum_base_quality}
+        depth_miniumum_mapping_quality: ${params.depth_miniumum_mapping_quality}
+        depth_single_count_overlaps: ${params.depth_single_count_overlaps}
+        depth_include_deletion_reads: ${params.depth_include_deletion_reads}
+        depth_include_header: ${params.depth_include_header}
+        depth_additional_options: ${params.depth_additional_options}
 
     - FastQC options:
         fastqc_version: ${params.fastqc_version}
@@ -213,6 +227,11 @@ workflow {
             stats_libraries_ch
             )
         run_statsSamples_SAMtools(
+            samples_to_process_ch
+            )
+        }
+    if ('depth' in params.algorithm) {
+        run_depth_SAMtools(
             samples_to_process_ch
             )
         }

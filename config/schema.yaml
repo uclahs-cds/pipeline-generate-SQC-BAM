@@ -9,16 +9,14 @@ dataset_id:
   help: 'Dataset identifier'
 algorithm:
   type: 'List'
-  required: false
+  required: true
   help: 'List of QC algorithms'
   choices:
     - fastqc
     - stats
+    - depth
     - collectwgsmetrics
     - bamqc
-  default:
-    - stats
-    - collectwgsmetrics
 reference:
   type: 'Path'
   mode: 'r'
@@ -76,6 +74,42 @@ stats_additional_options:
   allow_empty: true
   default: ''
   help: 'Additional arguments for SAMtools stats command'
+depth_output_all_positions:
+  type: 'Bool'
+  required: false
+  default: false
+  help: 'Output all positions (including those with zero depth)'
+depth_minimum_base_quality:
+  type: 'Integer'
+  required: false
+  default: 0
+  help: 'Minimum base quality for depth calculation'
+depth_minimum_mapping_quality:
+  type: 'Integer'
+  required: false
+  default: 0
+  help: 'Minimum mapping quality for depth calculation'
+depth_single_count_overlaps:
+  type: 'Bool'
+  required: false
+  default: false
+  help: 'Count overlapping reads only once'
+depth_include_deletion_reads:
+  type: 'Bool'
+  required: false
+  default: false
+  help: 'Include reads with deletions in depth calculation'
+depth_include_header:
+  type: 'Bool'
+  required: false
+  default: false
+  help: 'Include header in depth output'
+depth_additional_options:
+  type: 'String'
+  required: false
+  allow_empty: true
+  default: ''
+  help: 'Additional arguments for depth command'
 cwm_coverage_cap:
   type: 'Integer'
   required: false
