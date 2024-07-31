@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased]
 
 ### Added
+- Add `mosdepth` quantize workflow
 - Add `mosdepth` coverage windows workflow
 - Add `FastQC` workflow
 - Add per readgroup and per library functionality
