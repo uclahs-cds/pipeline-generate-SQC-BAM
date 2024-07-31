@@ -28,12 +28,13 @@ process assess_coverage_mosdepth {
         sm_id,
         [:])
     fast_algorithm_arg = params.mosdepth_use_fast_algorithm ? "--fast-mode" : ""
+    per_base_output_arg = params.mosdepth_per_base_output ? "" : "--no-per-base"
 
     """
     set -euo pipefail
     mosdepth \
-        --no-per-base \
         ${fast_algorithm_arg} \
+        ${per_base_output_arg} \
         --threads ${task.cpus} \
         --by ${params.mosdepth_window_size} \
         ${params.mosdepth_additional_options} \

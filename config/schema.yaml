@@ -9,7 +9,7 @@ dataset_id:
   help: 'Dataset identifier'
 algorithm:
   type: 'List'
-  required: false
+  required: true
   help: 'List of QC algorithms'
   choices:
     - fastqc
@@ -18,9 +18,6 @@ algorithm:
     - stats
     - collectwgsmetrics
     - bamqc
-  default:
-    - stats
-    - collectwgsmetrics
 reference:
   type: 'Path'
   mode: 'r'
@@ -83,6 +80,11 @@ mosdepth_use_fast_algorithm:
   required: false
   default: true
   help: 'fast algorithm ignores read pair overlaps and CIGAR information'
+mosdepth_per_base_output:
+  type: 'Bool'
+  required: false
+  default: true
+  help: 'Output per-base coverage'
 mosdepth_window_size:
   type: 'Integer'
   required: false
@@ -96,8 +98,8 @@ mosdepth_additional_options:
   help: 'Additional arguments for mosdepth command'
 mosdepth_quantize_cutoffs:
   type: 'String'
-  required: true
-  allow_empty: true
+  required: false
+  default: '0:1:5:150'
   help: 'Quantize coverage values into these bins'
 mosdepth_quantize_use_fast_algorithm:
   type: 'Bool'

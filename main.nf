@@ -121,8 +121,9 @@ log.info """\
     - mosdepth options:
         mosdepth_version: ${params.mosdepth_version}
     - mosdepth windows options:
-        mosdepth_window_size: ${params.mosdepth_window_size}
         mosdepth_use_fast_algorithm: ${params.mosdepth_use_fast_algorithm}
+        mosdepth_window_size: ${params.mosdepth_window_size}
+        mosdepth_per_base_output: ${params.mosdepth_per_base_output}
         mosdepth_additional_options: ${params.mosdepth_additional_options}
     - mosdepth quantize options:
         mosdepth_quantize_cutoffs: ${params.mosdepth_quantize_cutoffs}
