@@ -112,7 +112,7 @@ log.info """\
     - SAMtools depth options:
         depth_output_all_positions: ${params.depth_output_all_positions}
         depth_minimum_base_quality: ${params.depth_minimum_base_quality}
-        depth_miniumum_mapping_quality: ${params.depth_miniumum_mapping_quality}
+        depth_minimum_mapping_quality: ${params.depth_minimum_mapping_quality}
         depth_single_count_overlaps: ${params.depth_single_count_overlaps}
         depth_include_deletion_reads: ${params.depth_include_deletion_reads}
         depth_include_header: ${params.depth_include_header}
