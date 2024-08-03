@@ -99,11 +99,6 @@ depth_include_deletion_reads:
   required: false
   default: false
   help: 'Include reads with deletions in depth calculation'
-depth_include_header:
-  type: 'Bool'
-  required: false
-  default: false
-  help: 'Include header in depth output'
 depth_additional_options:
   type: 'String'
   required: false

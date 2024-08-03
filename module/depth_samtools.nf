@@ -34,9 +34,8 @@ process run_depth_SAMtools {
     minBQ_arg = (params.depth_minimum_base_quality != null) ? "--min-BQ ${params.depth_minimum_base_quality}" : ""
     overlaps_arg = params.depth_single_count_overlaps ? "-s" : ""
     deletion_reads_arg = params.depth_include_deletion_reads ? "-J" : ""
-    header_arg = params.depth_include_header ? "-H" : ""
 
-    args = "${all_positions_arg} ${minMQ_arg} ${minBQ_arg} ${overlaps_arg} ${deletion_reads_arg} ${header_arg}".trim()
+    args = "${all_positions_arg} ${minMQ_arg} ${minBQ_arg} ${overlaps_arg} ${deletion_reads_arg}".trim()
 
     """
     set -euo pipefail
