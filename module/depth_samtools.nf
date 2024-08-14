@@ -10,17 +10,16 @@ process run_depth_SAMtools {
     container params.docker_image_samtools
 
     publishDir path: "${params.workflow_output_dir}/output",
-        pattern: "*_depth.txt",
+        pattern: "*_depth.txt.bz2",
         mode: "copy",
-        enabled: true,
-        saveAs: { "${outdir}/${file(it).getName()}" }
+        enabled: true
     ext log_dir_suffix: { "-${sm_id}" }
 
     input:
         tuple path(path), val(orig_id), val(sm_id), val(rg_arg), val(rg_id), val(lib_id), val(sm_type), val(read_length)
 
     output:
-        path "*_depth.txt"
+        path "*_depth.txt.bz2`"
         path ".command.*"
 
     script:
@@ -39,6 +38,6 @@ process run_depth_SAMtools {
 
     """
     set -euo pipefail
-    samtools depth ${args} ${params.depth_additional_options} -o ${output_filename}_depth.txt ${path}
+    samtools depth ${args} ${params.depth_additional_options} ${path} | bzip2 -c > ${output_filename}_depth.txt.bz2
     """
 }
