@@ -117,6 +117,7 @@ log.info """\
     - mosdepth options:
         mosdepth_version: ${params.mosdepth_version}
         mosdepth_window_size: ${params.mosdepth_window_size}
+        mosdepth_per_base_output: ${params.mosdepth_per_base_output}
         mosdepth_use_fast_algorithm: ${params.mosdepth_use_fast_algorithm}
         mosdepth_additional_options: ${params.mosdepth_additional_options}
 
@@ -216,7 +217,7 @@ workflow {
         storeDir: "${params.output_dir_base}/validation"
         )
 
-    if ('stats' in params.algorithm) {
+    if ('samtools_stats' in params.algorithm) {
         run_statsReadgroups_SAMtools(
             stats_readgroups_ch
             )
@@ -244,7 +245,7 @@ workflow {
                 )
             }
         }
-    if ('windows' in params.algorithm) {
+    if ('mosdepth_coverage' in params.algorithm) {
         assess_coverage_mosdepth(
             samples_to_process_ch
             )
@@ -256,7 +257,7 @@ workflow {
             params.reference_index
             )
         }
-    if ('bamqc' in params.algorithm) {
+    if ('qualimap_bamqc' in params.algorithm) {
         run_bamqc_Qualimap(
             samples_to_process_ch,
             )
