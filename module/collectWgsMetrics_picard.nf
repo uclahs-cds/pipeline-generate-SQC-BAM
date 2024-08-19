@@ -17,7 +17,7 @@ process run_CollectWgsMetrics_Picard {
     ext log_dir_suffix: { "-${sm_id}" }
 
     input:
-        tuple path(path), val(orig_id), val(sm_id), val(rg_arg), val(rg_id), val(lib_id), val(sm_type), val(read_length)
+        tuple path(bam), path(bam_index), val(orig_id), val(sm_id), val(rg_arg), val(rg_id), val(lib_id), val(sm_type), val(read_length)
         path reference
         path reference_index
 
@@ -42,7 +42,7 @@ process run_CollectWgsMetrics_Picard {
         -Dpicard.useLegacyParser=false \
         -jar /usr/local/share/picard-slim-${params.picard_version}-0/picard.jar \
         CollectWgsMetrics \
-        -INPUT ${path} \
+        -INPUT ${bam} \
         ${read_length_arg} \
         -OUTPUT ${output_filename}_wgs-metrics.txt \
         -REFERENCE_SEQUENCE ${reference} \

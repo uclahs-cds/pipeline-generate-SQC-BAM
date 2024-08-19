@@ -1,7 +1,10 @@
 /*
 *   Nextflow module for running FASTQC
 *
-*   @input fq_path path path to the input FASTQ file
+*   @input bam_path path path to the input BAM file
+*   @input bam_index_path path path to the input BAM index file
+*   @input sm_id string sample ID
+*   @input rg_arg string read group argument
 *   @output fastqc_output_dir dir unzipped FASTQC output directory
 */
 
@@ -17,7 +20,7 @@ process assess_ReadQuality_FastQC {
     ext log_dir_suffix: { "-${filename_id}" }
 
     input:
-        tuple path(path), val(orig_id), val(sm_id), val(rg_arg), val(rg_id), val(lib_id), val(sm_type), val(read_length)
+        tuple path(bam), path(bam_index), val(orig_id), val(sm_id), val(rg_arg), val(rg_id), val(lib_id), val(sm_type), val(read_length)
 
     output:
         path "${outdir}/${output_filename}_fastqc"
@@ -44,7 +47,7 @@ process assess_ReadQuality_FastQC {
     """
     set -euo pipefail
     mkdir -p ${outdir}
-    samtools view --threads ${task.cpus} --excl-flags 0x900 --with-header ${rg_arg} ${path} | \
+    samtools view --threads ${task.cpus} --excl-flags 0x900 --with-header ${rg_arg} ${bam} | \
         samtools fastq --threads ${task.cpus} | \
         fastqc \
         --threads ${task.cpus} \
