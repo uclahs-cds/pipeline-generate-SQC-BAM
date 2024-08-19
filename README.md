@@ -78,7 +78,7 @@ input:
 
 | Field | Type | Required | Description |
 | ----- | ---- | ------------ | ------------------------ |
-| `algorithm` | list | no | List of tools to be run: ['fastqc', 'stats', 'collectwgsmetrics', 'windows', 'bamqc'], default = ['stats', 'collectwgsmetrics'] |
+| `algorithm` | list | no | List of tools to be run: ['fastqc', 'samtools_stats', 'collectwgsmetrics', 'mosdepth_coverage', 'qualimap_bamqc'], default = ['stats', 'collectwgsmetrics'] |
 | `reference` | path | yes/no | Reference fasta is required only for `CollectWgsMetrics` |
 | `output_dir` | path | yes | Not required if `blcds_registered_dataset` = `true` |
 | `blcds_registered_dataset` | boolean | no | Default is `false`. Only `uclahs_cds` users should change this. When `true`, BLCDS folder structure is used |
