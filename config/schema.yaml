@@ -83,20 +83,16 @@ mosdepth_use_fast_algorithm:
   required: false
   default: true
   help: 'fast algorithm ignores read pair overlaps and CIGAR information'
-<<<<<<< HEAD
 mosdepth_per_base_output:
   type: 'Bool'
   required: false
   default: true
   help: 'Output per-base coverage'
-=======
->>>>>>> main
 mosdepth_window_size:
   type: 'Integer'
   required: false
   default: 500
   help: 'Window size for mosdepth coverage calculation'
-<<<<<<< HEAD
 mosdepth_additional_options:
   type: 'String'
   required: false
@@ -134,23 +130,23 @@ mosdepth_q3_label:
   default: 'Q3'
   help: 'Label for highest coverage bin'
 mosdepth_quantize_additional_options:
-=======
+  type: 'String'
+  required: false
+  allow_empty: true
+  default: ''
+  help: 'Additional arguments for mosdepth-quantize command'
 mosdepth_per_base_output:
   type: 'Bool'
   required: false
   default: true
   help: 'Output per-base coverage'
 mosdepth_additional_options:
->>>>>>> main
   type: 'String'
   required: false
   allow_empty: true
   default: ''
-<<<<<<< HEAD
   help: 'Additional arguments for mosdepth-quantize command'
-=======
   help: 'Additional arguments for mosdepth command'
->>>>>>> main
 cwm_coverage_cap:
   type: 'Integer'
   required: false
