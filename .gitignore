@@ -81,7 +81,3 @@ work/
 *.tar
 *.zip
 
-# Other
-test/*
-test/*/*
-slurm-*.out
