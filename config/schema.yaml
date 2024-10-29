@@ -145,7 +145,6 @@ mosdepth_additional_options:
   required: false
   allow_empty: true
   default: ''
-  help: 'Additional arguments for mosdepth-quantize command'
   help: 'Additional arguments for mosdepth command'
 cwm_coverage_cap:
   type: 'Integer'
