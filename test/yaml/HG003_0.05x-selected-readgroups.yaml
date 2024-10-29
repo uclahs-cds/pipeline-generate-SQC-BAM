@@ -1,0 +1,8 @@
+---
+patient_id: 'NA24149'
+dataset_id: 'GIAB'
+input:
+  BAM:
+    normal:
+      - path: "/hot/user/sfitzgibbon/giab-downloading/HG003/BWA-MEM2-2.2.1_GATK-4.2.4.1_0000082_HG003_subsampled_0.05X-selected-readgroups.bam"
+        read_length: 148
