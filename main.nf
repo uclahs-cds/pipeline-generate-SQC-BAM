@@ -268,7 +268,7 @@ workflow {
             samples_to_process_ch
             )
         }
-    if ('quantize' in params.algorithm) {
+    if ('mosdepth_quantize' in params.algorithm) {
         quantize_coverage_mosdepth(
             samples_to_process_ch
             )
