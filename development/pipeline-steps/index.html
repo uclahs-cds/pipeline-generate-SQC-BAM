@@ -61,6 +61,10 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#3-qualimap-bamqc">3. Qualimap bamqc</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#4-fastqc">4. FastQC</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#5-mosdepth-windows">5. mosdepth windows</a>
+    </li>
     </ul>
                 </li>
               </ul>
@@ -104,7 +108,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Pipeline Steps</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/blob/62f07ebbf8576190fe5e92beaa7d617dcb2fc8a1/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/blob/157d9bb96ff4645c8df879249049baf1df036a22/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -114,15 +118,16 @@
               
                 <h2 id="pipeline-steps">Pipeline Steps</h2>
 <p>Each of the below algorithms, if selected, will run in parallel subject to available resources.</p>
-<ul>
-<li>Note about duplicated reads: <code>SAMtools stats</code> does not ignore reads marked as duplicate by default. The option <code>samtools_remove_duplicates</code> can be set to <code>true</code> to override this. <code>Picard CollectWgsMetrics</code> and <code>Qualimap bamqc</code> do ignore reads marked as duplicate by default.</li>
-</ul>
 <h3 id="1-samtools-stats">1. SAMtools stats</h3>
 <p><a href="https://www.htslib.org/doc/samtools-stats.html">samtools stats</a> collects basic statistics from BAM files including read counts, qualities, GC content, insert sizes, read lengths, proper pairing, and duplicated bases.</p>
 <h3 id="2-picard-collectwgsmetrics">2. Picard CollectWgsMetrics</h3>
 <p><a href="https://gatk.broadinstitute.org/hc/en-us/articles/4414602403355-CollectWgsMetrics-Picard">picard CollectWgsMetrics</a> collects coverage metrics from WGS BAM files.</p>
 <h3 id="3-qualimap-bamqc">3. Qualimap bamqc</h3>
 <p><a href="http://qualimap.conesalab.org/doc_html/analysis.html#bam-qc">qualimap bamqc</a> collects basic statistics and coverage metrics from BAM files. Example output: <a href="https://kokonech.github.io/qualimap/HG00096.chr20_bamqc/qualimapReport.html">html</a> <a href="https://kokonech.github.io/qualimap/ERR089819_report.pdf">pdf</a>. <code>Qualimap bamqc</code> uses a lot of memory and should not be run within <code>uclahs-cds/metapipeline-DNA</code>.</p>
+<h3 id="4-fastqc">4. FastQC</h3>
+<p><a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/">FastQC</a> aims to provide a QC report which can spot problems which originate either in the sequencer or in the starting library material.</p>
+<h3 id="5-mosdepth-windows">5. mosdepth windows</h3>
+<p><a href="https://github.com/brentp/mosdepth">mosdepth</a> by windows provides fast BAM/CRAM depth calculation.</p>
 <hr />
               
             </div>

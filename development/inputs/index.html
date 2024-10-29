@@ -69,6 +69,8 @@
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#picard-specific-configuration">Picard specific configuration</a>
     </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mosdepth-windows-specific-configuration">mosdepth windows specific configuration</a>
+    </li>
     <li class="toctree-l3"><a class="reference internal" href="#qualimap-specific-configuration">Qualimap specific configuration</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#base-resource-allocation-updaters">Base resource allocation updaters</a>
@@ -114,7 +116,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Inputs</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/blob/62f07ebbf8576190fe5e92beaa7d617dcb2fc8a1/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/blob/157d9bb96ff4645c8df879249049baf1df036a22/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -151,7 +153,7 @@ input:
 <td><code>algorithm</code></td>
 <td>list</td>
 <td>no</td>
-<td>List of tools to be run: ['stats', 'collectwgsmetrics', 'bamqc'], default = ['stats', 'collectwgsmetrics']</td>
+<td>List of tools to be run: ['fastqc', 'samtools_stats', 'collectwgsmetrics', 'mosdepth_coverage', 'qualimap_bamqc'], default = ['stats', 'collectwgsmetrics']</td>
 </tr>
 <tr>
 <td><code>reference</code></td>
@@ -206,7 +208,7 @@ input:
 <td>stats_remove_duplicates</td>
 <td>boolean</td>
 <td>no</td>
-<td>Ignore reads marked as duplicate. default = <code>false</code></td>
+<td>Ignore reads marked as duplicate. Default = <code>false</code></td>
 </tr>
 <tr>
 <td>stats_additional_options</td>
@@ -284,6 +286,37 @@ input:
 </tr>
 </tbody>
 </table>
+<h4 id="mosdepth-windows-specific-configuration">mosdepth windows specific configuration</h4>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mosdepth_use_fast_algorithm</td>
+<td>boolean</td>
+<td>no</td>
+<td><code>fast</code> algorithm ignores read pair overlaps and CIGARs. It should not be used on libraries with small insert sizes. Default = <code>false</code></td>
+</tr>
+<tr>
+<td>mosdepth_window_size</td>
+<td>integer</td>
+<td>no</td>
+<td>Size for <code>mosdepth windows</code> coverage calculations</td>
+</tr>
+<tr>
+<td>mosdepth_additional_options</td>
+<td>string</td>
+<td>no</td>
+<td>Any additional options recognized by <code>mosdepth</code></td>
+</tr>
+</tbody>
+</table>
 <h4 id="qualimap-specific-configuration">Qualimap specific configuration</h4>
 <table>
 <thead>
@@ -310,7 +343,7 @@ input:
 </tbody>
 </table>
 <h4 id="base-resource-allocation-updaters">Base resource allocation updaters</h4>
-<p>To update the base resource (cpus or memory) allocations for processes, use the following structure. The default allocations can be found in the <a href="https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/blob/62f07ebbf8576190fe5e92beaa7d617dcb2fc8a1/config">node-specific config files</a></p>
+<p>To update the base resource (cpus or memory) allocations for processes, use the following structure. The default allocations can be found in the <a href="https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/blob/157d9bb96ff4645c8df879249049baf1df036a22/config">node-specific config files</a></p>
 <pre><code class="language-Nextflow">base_resource_update {
     memory = [
         [['process_name', 'process_name2'], &lt;multiplier for resource&gt;],
