@@ -62,10 +62,10 @@ cases:
       - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth*_GIAB_HG003-window500.mosdepth.summary.txt
         expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth3.1.0_GIAB_HG003-window500.mosdepth.summary.txt
         method: md5
-  - name: hg003-windows
+  - name: hg003-mosdepth-coverage
     message: test mosdepth coverage
     nf_script: main.nf
-    nf_config: test/config/windows.config
+    nf_config: test/config/mosdepth-coverage.config
     params_file: test/yaml/HG003_0.05x-selected-readgroups.yaml
     skip: true
     verbose: true
@@ -78,6 +78,20 @@ cases:
         method: md5
       - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth*_GIAB_HG003-window500.mosdepth.summary.txt
         expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth3.1.0_GIAB_HG003-window500.mosdepth.summary.txt
+        method: md5
+  - name: hg003-mosdepth-quantize
+    message: test mosdepth quantize
+    nf_script: main.nf
+    nf_config: test/config/mosdepth-quantize.config
+    params_file: test/yaml/HG003_0.05x-selected-readgroups.yaml
+    skip: true
+    verbose: true
+    asserts:
+      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth*_GIAB_HG003-quantize-0-1-5-150.mosdepth.global.dist.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth3.1.0_GIAB_HG003-quantize-0-1-5-150.mosdepth.global.dist.txt
+        method: md5
+      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth*_GIAB_HG003-quantize-0-1-5-150.mosdepth.summary.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth3.1.0_GIAB_HG003-quantize-0-1-5-150.mosdepth.summary.txt
         method: md5
   - name: a_mini-all-tools
     message: test all tools with a_mini, single readgroup normal and tumor
