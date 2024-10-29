@@ -63,6 +63,11 @@ include { quantize_coverage_mosdepth } from './module/quantize_mosdepth' addPara
     workflow_log_output_dir: "${params.log_output_dir}/process-log/mosdepth-${params.mosdepth_version}"
     )
 
+include { assess_coverage_mosdepth } from './module/windows_mosdepth' addParams(
+    workflow_output_dir: "${params.output_dir_base}/mosdepth-${params.mosdepth_version}",
+    workflow_log_output_dir: "${params.log_output_dir}/process-log/mosdepth-${params.mosdepth_version}"
+    )
+
 include { indexFile } from './external/pipeline-Nextflow-module/modules/common/indexFile/main.nf'
 
 log.info """\
@@ -230,7 +235,7 @@ workflow {
         storeDir: "${params.output_dir_base}/validation"
         )
 
-    if ('stats' in params.algorithm) {
+    if ('samtools_stats' in params.algorithm) {
         run_statsReadgroups_SAMtools(
             stats_readgroups_ch
             )
@@ -258,7 +263,7 @@ workflow {
                 )
             }
         }
-    if ('windows' in params.algorithm) {
+    if ('mosdepth_coverage' in params.algorithm) {
         assess_coverage_mosdepth(
             samples_to_process_ch
             )
@@ -275,7 +280,7 @@ workflow {
             params.reference_index
             )
         }
-    if ('bamqc' in params.algorithm) {
+    if ('qualimap_bamqc' in params.algorithm) {
         run_bamqc_Qualimap(
             samples_to_process_ch,
             )
