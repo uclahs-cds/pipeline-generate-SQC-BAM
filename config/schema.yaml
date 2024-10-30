@@ -135,17 +135,6 @@ mosdepth_quantize_additional_options:
   allow_empty: true
   default: ''
   help: 'Additional arguments for mosdepth-quantize command'
-mosdepth_per_base_output:
-  type: 'Bool'
-  required: false
-  default: true
-  help: 'Output per-base coverage'
-mosdepth_additional_options:
-  type: 'String'
-  required: false
-  allow_empty: true
-  default: ''
-  help: 'Additional arguments for mosdepth command'
 cwm_coverage_cap:
   type: 'Integer'
   required: false
