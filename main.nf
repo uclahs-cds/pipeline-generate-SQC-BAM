@@ -125,7 +125,7 @@ log.info """\
 
     - mosdepth options:
         mosdepth_version: ${params.mosdepth_version}
-    - mosdepth windows options:
+    - mosdepth coverage options:
         mosdepth_use_fast_algorithm: ${params.mosdepth_use_fast_algorithm}
         mosdepth_window_size: ${params.mosdepth_window_size}
         mosdepth_per_base_output: ${params.mosdepth_per_base_output}

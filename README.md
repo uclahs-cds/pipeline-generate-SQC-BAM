@@ -13,7 +13,7 @@
   9. [References](#references)
 ## Overview
 
-This pipeline takes BAMs and runs selected Quality Control (QC) steps. Available algorithms are currently `SAMtools stats`, `Picard CollectWgsMetrics` and `Qualimap bamqc`. Generally either `Qualimap bamqc` or `SAMtools stats and Picard CollectWgsMetrics` should be run, not both. `Qualimap bamqc` uses a lot of memory and should not be run within `uclahs-cds/metapipeline-DNA`. Input can include any combination of tumor and normal BAMs from a single donor. Each will be processed independently. RNA specific QC is not yet implemented but is expected soon.
+This pipeline takes BAMs and runs selected Quality Control (QC) steps. Available algorithms are currently `SAMtools stats`, `Picard CollectWgsMetrics`, `FastQC`, `Qualimap bamqc`, `mosdepth coverage` and `mosdepth quantize`. Generally either `Qualimap bamqc` or `SAMtools stats and Picard CollectWgsMetrics` should be run, not both. `Qualimap bamqc` uses a lot of memory and should not be run within `uclahs-cds/metapipeline-DNA`. Input can include any combination of tumor and normal BAMs from a single donor. Each will be processed independently. RNA specific QC is not yet implemented but is expected soon.
 
 ---
 
@@ -51,8 +51,11 @@ Each of the below algorithms, if selected, will run in parallel subject to avail
 ### 4. FastQC
 [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/) aims to provide a QC report which can spot problems which originate either in the sequencer or in the starting library material.
 
-### 5. mosdepth windows
+### 5. mosdepth coverage
 [mosdepth](https://github.com/brentp/mosdepth) by windows provides fast BAM/CRAM depth calculation.
+
+### 6. mosdepth quantize
+[mosdepth](https://github.com/brentp/mosdepth) quantize creates a bed file labeling regions within specified coverage thresholds. Similar to GATK's callable loci tool.
 
 ---
 
@@ -92,12 +95,6 @@ input:
 | stats_remove_duplicates | boolean | no | Ignore reads marked as duplicate. Default = `false` |
 | stats_additional_options | string | no | Any additional options recognized by `samtools stats` |
 
-#### FastQC specific configuration
-| Field | Type | Required | Description |
-| ----- | ---- | ------------ | ------------------------ |
-| fastqc_level | string | yes | 'readgroup', 'library' or 'sample' |
-| fastqc_additional_options | string | no | Any additional options recognized by `FastQC` |
-
 #### Picard specific configuration
 | Field | Type | Required | Description |
 | ----- | ---- | ------------ | ------------------------ |
@@ -107,18 +104,36 @@ input:
 | cwm_use_fast_algorithm | boolean | no | If `true`, fast algorithm is used |
 | cwm_additional_options | string | no | Any additional options recognized by `CollectWgsMetrics` |
 
-#### mosdepth windows specific configuration
+#### FastQC specific configuration
 | Field | Type | Required | Description |
 | ----- | ---- | ------------ | ------------------------ |
-| mosdepth_use_fast_algorithm | boolean | no | `fast` algorithm ignores read pair overlaps and CIGARs. It should not be used on libraries with small insert sizes. Default = `false` |
-| mosdepth_window_size | integer | no | Size for `mosdepth windows` coverage calculations |
-| mosdepth_additional_options | string | no | Any additional options recognized by `mosdepth` |
+| fastqc_level | string | yes | 'readgroup', 'library' or 'sample' |
+| fastqc_additional_options | string | no | Any additional options recognized by `FastQC` |
 
 #### Qualimap specific configuration
 | Field | Type | Required | Description |
 | ----- | ---- | ------------ | ------------------------ |
 | bamqc_output_format | string | no | Choice of 'pdf' or 'html', default = 'pdf' |
 | bamqc_additional_options | string | no | Any additional options recognized by `bamqc` |
+
+#### mosdepth coverage specific configuration
+| Field | Type | Required | Description |
+| ----- | ---- | ------------ | ------------------------ |
+| mosdepth_use_fast_algorithm | boolean | no | `fast` algorithm ignores read pair overlaps and CIGARs. It should not be used on libraries with small insert sizes. Default = `false` |
+| mosdepth_per_base_output | boolean | no | Output coverage for every base. Default = `true` |
+| mosdepth_window_size | integer | no | Size for `mosdepth windows` coverage calculations |
+| mosdepth_additional_options | string | no | Any additional options recognized by `mosdepth`, `--mapq 20 recommended` |
+
+#### mosdepth quantize specific configuration
+| Field | Type | Required | Description |
+| ----- | ---- | ------------ | ------------------------ |
+| mosdepth_quantize_cutoffs | string | no | cutoffs for coverage regions. Default = `0:1:5:150` |
+| mosdepth_quantize_use_fast_algorithm | boolean | no | `fast` algorithm ignores read pair overlaps and CIGARs. It should not be used on libraries with small insert sizes. Default = `false` |
+| mosdepth_q0_label | string | no | lowest coverage regions label. Default = `Q0`
+| mosdepth_q1_label | string | no | next coverage regions label. Default = `Q1`
+| mosdepth_q2_label | string | no | next coverage regions label. Default = `Q2`
+| mosdepth_q3_label | string | no | highest coverage regions label. Default = `Q3`
+| mosdepth_quantize_additional_options | string | no | Any additional options recognized by `mosdepth`. `--mapq 20 recommended` |
 
 #### Base resource allocation updaters
 To update the base resource (cpus or memory) allocations for processes, use the following structure. The default allocations can be found in the [node-specific config files](./config/)
@@ -172,14 +187,21 @@ base_resource_update {
 
 | Output | Description |
 | ------------ | ------------------------ |
-| `{SAMtools-version}_{dataset_id}_{sample_id}_stats.txt` | SAMtools stats results |
-| `{Picard-version}_{dataset_id}_{sample_id}_wgs-metrics.txt` | Picard CollectWgsMetrics results |
-| `{Qualimap-version}_{dataset_id}_{sample_id}_stats` | Directory of Qualimap results, including, `genome_results.txt` and either `.pdf` or `.html and supporting directories`|
-| `{FastQC-version}_{dataset_id}_{sample_id}_fastqc` | Directory of FastQC results |
-| `{mosdepth-version}_{dataset_id}_{sample_id}-{window_size}.mosdepth.summary.txt` | Coverage by region with a final line for `total` |
-| `{mosdepth-version}_{dataset_id}_{sample_id}-{window_size}.mosdepth.global.dist.txt` | a cumulative distribution indicating the proportion of total bases that were covered for at least a given coverage value |
-| `{mosdepth-version}_{dataset_id}_{sample_id}-{window_size}.mosdepth.region.dist.txt` | a cumulative distribution indicating the proportion of the windows that were covered for at least a given coverage value |
-| `{mosdepth-version}_{dataset_id}_{sample_id}-{window_size}.regions.bed.gz` | Bedfile giving coverage for each window |
+| `{SAMtools-version}_{dataset_id}_{sample_id}_stats.txt` | `SAMtools stats` sample level results |
+| `{SAMtools-version}_{dataset_id}_{sample_id}-{library_id}_stats.txt` | `SAMtools stats` library level results |
+| `{SAMtools-version}_{dataset_id}_{sample_id}-{library_id}-{rg_id}_stats.txt` | `SAMtools stats` readgroup level results |
+| `{Picard-version}_{dataset_id}_{sample_id}_wgs-metrics.txt` | `Picard CollectWgsMetrics` results |
+| `{Qualimap-version}_{dataset_id}_{sample_id}_stats` | Directory of `Qualimap` results, including, `genome_results.txt` and either `.pdf` or `.html and supporting directories`|
+| `{FastQC-version}_{dataset_id}_{sample_id}_fastqc` | Directory of sample level `FastQC` results |
+| `{FastQC-version}_{dataset_id}_{sample_id}-{library_id}_fastqc` | Directory of library level `FastQC` results |
+| `{FastQC-version}_{dataset_id}_{sample_id}-{library_id}-{rg_id}_fastqc` | Directory of readgroup level `FastQC` results |
+| `{mosdepth-version}_{dataset_id}_{sample_id}-{window_size}.mosdepth.summary.txt` | `mosdepth` coverage results by region with a final line for `total` |
+| `{mosdepth-version}_{dataset_id}_{sample_id}-{window_size}.mosdepth.global.dist.txt` | `mosdepth` coverage cumulative distribution indicating the proportion of total bases that were covered for at least a given coverage value |
+| `{mosdepth-version}_{dataset_id}_{sample_id}-{window_size}.mosdepth.region.dist.txt` | `mosdepth` coverage cumulative distribution indicating the proportion of the windows that were covered for at least a given coverage value |
+| `{mosdepth-version}_{dataset_id}_{sample_id}-{window_size}.regions.bed.gz` | `mosdepth` coverage bedfile giving coverage for each window |
+| `{mosdepth-version}_{dataset_id}_{sample_id}-quantize-{q0}-{q1}-{q2}-{q3}.mosdepth.summary.txt` | `mosdepth` quantize coverage results by region with a final line for `total` |
+| `{mosdepth-version}_{dataset_id}_{sample_id}-quantize-{q0}-{q1}-{q2}-{q3}.mosdepth.global.dist.txt` | `mosdepth` quantize cumulative distribution indicating the proportion of total bases that were covered for at least a given coverage value |
+| `{mosdepth-version}_{dataset_id}_{sample_id}-quantize-{q0}-{q1}-{q2}-{q3}.quantized.bed.gz` | `mosdepth` quantize bed file
 
 ---
 
