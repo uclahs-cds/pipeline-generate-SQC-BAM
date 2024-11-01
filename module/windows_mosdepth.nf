@@ -23,7 +23,7 @@ process assess_coverage_mosdepth {
         path ".command.*"
 
     script:
-    output_filename = generate_standard_filename("mosdepth${params.picard_version}",
+    output_filename = generate_standard_filename("mosdepth-${params.picard_version}",
         params.dataset_id,
         sm_id,
         [:])

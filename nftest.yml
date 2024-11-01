@@ -53,20 +53,20 @@ cases:
       - actual: generate-SQC-BAM-*/NA24149/Qualimap-*/output/Qualimap-*_GIAB_HG003_stats/genome_results.txt
         expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/Qualimap-2.3_GIAB_HG003_stats/genome_results.txt
         script: test/assert_txt.sh
-      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth*_GIAB_HG003-window500.mosdepth.global.dist.txt
-        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth3.1.0_GIAB_HG003-window500.mosdepth.global.dist.txt
+      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth-*_GIAB_HG003-window500.mosdepth.global.dist.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth-3.1.0_GIAB_HG003-window500.mosdepth.global.dist.txt
         method: md5
-      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth*_GIAB_HG003-window500.mosdepth.region.dist.txt
-        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth3.1.0_GIAB_HG003-window500.mosdepth.region.dist.txt
+      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth-*_GIAB_HG003-window500.mosdepth.region.dist.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth-3.1.0_GIAB_HG003-window500.mosdepth.region.dist.txt
         method: md5
-      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth*_GIAB_HG003-window500.mosdepth.summary.txt
-        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth3.1.0_GIAB_HG003-window500.mosdepth.summary.txt
+      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth-*_GIAB_HG003-window500.mosdepth.summary.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth-3.1.0_GIAB_HG003-window500.mosdepth.summary.txt
         method: md5
-      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth*_GIAB_HG003-quantize-0-1-5-150.mosdepth.global.dist.txt
-        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth3.1.0_GIAB_HG003-quantize-0-1-5-150.mosdepth.global.dist.txt
+      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth-*_GIAB_HG003-quantize-0-1-5-150.mosdepth.global.dist.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth-3.1.0_GIAB_HG003-quantize-0-1-5-150.mosdepth.global.dist.txt
         method: md5
-      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth*_GIAB_HG003-quantize-0-1-5-150.mosdepth.summary.txt
-        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth3.1.0_GIAB_HG003-quantize-0-1-5-150.mosdepth.summary.txt
+      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth-*_GIAB_HG003-quantize-0-1-5-150.mosdepth.summary.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth-3.1.0_GIAB_HG003-quantize-0-1-5-150.mosdepth.summary.txt
         method: md5
   - name: a_mini-multiple-samples-all-tools
     message: test all tools with 1 normal and 2 tumor samples (single readgroups)
@@ -152,14 +152,14 @@ cases:
     skip: true
     verbose: true
     asserts:
-      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth*_GIAB_HG003-window500.mosdepth.global.dist.txt
-        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth3.1.0_GIAB_HG003-window500.mosdepth.global.dist.txt
+      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth-*_GIAB_HG003-window500.mosdepth.global.dist.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth-3.1.0_GIAB_HG003-window500.mosdepth.global.dist.txt
         method: md5
-      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth*_GIAB_HG003-window500.mosdepth.region.dist.txt
-        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth3.1.0_GIAB_HG003-window500.mosdepth.region.dist.txt
+      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth-*_GIAB_HG003-window500.mosdepth.region.dist.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth-3.1.0_GIAB_HG003-window500.mosdepth.region.dist.txt
         method: md5
-      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth*_GIAB_HG003-window500.mosdepth.summary.txt
-        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth3.1.0_GIAB_HG003-window500.mosdepth.summary.txt
+      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth-*_GIAB_HG003-window500.mosdepth.summary.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth-3.1.0_GIAB_HG003-window500.mosdepth.summary.txt
         method: md5
   - name: hg003-mosdepth-quantize
     message: test mosdepth quantize
@@ -169,11 +169,11 @@ cases:
     skip: true
     verbose: true
     asserts:
-      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth*_GIAB_HG003-quantize-0-1-5-150.mosdepth.global.dist.txt
-        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth3.1.0_GIAB_HG003-quantize-0-1-5-150.mosdepth.global.dist.txt
+      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth-*_GIAB_HG003-quantize-0-1-5-150.mosdepth.global.dist.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth-3.1.0_GIAB_HG003-quantize-0-1-5-150.mosdepth.global.dist.txt
         method: md5
-      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth*_GIAB_HG003-quantize-0-1-5-150.mosdepth.summary.txt
-        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth3.1.0_GIAB_HG003-quantize-0-1-5-150.mosdepth.summary.txt
+      - actual: generate-SQC-BAM-*/NA24149/mosdepth-*/output/mosdepth-*_GIAB_HG003-quantize-0-1-5-150.mosdepth.summary.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth-3.1.0_GIAB_HG003-quantize-0-1-5-150.mosdepth.summary.txt
         method: md5
   - name: hg003-fastqc
     message: test fastqc with downsampled HG003 subsetted to 6 readgroups and 3 libraries, readgroup level
