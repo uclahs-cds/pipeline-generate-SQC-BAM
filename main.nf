@@ -63,11 +63,6 @@ include { quantize_coverage_mosdepth } from './module/quantize_mosdepth' addPara
     workflow_log_output_dir: "${params.log_output_dir}/process-log/mosdepth-${params.mosdepth_version}"
     )
 
-include { assess_coverage_mosdepth } from './module/windows_mosdepth' addParams(
-    workflow_output_dir: "${params.output_dir_base}/mosdepth-${params.mosdepth_version}",
-    workflow_log_output_dir: "${params.log_output_dir}/process-log/mosdepth-${params.mosdepth_version}"
-    )
-
 include { indexFile } from './external/pipeline-Nextflow-module/modules/common/indexFile/main.nf'
 
 log.info """\

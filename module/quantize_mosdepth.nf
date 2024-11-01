@@ -23,7 +23,7 @@ process quantize_coverage_mosdepth {
         path ".command.*"
 
     script:
-    output_filename = generate_standard_filename("mosdepth${params.picard_version}",
+    output_filename = generate_standard_filename("mosdepth-${params.picard_version}",
         params.dataset_id,
         sm_id,
         [:])
@@ -32,10 +32,10 @@ process quantize_coverage_mosdepth {
 
     """
     set -euo pipefail
-    export MOSDEPTH_Q0=${params.mosdepth_q0_label}
-    export MOSDEPTH_Q1=${params.mosdepth_q1_label}
-    export MOSDEPTH_Q2=${params.mosdepth_q2_label}
-    export MOSDEPTH_Q3=${params.mosdepth_q3_label}
+    export MOSDEPTH_Q0="${params.mosdepth_q0_label}"
+    export MOSDEPTH_Q1="${params.mosdepth_q1_label}"
+    export MOSDEPTH_Q2="${params.mosdepth_q2_label}"
+    export MOSDEPTH_Q3="${params.mosdepth_q3_label}"
     mosdepth \
         --no-per-base \
         ${fast_algorithm_arg} \
