@@ -65,13 +65,15 @@
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#samtools-specific-configuration">SAMtools specific configuration</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#fastqc-specific-configuration">FastQC specific configuration</a>
-    </li>
     <li class="toctree-l3"><a class="reference internal" href="#picard-specific-configuration">Picard specific configuration</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#mosdepth-windows-specific-configuration">mosdepth windows specific configuration</a>
+    <li class="toctree-l3"><a class="reference internal" href="#fastqc-specific-configuration">FastQC specific configuration</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#qualimap-specific-configuration">Qualimap specific configuration</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mosdepth-coverage-specific-configuration">mosdepth coverage specific configuration</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mosdepth-quantize-specific-configuration">mosdepth quantize specific configuration</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#base-resource-allocation-updaters">Base resource allocation updaters</a>
     </li>
@@ -116,7 +118,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Inputs</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/blob/f2b43b22d23c41062aafd829d499282f86c0f17c/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/blob/b9885c48add2fc87e0f6a31ee8568e7be8a97d83/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -153,7 +155,7 @@ input:
 <td><code>algorithm</code></td>
 <td>list</td>
 <td>no</td>
-<td>List of tools to be run: ['fastqc', 'samtools_stats', 'collectwgsmetrics', 'mosdepth_coverage', 'qualimap_bamqc'], default = ['stats', 'collectwgsmetrics']</td>
+<td>List of tools to be run: ['fastqc', 'samtools_stats', 'collectwgsmetrics', 'mosdepth_coverage', 'mosdepth_quantize', 'qualimap_bamqc'], default = ['stats', 'collectwgsmetrics']</td>
 </tr>
 <tr>
 <td><code>reference</code></td>
@@ -218,31 +220,6 @@ input:
 </tr>
 </tbody>
 </table>
-<h4 id="fastqc-specific-configuration">FastQC specific configuration</h4>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>fastqc_level</td>
-<td>string</td>
-<td>yes</td>
-<td>'readgroup', 'library' or 'sample'</td>
-</tr>
-<tr>
-<td>fastqc_additional_options</td>
-<td>string</td>
-<td>no</td>
-<td>Any additional options recognized by <code>FastQC</code></td>
-</tr>
-</tbody>
-</table>
 <h4 id="picard-specific-configuration">Picard specific configuration</h4>
 <table>
 <thead>
@@ -286,7 +263,7 @@ input:
 </tr>
 </tbody>
 </table>
-<h4 id="mosdepth-windows-specific-configuration">mosdepth windows specific configuration</h4>
+<h4 id="fastqc-specific-configuration">FastQC specific configuration</h4>
 <table>
 <thead>
 <tr>
@@ -298,22 +275,16 @@ input:
 </thead>
 <tbody>
 <tr>
-<td>mosdepth_use_fast_algorithm</td>
-<td>boolean</td>
-<td>no</td>
-<td><code>fast</code> algorithm ignores read pair overlaps and CIGARs. It should not be used on libraries with small insert sizes. Default = <code>false</code></td>
+<td>fastqc_level</td>
+<td>string</td>
+<td>yes</td>
+<td>'readgroup', 'library' or 'sample'</td>
 </tr>
 <tr>
-<td>mosdepth_window_size</td>
-<td>integer</td>
-<td>no</td>
-<td>Size for <code>mosdepth windows</code> coverage calculations</td>
-</tr>
-<tr>
-<td>mosdepth_additional_options</td>
+<td>fastqc_additional_options</td>
 <td>string</td>
 <td>no</td>
-<td>Any additional options recognized by <code>mosdepth</code></td>
+<td>Any additional options recognized by <code>FastQC</code></td>
 </tr>
 </tbody>
 </table>
@@ -342,8 +313,100 @@ input:
 </tr>
 </tbody>
 </table>
+<h4 id="mosdepth-coverage-specific-configuration">mosdepth coverage specific configuration</h4>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mosdepth_use_fast_algorithm</td>
+<td>boolean</td>
+<td>no</td>
+<td><code>fast</code> algorithm ignores read pair overlaps and CIGARs. It should not be used on libraries with small insert sizes. Default = <code>false</code></td>
+</tr>
+<tr>
+<td>mosdepth_per_base_output</td>
+<td>boolean</td>
+<td>no</td>
+<td>Output coverage for every base. Default = <code>true</code></td>
+</tr>
+<tr>
+<td>mosdepth_window_size</td>
+<td>integer</td>
+<td>no</td>
+<td>Size for <code>mosdepth windows</code> coverage calculations</td>
+</tr>
+<tr>
+<td>mosdepth_additional_options</td>
+<td>string</td>
+<td>no</td>
+<td>Any additional options recognized by <code>mosdepth</code>, <code>--mapq 20 recommended</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="mosdepth-quantize-specific-configuration">mosdepth quantize specific configuration</h4>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mosdepth_quantize_cutoffs</td>
+<td>string</td>
+<td>no</td>
+<td>cutoffs for coverage regions. Default = <code>0:1:5:150</code></td>
+</tr>
+<tr>
+<td>mosdepth_quantize_use_fast_algorithm</td>
+<td>boolean</td>
+<td>no</td>
+<td><code>fast</code> algorithm ignores read pair overlaps and CIGARs. It should not be used on libraries with small insert sizes. Default = <code>false</code></td>
+</tr>
+<tr>
+<td>mosdepth_q0_label</td>
+<td>string</td>
+<td>no</td>
+<td>lowest coverage regions label. Default = <code>Q0</code></td>
+</tr>
+<tr>
+<td>mosdepth_q1_label</td>
+<td>string</td>
+<td>no</td>
+<td>next coverage regions label. Default = <code>Q1</code></td>
+</tr>
+<tr>
+<td>mosdepth_q2_label</td>
+<td>string</td>
+<td>no</td>
+<td>next coverage regions label. Default = <code>Q2</code></td>
+</tr>
+<tr>
+<td>mosdepth_q3_label</td>
+<td>string</td>
+<td>no</td>
+<td>highest coverage regions label. Default = <code>Q3</code></td>
+</tr>
+<tr>
+<td>mosdepth_quantize_additional_options</td>
+<td>string</td>
+<td>no</td>
+<td>Any additional options recognized by <code>mosdepth</code>. <code>--mapq 20 recommended</code></td>
+</tr>
+</tbody>
+</table>
 <h4 id="base-resource-allocation-updaters">Base resource allocation updaters</h4>
-<p>To update the base resource (cpus or memory) allocations for processes, use the following structure. The default allocations can be found in the <a href="https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/blob/f2b43b22d23c41062aafd829d499282f86c0f17c/config">node-specific config files</a></p>
+<p>To update the base resource (cpus or memory) allocations for processes, use the following structure. The default allocations can be found in the <a href="https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/blob/b9885c48add2fc87e0f6a31ee8568e7be8a97d83/config">node-specific config files</a></p>
 <pre><code class="language-Nextflow">base_resource_update {
     memory = [
         [['process_name', 'process_name2'], &lt;multiplier for resource&gt;],

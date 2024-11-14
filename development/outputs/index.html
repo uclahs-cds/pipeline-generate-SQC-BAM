@@ -98,7 +98,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Outputs</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/blob/f2b43b22d23c41062aafd829d499282f86c0f17c/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/blob/b9885c48add2fc87e0f6a31ee8568e7be8a97d83/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -117,35 +117,63 @@
 <tbody>
 <tr>
 <td><code>{SAMtools-version}_{dataset_id}_{sample_id}_stats.txt</code></td>
-<td>SAMtools stats results</td>
+<td><code>SAMtools stats</code> sample level results</td>
+</tr>
+<tr>
+<td><code>{SAMtools-version}_{dataset_id}_{sample_id}-{library_id}_stats.txt</code></td>
+<td><code>SAMtools stats</code> library level results</td>
+</tr>
+<tr>
+<td><code>{SAMtools-version}_{dataset_id}_{sample_id}-{library_id}-{rg_id}_stats.txt</code></td>
+<td><code>SAMtools stats</code> readgroup level results</td>
 </tr>
 <tr>
 <td><code>{Picard-version}_{dataset_id}_{sample_id}_wgs-metrics.txt</code></td>
-<td>Picard CollectWgsMetrics results</td>
+<td><code>Picard CollectWgsMetrics</code> results</td>
 </tr>
 <tr>
 <td><code>{Qualimap-version}_{dataset_id}_{sample_id}_stats</code></td>
-<td>Directory of Qualimap results, including, <code>genome_results.txt</code> and either <code>.pdf</code> or <code>.html and supporting directories</code></td>
+<td>Directory of <code>Qualimap</code> results, including, <code>genome_results.txt</code> and either <code>.pdf</code> or <code>.html and supporting directories</code></td>
 </tr>
 <tr>
 <td><code>{FastQC-version}_{dataset_id}_{sample_id}_fastqc</code></td>
-<td>Directory of FastQC results</td>
+<td>Directory of sample level <code>FastQC</code> results</td>
+</tr>
+<tr>
+<td><code>{FastQC-version}_{dataset_id}_{sample_id}-{library_id}_fastqc</code></td>
+<td>Directory of library level <code>FastQC</code> results</td>
+</tr>
+<tr>
+<td><code>{FastQC-version}_{dataset_id}_{sample_id}-{library_id}-{rg_id}_fastqc</code></td>
+<td>Directory of readgroup level <code>FastQC</code> results</td>
 </tr>
 <tr>
 <td><code>{mosdepth-version}_{dataset_id}_{sample_id}-{window_size}.mosdepth.summary.txt</code></td>
-<td>Coverage by region with a final line for <code>total</code></td>
+<td><code>mosdepth</code> coverage results by region with a final line for <code>total</code></td>
 </tr>
 <tr>
 <td><code>{mosdepth-version}_{dataset_id}_{sample_id}-{window_size}.mosdepth.global.dist.txt</code></td>
-<td>a cumulative distribution indicating the proportion of total bases that were covered for at least a given coverage value</td>
+<td><code>mosdepth</code> coverage cumulative distribution indicating the proportion of total bases that were covered for at least a given coverage value</td>
 </tr>
 <tr>
 <td><code>{mosdepth-version}_{dataset_id}_{sample_id}-{window_size}.mosdepth.region.dist.txt</code></td>
-<td>a cumulative distribution indicating the proportion of the windows that were covered for at least a given coverage value</td>
+<td><code>mosdepth</code> coverage cumulative distribution indicating the proportion of the windows that were covered for at least a given coverage value</td>
 </tr>
 <tr>
 <td><code>{mosdepth-version}_{dataset_id}_{sample_id}-{window_size}.regions.bed.gz</code></td>
-<td>Bedfile giving coverage for each window</td>
+<td><code>mosdepth</code> coverage bedfile giving coverage for each window</td>
+</tr>
+<tr>
+<td><code>{mosdepth-version}_{dataset_id}_{sample_id}-quantize-{q0}-{q1}-{q2}-{q3}.mosdepth.summary.txt</code></td>
+<td><code>mosdepth</code> quantize coverage results by region with a final line for <code>total</code></td>
+</tr>
+<tr>
+<td><code>{mosdepth-version}_{dataset_id}_{sample_id}-quantize-{q0}-{q1}-{q2}-{q3}.mosdepth.global.dist.txt</code></td>
+<td><code>mosdepth</code> quantize cumulative distribution indicating the proportion of total bases that were covered for at least a given coverage value</td>
+</tr>
+<tr>
+<td><code>{mosdepth-version}_{dataset_id}_{sample_id}-quantize-{q0}-{q1}-{q2}-{q3}.quantized.bed.gz</code></td>
+<td><code>mosdepth</code> quantize bed file</td>
 </tr>
 </tbody>
 </table>

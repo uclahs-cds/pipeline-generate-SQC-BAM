@@ -63,7 +63,9 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#4-fastqc">4. FastQC</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#5-mosdepth-windows">5. mosdepth windows</a>
+    <li class="toctree-l2"><a class="reference internal" href="#5-mosdepth-coverage">5. mosdepth coverage</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#6-mosdepth-quantize">6. mosdepth quantize</a>
     </li>
     </ul>
                 </li>
@@ -108,7 +110,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Pipeline Steps</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/blob/f2b43b22d23c41062aafd829d499282f86c0f17c/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/blob/b9885c48add2fc87e0f6a31ee8568e7be8a97d83/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -126,8 +128,10 @@
 <p><a href="http://qualimap.conesalab.org/doc_html/analysis.html#bam-qc">qualimap bamqc</a> collects basic statistics and coverage metrics from BAM files. Example output: <a href="https://kokonech.github.io/qualimap/HG00096.chr20_bamqc/qualimapReport.html">html</a> <a href="https://kokonech.github.io/qualimap/ERR089819_report.pdf">pdf</a>. <code>Qualimap bamqc</code> uses a lot of memory and should not be run within <code>uclahs-cds/metapipeline-DNA</code>.</p>
 <h3 id="4-fastqc">4. FastQC</h3>
 <p><a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/">FastQC</a> aims to provide a QC report which can spot problems which originate either in the sequencer or in the starting library material.</p>
-<h3 id="5-mosdepth-windows">5. mosdepth windows</h3>
+<h3 id="5-mosdepth-coverage">5. mosdepth coverage</h3>
 <p><a href="https://github.com/brentp/mosdepth">mosdepth</a> by windows provides fast BAM/CRAM depth calculation.</p>
+<h3 id="6-mosdepth-quantize">6. mosdepth quantize</h3>
+<p><a href="https://github.com/brentp/mosdepth">mosdepth</a> quantize creates a bed file labeling regions within specified coverage thresholds. Similar to GATK's callable loci tool.</p>
 <hr />
               
             </div>
