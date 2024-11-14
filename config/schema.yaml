@@ -9,11 +9,12 @@ dataset_id:
   help: 'Dataset identifier'
 algorithm:
   type: 'List'
-  required: false
+  required: true
   help: 'List of QC algorithms'
   choices:
     - fastqc
     - mosdepth_coverage
+    - mosdepth_quantize
     - samtools_stats
     - collectwgsmetrics
     - qualimap_bamqc
@@ -82,22 +83,58 @@ mosdepth_use_fast_algorithm:
   required: false
   default: true
   help: 'fast algorithm ignores read pair overlaps and CIGAR information'
-mosdepth_window_size:
-  type: 'Integer'
-  required: false
-  default: 500
-  help: 'Window size for mosdepth coverage calculation'
 mosdepth_per_base_output:
   type: 'Bool'
   required: false
   default: true
   help: 'Output per-base coverage'
+mosdepth_window_size:
+  type: 'Integer'
+  required: false
+  default: 500
+  help: 'Window size for mosdepth coverage calculation'
 mosdepth_additional_options:
   type: 'String'
   required: false
   allow_empty: true
   default: ''
   help: 'Additional arguments for mosdepth command'
+mosdepth_quantize_cutoffs:
+  type: 'String'
+  required: false
+  default: '0:1:5:150'
+  help: 'Quantize coverage values into these bins'
+mosdepth_quantize_use_fast_algorithm:
+  type: 'Bool'
+  required: false
+  default: false
+  help: 'Use fast algorithm for quantizing coverage values'
+mosdepth_q0_label:
+  type: 'String'
+  required: false
+  default: 'Q0'
+  help: 'Label for lowest coverage bin'
+mosdepth_q1_label:
+  type: 'String'
+  required: false
+  default: 'Q1'
+  help: 'Label for second lowest coverage bin'
+mosdepth_q2_label:
+  type: 'String'
+  required: false
+  default: 'Q2'
+  help: 'Label for third lowest coverage bin'
+mosdepth_q3_label:
+  type: 'String'
+  required: false
+  default: 'Q3'
+  help: 'Label for highest coverage bin'
+mosdepth_quantize_additional_options:
+  type: 'String'
+  required: false
+  allow_empty: true
+  default: ''
+  help: 'Additional arguments for mosdepth-quantize command'
 cwm_coverage_cap:
   type: 'Integer'
   required: false

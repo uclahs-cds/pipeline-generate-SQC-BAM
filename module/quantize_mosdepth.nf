@@ -1,11 +1,11 @@
 /*
-*   mosdepth WGS window-based coverage assessment
+*   mosdepth WGS quantized coverage assessment
 *
 */
 
 include { generate_standard_filename } from '../external/pipeline-Nextflow-module/modules/common/generate_standardized_filename/main.nf'
 
-process assess_coverage_mosdepth {
+process quantize_coverage_mosdepth {
     container params.docker_image_mosdepth
 
     publishDir path: "${params.workflow_output_dir}/output",
@@ -27,18 +27,22 @@ process assess_coverage_mosdepth {
         params.dataset_id,
         sm_id,
         [:])
-    fast_algorithm_arg = params.mosdepth_use_fast_algorithm ? "--fast-mode" : ""
-    per_base_output_arg = params.mosdepth_per_base_output ? "" : "--no-per-base"
+    def fast_algorithm_arg = params.mosdepth_use_fast_algorithm ? "--fast-mode" : ""
+    def quantize_output_suffix = params.mosdepth_quantize_cutoffs.replace(':', '-')
 
     """
     set -euo pipefail
+    export MOSDEPTH_Q0="${params.mosdepth_q0_label}"
+    export MOSDEPTH_Q1="${params.mosdepth_q1_label}"
+    export MOSDEPTH_Q2="${params.mosdepth_q2_label}"
+    export MOSDEPTH_Q3="${params.mosdepth_q3_label}"
     mosdepth \
+        --no-per-base \
         ${fast_algorithm_arg} \
-        ${per_base_output_arg} \
         --threads ${task.cpus} \
-        --by ${params.mosdepth_window_size} \
-        ${params.mosdepth_additional_options} \
-        ${output_filename}-window${params.mosdepth_window_size} \
+        --quantize ${params.mosdepth_quantize_cutoffs} \
+        ${params.mosdepth_quantize_additional_options} \
+        ${output_filename}-quantize-${quantize_output_suffix} \
         ${bam}
     """
 }
