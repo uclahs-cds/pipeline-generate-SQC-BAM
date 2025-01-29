@@ -17,6 +17,7 @@ algorithm:
     - mosdepth_quantize
     - samtools_stats
     - collectwgsmetrics
+    - collecthsmetrics
     - qualimap_bamqc
   default:
     - samtools_stats
@@ -41,6 +42,11 @@ save_intermediate_files:
   required: false
   default: false
   help: 'The option to save the intermediate files'
+intervals_bed:
+  type: 'Path'
+  mode: 'r'
+  required: false
+  help: 'Absolute path to BED file with intervals to process'
 fastqc_level:
   type: 'String'
   required: true
@@ -78,6 +84,11 @@ stats_additional_options:
   allow_empty: true
   default: ''
   help: 'Additional arguments for SAMtools stats command'
+mosdepth_windows:
+  type: 'Integer'
+  required: false
+  default: 500
+  help: 'Window size (integer). Only used if intervals file is not provided'
 mosdepth_use_fast_algorithm:
   type: 'Bool'
   required: false
@@ -88,11 +99,6 @@ mosdepth_per_base_output:
   required: false
   default: true
   help: 'Output per-base coverage'
-mosdepth_window_size:
-  type: 'Integer'
-  required: false
-  default: 500
-  help: 'Window size for mosdepth coverage calculation'
 mosdepth_additional_options:
   type: 'String'
   required: false
