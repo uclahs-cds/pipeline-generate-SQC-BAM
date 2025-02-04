@@ -17,15 +17,21 @@ process run_bamqc_Qualimap {
 
     input:
         tuple path(bam), path(bam_index), val(orig_id), val(sm_id), val(rg_arg), val(rg_id), val(lib_id), val(sm_type), val(read_length)
+        path intervals
 
     output:
         path "*_stats", emit: stats
         path ".command.*"
 
     script:
+    def bamqc_args = intervals.getName() != 'NO_TARGET_FILE.bed' ?
+        ["--feature-file ${intervals}", "-targets"] :
+        ["", ""]
+    def (intervals_arg, output_suffix) = bamqc_args
+
     output_filename = generate_standard_filename("Qualimap-${params.qualimap_version}",
         params.dataset_id,
-        sm_id,
+        sm_id + output_suffix,
         [:])
 
     """
@@ -37,6 +43,7 @@ process run_bamqc_Qualimap {
         -outformat ${params.bamqc_output_format} \
         -outfile ${output_filename} \
         -nt ${task.cpus} \
+        ${intervals_arg} \
         -c \
         ${params.bamqc_additional_options}
     """
