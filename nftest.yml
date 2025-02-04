@@ -144,6 +144,82 @@ cases:
       - actual: generate-SQC-BAM-*/TWGSAMIN000001/Qualimap-*/output/Qualimap-*_TWGSAMIN_S2-v1.1.5_stats/genome_results.txt
         expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/Qualimap-2.3_TWGSAMIN_S2-v1.1.5_stats/genome_results.txt
         method: md5
+  - name: amini-targeted-with-bait
+    message: test coverage tools with defined targeted intervals
+    nf_script: main.nf
+    nf_config: test/config/targeted-withBait.config
+    params_file: test/yaml/a_mini.yaml
+    skip: false
+    verbose: true
+    asserts:
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/mosdepth-*/output/mosdepth-*_TWGSAMIN_HG002.N-targets.mosdepth.global.dist.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth-0.3.8_TWGSAMIN_HG002.N-targets.mosdepth.global.dist.txt
+        method: md5
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/mosdepth-*/output/mosdepth-*_TWGSAMIN_HG002.N-targets.mosdepth.region.dist.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth-0.3.8_TWGSAMIN_HG002.N-targets.mosdepth.region.dist.txt
+        method: md5
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/mosdepth-*/output/mosdepth-*_TWGSAMIN_HG002.N-targets.mosdepth.summary.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth-0.3.8_TWGSAMIN_HG002.N-targets.mosdepth.summary.txt
+        method: md5
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/mosdepth-*/output/mosdepth-*_TWGSAMIN_S2-v1.1.5-targets.mosdepth.global.dist.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth-0.3.8_TWGSAMIN_S2-v1.1.5-targets.mosdepth.global.dist.txt
+        method: md5
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/mosdepth-*/output/mosdepth-*_TWGSAMIN_S2-v1.1.5-targets.mosdepth.region.dist.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth-0.3.8_TWGSAMIN_S2-v1.1.5-targets.mosdepth.region.dist.txt
+        method: md5
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/mosdepth-*/output/mosdepth-*_TWGSAMIN_S2-v1.1.5-targets.mosdepth.summary.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth-0.3.8_TWGSAMIN_S2-v1.1.5-targets.mosdepth.summary.txt
+        method: md5
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/Picard-*/output/Picard-*_TWGSAMIN_HG002.N_hs-metrics.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/Picard-with-bait/Picard-3.1.0_TWGSAMIN_HG002.N_hs-metrics.txt
+        script: test/assert_txt.sh
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/Picard-*/output/Picard-*_TWGSAMIN_S2-v1.1.5_hs-metrics.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/Picard-with-bait/Picard-3.1.0_TWGSAMIN_S2-v1.1.5_hs-metrics.txt
+        script: test/assert_txt.sh
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/Qualimap-*/output/Qualimap-*_TWGSAMIN_HG002.N-targets_stats/genome_results.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/Qualimap-2.3_TWGSAMIN_HG002.N-targets_stats/genome_results.txt
+        method: md5
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/Qualimap-*/output/Qualimap-*_TWGSAMIN_S2-v1.1.5-targets_stats/genome_results.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/Qualimap-2.3_TWGSAMIN_S2-v1.1.5-targets_stats/genome_results.txt
+        method: md5
+  - name: amini-targeted-no-bait
+    message: test coverage tools with defined targeted intervals
+    nf_script: main.nf
+    nf_config: test/config/targeted-noBait.config
+    params_file: test/yaml/a_mini.yaml
+    skip: false
+    verbose: true
+    asserts:
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/mosdepth-*/output/mosdepth-*_TWGSAMIN_HG002.N-targets.mosdepth.global.dist.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth-0.3.8_TWGSAMIN_HG002.N-targets.mosdepth.global.dist.txt
+        method: md5
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/mosdepth-*/output/mosdepth-*_TWGSAMIN_HG002.N-targets.mosdepth.region.dist.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth-0.3.8_TWGSAMIN_HG002.N-targets.mosdepth.region.dist.txt
+        method: md5
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/mosdepth-*/output/mosdepth-*_TWGSAMIN_HG002.N-targets.mosdepth.summary.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth-0.3.8_TWGSAMIN_HG002.N-targets.mosdepth.summary.txt
+        method: md5
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/mosdepth-*/output/mosdepth-*_TWGSAMIN_S2-v1.1.5-targets.mosdepth.global.dist.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth-0.3.8_TWGSAMIN_S2-v1.1.5-targets.mosdepth.global.dist.txt
+        method: md5
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/mosdepth-*/output/mosdepth-*_TWGSAMIN_S2-v1.1.5-targets.mosdepth.region.dist.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth-0.3.8_TWGSAMIN_S2-v1.1.5-targets.mosdepth.region.dist.txt
+        method: md5
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/mosdepth-*/output/mosdepth-*_TWGSAMIN_S2-v1.1.5-targets.mosdepth.summary.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/mosdepth-0.3.8_TWGSAMIN_S2-v1.1.5-targets.mosdepth.summary.txt
+        method: md5
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/Picard-*/output/Picard-*_TWGSAMIN_HG002.N_hs-metrics.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/Picard-no-bait/Picard-3.1.0_TWGSAMIN_HG002.N_hs-metrics.txt
+        script: test/assert_txt.sh
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/Picard-*/output/Picard-*_TWGSAMIN_S2-v1.1.5_hs-metrics.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/Picard-no-bait/Picard-3.1.0_TWGSAMIN_S2-v1.1.5_hs-metrics.txt
+        script: test/assert_txt.sh
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/Qualimap-*/output/Qualimap-*_TWGSAMIN_HG002.N-targets_stats/genome_results.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/Qualimap-2.3_TWGSAMIN_HG002.N_stats/genome_results.txt
+        method: md5
+      - actual: generate-SQC-BAM-*/TWGSAMIN000001/Qualimap-*/output/Qualimap-*_TWGSAMIN_S2-v1.1.5-targets_stats/genome_results.txt
+        expect: /hot/software/pipeline/pipeline-generate-SQC-BAM/Nextflow/development/test-output/Qualimap-2.3_TWGSAMIN_S2-v1.1.5_stats/genome_results.txt
+        method: md5
   - name: hg003-mosdepth-coverage
     message: test mosdepth coverage
     nf_script: main.nf
