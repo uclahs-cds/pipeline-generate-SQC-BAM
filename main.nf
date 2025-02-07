@@ -47,7 +47,7 @@ include { run_CollectWgsMetrics_Picard } from './module/collectWgsMetrics_picard
     workflow_log_output_dir: "${params.log_output_dir}/process-log/Picard-${params.picard_version}"
     )
 
-include { run_BedToIntervalList_picard } from './module/bedToIntervalList_picard' addParams(
+include { run_BedToIntervalList_Picard } from './module/bedToIntervalList_picard' addParams(
     workflow_output_dir: "${params.output_dir_base}/Picard-${params.picard_version}",
     workflow_log_output_dir: "${params.log_output_dir}/process-log/Picard-${params.picard_version}"
     )
@@ -333,15 +333,15 @@ workflow {
             )
         }
     if ('collecthsmetrics' in params.algorithm) {
-        run_BedToIntervalList_picard(
+        run_BedToIntervalList_Picard(
             bed_to_interval_list_ch
             )
-        target_intervals_ch = run_BedToIntervalList_picard.out.interval_list
+        target_intervals_ch = run_BedToIntervalList_Picard.out.interval_list
             .filter { it[0] == 'target' }
             .combine(samples_to_process_ch)
             .map { it[1] }
         if (params.getOrDefault("chm_bait_intervals_bed", null)) {
-            bait_intervals_ch = run_BedToIntervalList_picard.out.interval_list
+            bait_intervals_ch = run_BedToIntervalList_Picard.out.interval_list
                 .filter { it[0] == 'bait' }
                 .combine(samples_to_process_ch)
                 .map { it[1] }
