@@ -101,7 +101,7 @@ log.info """\
         normal: ${params.samples_to_process.findAll{ it.sample_type == 'normal' }['bam']}
         normal read length: ${params.samples_to_process.findAll{ it.sample_type == 'normal' }['read_length']}
         reference: ${params.reference}
-        intervals_bed: ${params.getOrDefault("intervals_bed", null)}
+        intervals_bed: ${params.getOrDefault("intervals_bed", "Not provided")}
 
     - sample names extracted from input BAM files and sanitized:
         tumor in: ${params.samples_to_process.findAll{ it.sample_type == 'tumor' }['orig_id']}
