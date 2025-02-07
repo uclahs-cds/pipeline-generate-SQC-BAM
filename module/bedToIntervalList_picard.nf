@@ -6,7 +6,7 @@
 nextflow.enable.dsl=2
 include { generate_standard_filename } from '../external/pipeline-Nextflow-module/modules/common/generate_standardized_filename/main.nf'
 
-process run_BedToIntervalList_picard {
+process run_BedToIntervalList_Picard {
     container params.docker_image_picard
 
     publishDir path: "${params.workflow_output_dir}/intermediate/${task.process.replace(':','/')}",
