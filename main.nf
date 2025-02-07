@@ -263,6 +263,8 @@ if ('collecthsmetrics' in params.algorithm) {
         }
 
     params.reference_dict = params.reference.replaceAll(/\.fasta$/, ".dict")
+    bed_to_interval_list_ch = target_bed_ch
+        .map { ['target', it, params.reference_dict] }
 
     if (params.getOrDefault("chm_bait_intervals_bed", null)) {
         bait_bed_ch = Channel.fromPath(params.chm_bait_intervals_bed)
@@ -270,12 +272,8 @@ if ('collecthsmetrics' in params.algorithm) {
             .mix(bait_bed_ch)
         bait_bed_ch = bait_bed_ch
             .map { ['bait', it, params.reference_dict] }
-        bed_to_interval_list_ch = target_bed_ch
-            .map { ['target', it, params.reference_dict] }
+        bed_to_interval_list_ch = bed_to_interval_list_ch
             .mix(bait_bed_ch)
-    } else {
-        bed_to_interval_list_ch = target_bed_ch
-            .map { ['target', it, params.reference_dict] }
         }
     }
 

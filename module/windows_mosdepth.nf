@@ -53,13 +53,13 @@ process assess_coverage_mosdepth {
     """
     set -euo pipefail
 
-    mosdepth \\
-        ${fast_algorithm_arg} \\
-        ${per_base_output_arg} \\
-        --threads ${task.cpus} \\
-        ${mosdepth_arg} \\
-        ${params.mosdepth_additional_options} \\
-        ${output_filename} \\
+    mosdepth \
+        ${fast_algorithm_arg} \
+        ${per_base_output_arg} \
+        --threads ${task.cpus} \
+        ${mosdepth_arg} \
+        ${params.mosdepth_additional_options} \
+        ${output_filename} \
         ${bam}
     """
 }
