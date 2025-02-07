@@ -11,7 +11,7 @@ cases:
     nf_script: main.nf
     nf_config: test/config/all-tools.config
     params_file: test/yaml/HG003_0.05x-selected-readgroups.yaml
-    skip: false
+    skip: true
     verbose: true
     asserts:
       - actual: generate-SQC-BAM-*/NA24149/FastQC-*/output/by-sample/FastQC-*_GIAB_HG003_fastqc/fastqc_data.txt
@@ -117,7 +117,7 @@ cases:
     nf_script: main.nf
     nf_config: test/config/all-tools.config
     params_file: test/yaml/a_mini.yaml
-    skip: true
+    skip: false
     verbose: true
     asserts:
       - actual: generate-SQC-BAM-*/TWGSAMIN000001/FastQC-*/output/by-sample/FastQC-*_TWGSAMIN_HG002.N_fastqc/fastqc_data.txt
