@@ -167,6 +167,37 @@ cwm_additional_options:
   allow_empty: true
   default: ''
   help: 'Additional arguments for CollectWgsMetrics command'
+chm_coverage_cap:
+  type: 'Integer'
+  required: false
+  default: 250
+  help: 'Coverage cap for CollectHsMetrics'
+chm_minimum_mapping_quality:
+  type: 'Integer'
+  required: false
+  default: 20
+  help: 'Minimum mapping quality for CollectHsMetrics'
+chm_minimum_base_quality:
+  type: 'Integer'
+  required: false
+  default: 20
+  help: 'Minimum base quality for CollectHsMetrics'
+chm_bait_intervals_bed:
+  type: 'Path'
+  mode: 'r'
+  required: false
+  help: 'Absolute path to bait intervals BED file'
+chm_per_base_output:
+  type: 'Bool'
+  required: false
+  default: false
+  help: 'Output per-base coverage'
+chm_additional_options:
+  type: 'String'
+  required: false
+  allow_empty: true
+  default: ''
+  help: 'Additional arguments for CollectHsMetrics command'
 bamqc_output_format:
   type: 'String'
   required: false
