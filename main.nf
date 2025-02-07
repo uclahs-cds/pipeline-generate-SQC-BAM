@@ -233,14 +233,9 @@ if (params.getOrDefault("intervals_bed", null)) {
     target_bed_ch = Channel.fromPath(params.intervals_bed)
     files_to_validate_ch = files_to_validate_ch
         .mix(target_bed_ch)
-    target_bed_per_sample_ch = target_bed_ch
-        .combine(samples_to_process_ch)
-        .map { it[0] }
-} else {
-    target_bed_per_sample_ch = samples_to_process_ch
-        .map { 1 }
-        .combine(Channel.fromPath("${params.work_dir}/NO_TARGET_FILE.bed"))
-        .map { it[1] }
+    target_bed = params.intervals_bed
+    } else {
+    target_bed = "${params.work_dir}/NO_TARGET_FILE.bed"
     }
 
 if ('collectwgsmetrics' in params.algorithm || 'collecthsmetrics' in params.algorithm) {
@@ -315,7 +310,7 @@ workflow {
     if ('mosdepth_coverage' in params.algorithm) {
         assess_coverage_mosdepth(
             samples_to_process_ch,
-            target_bed_per_sample_ch
+            target_bed
             )
         }
     if ('mosdepth_quantize' in params.algorithm) {
@@ -360,7 +355,7 @@ workflow {
     if ('qualimap_bamqc' in params.algorithm) {
         run_bamqc_Qualimap(
             samples_to_process_ch,
-            target_bed_per_sample_ch
+            target_bed
             )
         }
     }
