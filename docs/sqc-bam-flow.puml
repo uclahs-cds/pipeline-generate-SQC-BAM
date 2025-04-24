@@ -10,7 +10,17 @@ split again
   :**Picard CollectWgsMetrics**\nCollect whole genome metrics;
   kill
 split again
+  -> //reference fasta//;
+  :**Picard CollectHsMetrics**\nCollect hybrid-selection metrics;
+  kill
+split again
   :**Qualimap bamqc**\nQuality control for BAM files;
+  kill
+split again
+  :**mosdepth**\n Coverage or Quantize calculations;
+  kill
+split again
+  :**FastQC**\n Quality control;
   kill
 end split
 @enduml
