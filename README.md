@@ -126,7 +126,7 @@ input:
 #### Qualimap specific configuration
 | Field | Type | Required | Description |
 | ----- | ---- | ------------ | ------------------------ |
-| bamqc_output_format | string | no | Choice of 'pdf' or 'html', default = 'pdf'. `html` is needed for `multiqc` |
+| bamqc_output_format | string | no | Choice of 'pdf' or 'html', default = 'html'. `html` is needed for `multiqc` |
 | bamqc_additional_options | string | no | Any additional options recognized by `bamqc` |
 
 #### mosdepth window-based coverage specific configuration
