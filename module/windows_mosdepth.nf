@@ -26,7 +26,6 @@ process assess_coverage_mosdepth {
     script:
     def use_windows = ( intervals.getName() == 'NO_TARGET_FILE.bed' )
 
-    def mosdepth_arg
     if (use_windows) {
         mosdepth_arg = "--by ${params.mosdepth_windows}"
         output_suffix = "-window${params.mosdepth_windows}"

@@ -204,7 +204,7 @@ bamqc_output_format:
   choices:
     - html
     - pdf
-  default: 'pdf'
+  default: 'html'
   help: 'Output format for bamqc'
 bamqc_additional_options:
   type: 'String'
