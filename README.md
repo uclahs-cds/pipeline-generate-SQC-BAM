@@ -53,7 +53,7 @@ Each of the below algorithms, if selected, will run in parallel subject to avail
 ### 4. Qualimap bamqc
 [qualimap bamqc](http://qualimap.conesalab.org/doc_html/analysis.html#bam-qc) collects basic statistics and coverage metrics from BAM files. Example output: [html](https://kokonech.github.io/qualimap/HG00096.chr20_bamqc/qualimapReport.html) [pdf](https://kokonech.github.io/qualimap/ERR089819_report.pdf). `Qualimap bamqc` uses a lot of memory and should not be run within `uclahs-cds/metapipeline-DNA`.
 
-### 5. mosdepth coverage or quantize
+### 5. mosdepth coverage and quantize
 [mosdepth](https://github.com/brentp/mosdepth) `coverage` by windows provides fast BAM/CRAM depth calculation, reported by windows. `quantize` creates a bed file labeling regions within specified coverage thresholds. Similar to GATK's callable loci tool.
 
 ### 6. FastQC
