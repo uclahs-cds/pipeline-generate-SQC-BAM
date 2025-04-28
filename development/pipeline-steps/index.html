@@ -59,13 +59,13 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#2-picard-collectwgsmetrics">2. Picard CollectWgsMetrics</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#3-qualimap-bamqc">3. Qualimap bamqc</a>
+    <li class="toctree-l2"><a class="reference internal" href="#3-picard-collecthsmetrics">3. Picard CollectHsMetrics</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#4-fastqc">4. FastQC</a>
+    <li class="toctree-l2"><a class="reference internal" href="#4-qualimap-bamqc">4. Qualimap bamqc</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#5-mosdepth-coverage">5. mosdepth coverage</a>
+    <li class="toctree-l2"><a class="reference internal" href="#5-mosdepth-coverage-and-quantize">5. mosdepth coverage and quantize</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#6-mosdepth-quantize">6. mosdepth quantize</a>
+    <li class="toctree-l2"><a class="reference internal" href="#6-fastqc">6. FastQC</a>
     </li>
     </ul>
                 </li>
@@ -110,7 +110,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Pipeline Steps</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/blob/a03a6628390ec3d2ccf75d24f450dcd08c78df21/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/blob/cf9224ecddad7ce0804b8b0cf34e10840f972f90/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -124,14 +124,14 @@
 <p><a href="https://www.htslib.org/doc/samtools-stats.html">samtools stats</a> collects basic statistics from BAM files including read counts, qualities, GC content, insert sizes, read lengths, proper pairing, and duplicated bases.</p>
 <h3 id="2-picard-collectwgsmetrics">2. Picard CollectWgsMetrics</h3>
 <p><a href="https://gatk.broadinstitute.org/hc/en-us/articles/4414602403355-CollectWgsMetrics-Picard">picard CollectWgsMetrics</a> collects coverage metrics from WGS BAM files.</p>
-<h3 id="3-qualimap-bamqc">3. Qualimap bamqc</h3>
+<h3 id="3-picard-collecthsmetrics">3. Picard CollectHsMetrics</h3>
+<p><a href="https://gatk.broadinstitute.org/hc/en-us/articles/360036856051-CollectHsMetrics-Picard">picard CollectHsMetrics</a> collects coverage metrics from WGS BAM files.</p>
+<h3 id="4-qualimap-bamqc">4. Qualimap bamqc</h3>
 <p><a href="http://qualimap.conesalab.org/doc_html/analysis.html#bam-qc">qualimap bamqc</a> collects basic statistics and coverage metrics from BAM files. Example output: <a href="https://kokonech.github.io/qualimap/HG00096.chr20_bamqc/qualimapReport.html">html</a> <a href="https://kokonech.github.io/qualimap/ERR089819_report.pdf">pdf</a>. <code>Qualimap bamqc</code> uses a lot of memory and should not be run within <code>uclahs-cds/metapipeline-DNA</code>.</p>
-<h3 id="4-fastqc">4. FastQC</h3>
+<h3 id="5-mosdepth-coverage-and-quantize">5. mosdepth coverage and quantize</h3>
+<p><a href="https://github.com/brentp/mosdepth">mosdepth</a> <code>coverage</code> by windows provides fast BAM/CRAM depth calculation, reported by windows. <code>quantize</code> creates a bed file labeling regions within specified coverage thresholds. Similar to GATK's callable loci tool.</p>
+<h3 id="6-fastqc">6. FastQC</h3>
 <p><a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/">FastQC</a> aims to provide a QC report which can spot problems which originate either in the sequencer or in the starting library material.</p>
-<h3 id="5-mosdepth-coverage">5. mosdepth coverage</h3>
-<p><a href="https://github.com/brentp/mosdepth">mosdepth</a> by windows provides fast BAM/CRAM depth calculation.</p>
-<h3 id="6-mosdepth-quantize">6. mosdepth quantize</h3>
-<p><a href="https://github.com/brentp/mosdepth">mosdepth</a> quantize creates a bed file labeling regions within specified coverage thresholds. Similar to GATK's callable loci tool.</p>
 <hr />
               
             </div>

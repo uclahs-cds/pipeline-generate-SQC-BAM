@@ -65,13 +65,15 @@
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#samtools-specific-configuration">SAMtools specific configuration</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#picard-specific-configuration">Picard specific configuration</a>
+    <li class="toctree-l3"><a class="reference internal" href="#picard-collectwgsmetrics-specific-configuration">Picard CollectWgsMetrics specific configuration</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#picard-collecthsmetrics-specific-configuration">Picard CollectHsMetrics specific configuration</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#fastqc-specific-configuration">FastQC specific configuration</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#qualimap-specific-configuration">Qualimap specific configuration</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#mosdepth-coverage-specific-configuration">mosdepth coverage specific configuration</a>
+    <li class="toctree-l3"><a class="reference internal" href="#mosdepth-window-based-coverage-specific-configuration">mosdepth window-based coverage specific configuration</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#mosdepth-quantize-specific-configuration">mosdepth quantize specific configuration</a>
     </li>
@@ -118,7 +120,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Inputs</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/blob/a03a6628390ec3d2ccf75d24f450dcd08c78df21/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/blob/cf9224ecddad7ce0804b8b0cf34e10840f972f90/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -155,13 +157,19 @@ input:
 <td><code>algorithm</code></td>
 <td>list</td>
 <td>no</td>
-<td>List of tools to be run: ['fastqc', 'samtools_stats', 'collectwgsmetrics', 'mosdepth_coverage', 'mosdepth_quantize', 'qualimap_bamqc'], default = ['stats', 'collectwgsmetrics']</td>
+<td>List of tools to be run: ['fastqc', 'samtools_stats', 'collectwgsmetrics', 'collecthsmetrics', 'mosdepth_coverage', 'mosdepth_quantize', 'qualimap_bamqc'], default = ['stats', 'collectwgsmetrics']</td>
 </tr>
 <tr>
 <td><code>reference</code></td>
 <td>path</td>
 <td>yes/no</td>
-<td>Reference fasta is required only for <code>CollectWgsMetrics</code></td>
+<td>Reference fasta is required only for <code>CollectWgsMetrics</code> and <code>CollectHsMetrics</code></td>
+</tr>
+<tr>
+<td><code>intervals_bed</code></td>
+<td>path</td>
+<td>no</td>
+<td>Absolute path to BED file with intervals to process</td>
 </tr>
 <tr>
 <td><code>output_dir</code></td>
@@ -220,7 +228,7 @@ input:
 </tr>
 </tbody>
 </table>
-<h4 id="picard-specific-configuration">Picard specific configuration</h4>
+<h4 id="picard-collectwgsmetrics-specific-configuration">Picard CollectWgsMetrics specific configuration</h4>
 <table>
 <thead>
 <tr>
@@ -257,6 +265,55 @@ input:
 </tr>
 <tr>
 <td>cwm_additional_options</td>
+<td>string</td>
+<td>no</td>
+<td>Any additional options recognized by <code>CollectWgsMetrics</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="picard-collecthsmetrics-specific-configuration">Picard CollectHsMetrics specific configuration</h4>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chm_bait_intervals_bed</td>
+<td>path</td>
+<td>no</td>
+<td>if not defined, <code>intervals_bed</code> will be used</td>
+</tr>
+<tr>
+<td>chm_coverage_cap</td>
+<td>integer</td>
+<td>no</td>
+<td>Cap coverage at this value. Default = 250</td>
+</tr>
+<tr>
+<td>chm_minimum_mapping_quality</td>
+<td>integer</td>
+<td>no</td>
+<td>Ignore reads with mapping quality below this value. Default = 20</td>
+</tr>
+<tr>
+<td>chm_minimum_base_quality</td>
+<td>integer</td>
+<td>no</td>
+<td>Ignore bases with quality below this value. Default = 20</td>
+</tr>
+<tr>
+<td>chm_per_base_output</td>
+<td>boolean</td>
+<td>no</td>
+<td>Default = <code>false</code></td>
+</tr>
+<tr>
+<td>chm_additional_options</td>
 <td>string</td>
 <td>no</td>
 <td>Any additional options recognized by <code>CollectWgsMetrics</code></td>
@@ -303,7 +360,7 @@ input:
 <td>bamqc_output_format</td>
 <td>string</td>
 <td>no</td>
-<td>Choice of 'pdf' or 'html', default = 'pdf'</td>
+<td>Choice of 'pdf' or 'html', default = 'html'. <code>html</code> is needed for <code>multiqc</code></td>
 </tr>
 <tr>
 <td>bamqc_additional_options</td>
@@ -313,7 +370,7 @@ input:
 </tr>
 </tbody>
 </table>
-<h4 id="mosdepth-coverage-specific-configuration">mosdepth coverage specific configuration</h4>
+<h4 id="mosdepth-window-based-coverage-specific-configuration">mosdepth window-based coverage specific configuration</h4>
 <table>
 <thead>
 <tr>
@@ -325,6 +382,12 @@ input:
 </thead>
 <tbody>
 <tr>
+<td>mosdepth_windows</td>
+<td>integer</td>
+<td>no</td>
+<td>Size for <code>mosdepth windows</code> coverage calculations. Not used if <code>intervals_bed</code> is defined. Default = 500</td>
+</tr>
+<tr>
 <td>mosdepth_use_fast_algorithm</td>
 <td>boolean</td>
 <td>no</td>
@@ -335,12 +398,6 @@ input:
 <td>boolean</td>
 <td>no</td>
 <td>Output coverage for every base. Default = <code>true</code></td>
-</tr>
-<tr>
-<td>mosdepth_window_size</td>
-<td>integer</td>
-<td>no</td>
-<td>Size for <code>mosdepth windows</code> coverage calculations</td>
 </tr>
 <tr>
 <td>mosdepth_additional_options</td>
@@ -406,7 +463,7 @@ input:
 </tbody>
 </table>
 <h4 id="base-resource-allocation-updaters">Base resource allocation updaters</h4>
-<p>To update the base resource (cpus or memory) allocations for processes, use the following structure. The default allocations can be found in the <a href="https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/blob/a03a6628390ec3d2ccf75d24f450dcd08c78df21/config">node-specific config files</a></p>
+<p>To update the base resource (cpus or memory) allocations for processes, use the following structure. The default allocations can be found in the <a href="https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/blob/cf9224ecddad7ce0804b8b0cf34e10840f972f90/config">node-specific config files</a></p>
 <pre><code class="language-Nextflow">base_resource_update {
     memory = [
         [['process_name', 'process_name2'], &lt;multiplier for resource&gt;],

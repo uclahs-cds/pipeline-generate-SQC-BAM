@@ -98,7 +98,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Overview</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/blob/a03a6628390ec3d2ccf75d24f450dcd08c78df21/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/blob/cf9224ecddad7ce0804b8b0cf34e10840f972f90/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -107,7 +107,8 @@
             <div class="section" itemprop="articleBody">
               
                 <h2 id="overview">Overview</h2>
-<p>This pipeline takes BAMs and runs selected Quality Control (QC) steps. Available algorithms are currently <code>SAMtools stats</code>, <code>Picard CollectWgsMetrics</code>, <code>FastQC</code>, <code>Qualimap bamqc</code>, <code>mosdepth coverage</code> and <code>mosdepth quantize</code>. Generally either <code>Qualimap bamqc</code> or <code>SAMtools stats and Picard CollectWgsMetrics</code> should be run, not both. <code>Qualimap bamqc</code> uses a lot of memory and should not be run within <code>uclahs-cds/metapipeline-DNA</code>. Input can include any combination of tumor and normal BAMs from a single donor. Each will be processed independently. RNA specific QC is not yet implemented but is expected soon.</p>
+<p>This pipeline takes BAMs and runs selected Quality Control (QC) steps. Available algorithms are currently <code>SAMtools stats</code>, <code>Picard CollectWgsMetrics</code>, <code>Picard CollectHsMetrics</code>, <code>FastQC</code>, <code>Qualimap bamqc</code>, <code>mosdepth coverage</code> and <code>mosdepth quantize</code>. Generally either <code>Qualimap bamqc</code> or <code>SAMtools stats and Picard CollectWgsMetrics</code> should be run, not both. <code>Qualimap bamqc</code> uses a lot of memory and should not be run within <code>uclahs-cds/metapipeline-DNA</code>. Input can include any combination of tumor and normal BAMs from a single donor. Each will be processed independently. RNA specific QC is not yet implemented but is expected soon.</p>
+<p>For DNA panels/targeted sequencing, intervals may be provided and will be used with <code>CollectHsMetrics</code>, <code>mosdepth</code> and <code>Qualimap bamQC</code>.  <code>CollectHsMetrics</code> requires intervals and an optional <code>bait</code> file may also be provided.</p>
 <hr />
               
             </div>
