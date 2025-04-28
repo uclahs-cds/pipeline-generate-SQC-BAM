@@ -10,6 +10,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased]
 
 ### Added
+- Add `CollectHsMetrics`
+- Add `intervals_bed` option
 - Add `mosdepth` quantize workflow
 - Add `mosdepth` coverage windows workflow
 - Add `FastQC` workflow

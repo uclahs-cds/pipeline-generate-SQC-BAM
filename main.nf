@@ -1,5 +1,4 @@
 #!/usr/bin/env nextflow
-
 nextflow.enable.dsl=2
 include { run_validate_PipeVal } from './external/pipeline-Nextflow-module/modules/PipeVal/validate/main.nf' addParams(
     options: [
@@ -48,6 +47,16 @@ include { run_CollectWgsMetrics_Picard } from './module/collectWgsMetrics_picard
     workflow_log_output_dir: "${params.log_output_dir}/process-log/Picard-${params.picard_version}"
     )
 
+include { run_BedToIntervalList_Picard } from './module/bedToIntervalList_picard' addParams(
+    workflow_output_dir: "${params.output_dir_base}/Picard-${params.picard_version}",
+    workflow_log_output_dir: "${params.log_output_dir}/process-log/Picard-${params.picard_version}"
+    )
+
+include { run_CollectHsMetrics_Picard } from './module/collectHsMetrics_picard' addParams(
+    workflow_output_dir: "${params.output_dir_base}/Picard-${params.picard_version}",
+    workflow_log_output_dir: "${params.log_output_dir}/process-log/Picard-${params.picard_version}"
+    )
+
 include { run_bamqc_Qualimap } from './module/bamqc_qualimap' addParams(
     workflow_output_dir: "${params.output_dir_base}/Qualimap-${params.qualimap_version}",
     workflow_log_output_dir: "${params.log_output_dir}/process-log/Qualimap-${params.qualimap_version}"
@@ -77,9 +86,11 @@ log.info """\
         version: ${workflow.manifest.version}
 
     - tool docker images:
-        samtools: ${params.docker_image_samtools}
+        fastqc: ${params.docker_image_fastqc}
+        mosdepth: ${params.docker_image_mosdepth}
         picard: ${params.docker_image_picard}
         qualimap: ${params.docker_image_qualimap}
+        samtools: ${params.docker_image_samtools}
 
     - input:
         algorithm(s): ${params.algorithm}
@@ -90,6 +101,7 @@ log.info """\
         normal: ${params.samples_to_process.findAll{ it.sample_type == 'normal' }['bam']}
         normal read length: ${params.samples_to_process.findAll{ it.sample_type == 'normal' }['read_length']}
         reference: ${params.reference}
+        intervals_bed: ${params.getOrDefault("intervals_bed", "Not provided")}
 
     - sample names extracted from input BAM files and sanitized:
         tumor in: ${params.samples_to_process.findAll{ it.sample_type == 'tumor' }['orig_id']}
@@ -106,7 +118,7 @@ log.info """\
         save_intermediate_files: ${params.save_intermediate_files}
         docker_container_registry: ${params.docker_container_registry}
 
-    - samtools stats options:
+    - SAMtools stats options:
         samtools_version: ${params.samtools_version}
         stats_max_rgs_per_sample: ${params.stats_max_rgs_per_sample}
         stats_max_libs_per_sample: ${params.stats_max_libs_per_sample}
@@ -122,7 +134,7 @@ log.info """\
         mosdepth_version: ${params.mosdepth_version}
     - mosdepth coverage options:
         mosdepth_use_fast_algorithm: ${params.mosdepth_use_fast_algorithm}
-        mosdepth_window_size: ${params.mosdepth_window_size}
+        mosdepth_windows: ${params.mosdepth_windows}
         mosdepth_per_base_output: ${params.mosdepth_per_base_output}
         mosdepth_additional_options: ${params.mosdepth_additional_options}
     - mosdepth quantize options:
@@ -134,13 +146,22 @@ log.info """\
         mosdepth_q3_label: ${params.mosdepth_q3_label}
         mosdepth_quantize_additional_options: ${params.mosdepth_quantize_additional_options}
 
-    - picard CollectWgsMetrics options:
+    - Picard CollectWgsMetrics options:
         picard_version: ${params.picard_version}
         cwm_coverage_cap: ${params.cwm_coverage_cap}
         cwm_minimum_mapping_quality: ${params.cwm_minimum_mapping_quality}
         cwm_minimum_base_quality: ${params.cwm_minimum_base_quality}
         cwm_use_fast_algorithm: ${params.cwm_use_fast_algorithm}
         cwm_additional_options: ${params.cwm_additional_options}
+
+    - Picard CollectHsMetrics options:
+        picard_version: ${params.picard_version}
+        chm_bait_intervals_bed: ${params.chm_bait_intervals_bed}
+        chm_coverage_cap: ${params.chm_coverage_cap}
+        chm_minimum_mapping_quality: ${params.chm_minimum_mapping_quality}
+        chm_minimum_base_quality: ${params.chm_minimum_base_quality}
+        chm_per_base_output: ${params.chm_per_base_output}
+        chm_additional_options: ${params.chm_additional_options}
 
     - Qualimap bamqc options:
         qualimap_version: ${params.qualimap_version}
@@ -207,11 +228,20 @@ Channel
     .flatten()
     .set { files_to_validate_ch }
 
-if ('collectwgsmetrics' in params.algorithm) {
-    if (!params.reference) {
-        throw new Exception("Reference genome is required when using the 'collectwgsmetrics' algorithm. Please check the config file and try again.")
-        }
+// If user provided intervals, use them, else use dummy path
+if (params.getOrDefault("intervals_bed", null)) {
+    target_bed_ch = Channel.fromPath(params.intervals_bed)
+    files_to_validate_ch = files_to_validate_ch
+        .mix(target_bed_ch)
+    target_bed = params.intervals_bed
+    } else {
+    target_bed = "${params.work_dir}/NO_TARGET_FILE.bed"
+    }
 
+if ('collectwgsmetrics' in params.algorithm || 'collecthsmetrics' in params.algorithm) {
+    if (!params.reference) {
+        throw new Exception("Reference genome is required when using the 'collectwgsmetrics' or 'collecthsmetrics' algorithm. Please check the config file and try again.")
+        }
     params.reference_index = "${params.reference}.fai"
     Channel
         .from(
@@ -221,6 +251,25 @@ if ('collectwgsmetrics' in params.algorithm) {
         .set { reference_ch }
     files_to_validate_ch = files_to_validate_ch
         .mix(reference_ch)
+    }
+if ('collecthsmetrics' in params.algorithm) {
+    if (!params.intervals_bed) {
+        throw new Exception("Intervals file is required when using the 'collecthsmetrics' algorithm. Please check the config file and try again.")
+        }
+
+    params.reference_dict = params.reference.replaceAll(/\.fasta$/, ".dict")
+    bed_to_interval_list_ch = target_bed_ch
+        .map { ['target', it, params.reference_dict] }
+
+    if (params.getOrDefault("chm_bait_intervals_bed", null)) {
+        bait_bed_ch = Channel.fromPath(params.chm_bait_intervals_bed)
+        files_to_validate_ch = files_to_validate_ch
+            .mix(bait_bed_ch)
+        bait_bed_ch = bait_bed_ch
+            .map { ['bait', it, params.reference_dict] }
+        bed_to_interval_list_ch = bed_to_interval_list_ch
+            .mix(bait_bed_ch)
+        }
     }
 
 workflow {
@@ -260,7 +309,8 @@ workflow {
         }
     if ('mosdepth_coverage' in params.algorithm) {
         assess_coverage_mosdepth(
-            samples_to_process_ch
+            samples_to_process_ch,
+            target_bed
             )
         }
     if ('mosdepth_quantize' in params.algorithm) {
@@ -275,9 +325,37 @@ workflow {
             params.reference_index
             )
         }
+    if ('collecthsmetrics' in params.algorithm) {
+        run_BedToIntervalList_Picard(
+            bed_to_interval_list_ch
+            )
+        target_intervals_ch = run_BedToIntervalList_Picard.out.interval_list
+            .filter { it[0] == 'target' }
+            .combine(samples_to_process_ch)
+            .map { it[1] }
+        if (params.getOrDefault("chm_bait_intervals_bed", null)) {
+            bait_intervals_ch = run_BedToIntervalList_Picard.out.interval_list
+                .filter { it[0] == 'bait' }
+                .combine(samples_to_process_ch)
+                .map { it[1] }
+        } else {
+            bait_intervals_ch = channel.fromPath("${params.work_dir}/NO_BAIT_FILE.bed")
+                .combine(samples_to_process_ch)
+                .map { it[0] }
+            }
+        run_CollectHsMetrics_Picard(
+            samples_to_process_ch,
+            target_intervals_ch,
+            bait_intervals_ch,
+            params.reference,
+            params.reference_index
+            )
+        }
+
     if ('qualimap_bamqc' in params.algorithm) {
         run_bamqc_Qualimap(
             samples_to_process_ch,
+            target_bed
             )
         }
     }

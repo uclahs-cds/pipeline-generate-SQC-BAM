@@ -13,7 +13,9 @@
   9. [References](#references)
 ## Overview
 
-This pipeline takes BAMs and runs selected Quality Control (QC) steps. Available algorithms are currently `SAMtools stats`, `Picard CollectWgsMetrics`, `FastQC`, `Qualimap bamqc`, `mosdepth coverage` and `mosdepth quantize`. Generally either `Qualimap bamqc` or `SAMtools stats and Picard CollectWgsMetrics` should be run, not both. `Qualimap bamqc` uses a lot of memory and should not be run within `uclahs-cds/metapipeline-DNA`. Input can include any combination of tumor and normal BAMs from a single donor. Each will be processed independently. RNA specific QC is not yet implemented but is expected soon.
+This pipeline takes BAMs and runs selected Quality Control (QC) steps. Available algorithms are currently `SAMtools stats`, `Picard CollectWgsMetrics`, `Picard CollectHsMetrics`, `FastQC`, `Qualimap bamqc`, `mosdepth coverage` and `mosdepth quantize`. Generally either `Qualimap bamqc` or `SAMtools stats and Picard CollectWgsMetrics` should be run, not both. `Qualimap bamqc` uses a lot of memory and should not be run within `uclahs-cds/metapipeline-DNA`. Input can include any combination of tumor and normal BAMs from a single donor. Each will be processed independently. RNA specific QC is not yet implemented but is expected soon.
+
+For DNA panels/targeted sequencing, intervals may be provided and will be used with `CollectHsMetrics`, `mosdepth` and `Qualimap bamQC`.  `CollectHsMetrics` requires intervals and an optional `bait` file may also be provided.
 
 ---
 
@@ -45,17 +47,17 @@ Each of the below algorithms, if selected, will run in parallel subject to avail
 ### 2. Picard CollectWgsMetrics
 [picard CollectWgsMetrics](https://gatk.broadinstitute.org/hc/en-us/articles/4414602403355-CollectWgsMetrics-Picard) collects coverage metrics from WGS BAM files.
 
-### 3. Qualimap bamqc
+### 3. Picard CollectHsMetrics
+[picard CollectHsMetrics](https://gatk.broadinstitute.org/hc/en-us/articles/360036856051-CollectHsMetrics-Picard) collects coverage metrics from WGS BAM files.
+
+### 4. Qualimap bamqc
 [qualimap bamqc](http://qualimap.conesalab.org/doc_html/analysis.html#bam-qc) collects basic statistics and coverage metrics from BAM files. Example output: [html](https://kokonech.github.io/qualimap/HG00096.chr20_bamqc/qualimapReport.html) [pdf](https://kokonech.github.io/qualimap/ERR089819_report.pdf). `Qualimap bamqc` uses a lot of memory and should not be run within `uclahs-cds/metapipeline-DNA`.
 
-### 4. FastQC
+### 5. mosdepth coverage and quantize
+[mosdepth](https://github.com/brentp/mosdepth) `coverage` by windows provides fast BAM/CRAM depth calculation, reported by windows. `quantize` creates a bed file labeling regions within specified coverage thresholds. Similar to GATK's callable loci tool.
+
+### 6. FastQC
 [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/) aims to provide a QC report which can spot problems which originate either in the sequencer or in the starting library material.
-
-### 5. mosdepth coverage
-[mosdepth](https://github.com/brentp/mosdepth) by windows provides fast BAM/CRAM depth calculation.
-
-### 6. mosdepth quantize
-[mosdepth](https://github.com/brentp/mosdepth) quantize creates a bed file labeling regions within specified coverage thresholds. Similar to GATK's callable loci tool.
 
 ---
 
@@ -81,8 +83,9 @@ input:
 
 | Field | Type | Required | Description |
 | ----- | ---- | ------------ | ------------------------ |
-| `algorithm` | list | no | List of tools to be run: ['fastqc', 'samtools_stats', 'collectwgsmetrics', 'mosdepth_coverage', 'mosdepth_quantize', 'qualimap_bamqc'], default = ['stats', 'collectwgsmetrics'] |
-| `reference` | path | yes/no | Reference fasta is required only for `CollectWgsMetrics` |
+| `algorithm` | list | no | List of tools to be run: ['fastqc', 'samtools_stats', 'collectwgsmetrics', 'collecthsmetrics', 'mosdepth_coverage', 'mosdepth_quantize', 'qualimap_bamqc'], default = ['stats', 'collectwgsmetrics'] |
+| `reference` | path | yes/no | Reference fasta is required only for `CollectWgsMetrics` and `CollectHsMetrics` |
+| `intervals_bed` | path | no | Absolute path to BED file with intervals to process |
 | `output_dir` | path | yes | Not required if `blcds_registered_dataset` = `true` |
 | `blcds_registered_dataset` | boolean | no | Default is `false`. Only `uclahs_cds` users should change this. When `true`, BLCDS folder structure is used |
 | `work_dir` | path | no | Path of working directory for Nextflow. When included, Nextflow intermediate files and logs will be saved to this directory. With `uclahs_cds` = `true`, the default is `/scratch` and should only be changed for testing/development. Changing this directory to `/hot` or `/tmp` can lead to high server latency and potential disk space limitations, respectively. |
@@ -95,7 +98,7 @@ input:
 | stats_remove_duplicates | boolean | no | Ignore reads marked as duplicate. Default = `false` |
 | stats_additional_options | string | no | Any additional options recognized by `samtools stats` |
 
-#### Picard specific configuration
+#### Picard CollectWgsMetrics specific configuration
 | Field | Type | Required | Description |
 | ----- | ---- | ------------ | ------------------------ |
 | cwm_coverage_cap | integer | no | Cap coverage at this value. Default = 250 |
@@ -103,6 +106,16 @@ input:
 | cwm_minimum_base_quality | integer | no | Ignore bases with quality below this value. Default = 20 |
 | cwm_use_fast_algorithm | boolean | no | If `true`, fast algorithm is used |
 | cwm_additional_options | string | no | Any additional options recognized by `CollectWgsMetrics` |
+
+#### Picard CollectHsMetrics specific configuration
+| Field | Type | Required | Description |
+| ----- | ---- | ------------ | ------------------------ |
+| chm_bait_intervals_bed | path | no| if not defined, `intervals_bed` will be used |
+| chm_coverage_cap | integer | no | Cap coverage at this value. Default = 250 |
+| chm_minimum_mapping_quality | integer | no | Ignore reads with mapping quality below this value. Default = 20 |
+| chm_minimum_base_quality | integer | no | Ignore bases with quality below this value. Default = 20 |
+| chm_per_base_output | boolean | no | Default = `false` |
+| chm_additional_options | string | no | Any additional options recognized by `CollectWgsMetrics` |
 
 #### FastQC specific configuration
 | Field | Type | Required | Description |
@@ -113,15 +126,15 @@ input:
 #### Qualimap specific configuration
 | Field | Type | Required | Description |
 | ----- | ---- | ------------ | ------------------------ |
-| bamqc_output_format | string | no | Choice of 'pdf' or 'html', default = 'pdf' |
+| bamqc_output_format | string | no | Choice of 'pdf' or 'html', default = 'html'. `html` is needed for `multiqc` |
 | bamqc_additional_options | string | no | Any additional options recognized by `bamqc` |
 
-#### mosdepth coverage specific configuration
+#### mosdepth window-based coverage specific configuration
 | Field | Type | Required | Description |
 | ----- | ---- | ------------ | ------------------------ |
+| mosdepth_windows | integer | no | Size for `mosdepth windows` coverage calculations. Not used if `intervals_bed` is defined. Default = 500 |
 | mosdepth_use_fast_algorithm | boolean | no | `fast` algorithm ignores read pair overlaps and CIGARs. It should not be used on libraries with small insert sizes. Default = `false` |
 | mosdepth_per_base_output | boolean | no | Output coverage for every base. Default = `true` |
-| mosdepth_window_size | integer | no | Size for `mosdepth windows` coverage calculations |
 | mosdepth_additional_options | string | no | Any additional options recognized by `mosdepth`, `--mapq 20 recommended` |
 
 #### mosdepth quantize specific configuration
@@ -191,6 +204,7 @@ base_resource_update {
 | `{SAMtools-version}_{dataset_id}_{sample_id}-{library_id}_stats.txt` | `SAMtools stats` library level results |
 | `{SAMtools-version}_{dataset_id}_{sample_id}-{library_id}-{rg_id}_stats.txt` | `SAMtools stats` readgroup level results |
 | `{Picard-version}_{dataset_id}_{sample_id}_wgs-metrics.txt` | `Picard CollectWgsMetrics` results |
+| `{Picard-version}_{dataset_id}_{sample_id}_hs-metrics.txt` | `Picard CollectHsMetrics` results |
 | `{Qualimap-version}_{dataset_id}_{sample_id}_stats` | Directory of `Qualimap` results, including, `genome_results.txt` and either `.pdf` or `.html and supporting directories`|
 | `{FastQC-version}_{dataset_id}_{sample_id}_fastqc` | Directory of sample level `FastQC` results |
 | `{FastQC-version}_{dataset_id}_{sample_id}-{library_id}_fastqc` | Directory of library level `FastQC` results |
@@ -201,7 +215,7 @@ base_resource_update {
 | `{mosdepth-version}_{dataset_id}_{sample_id}-{window_size}.regions.bed.gz` | `mosdepth` coverage bedfile giving coverage for each window |
 | `{mosdepth-version}_{dataset_id}_{sample_id}-quantize-{q0}-{q1}-{q2}-{q3}.mosdepth.summary.txt` | `mosdepth` quantize coverage results by region with a final line for `total` |
 | `{mosdepth-version}_{dataset_id}_{sample_id}-quantize-{q0}-{q1}-{q2}-{q3}.mosdepth.global.dist.txt` | `mosdepth` quantize cumulative distribution indicating the proportion of total bases that were covered for at least a given coverage value |
-| `{mosdepth-version}_{dataset_id}_{sample_id}-quantize-{q0}-{q1}-{q2}-{q3}.quantized.bed.gz` | `mosdepth` quantize bed file
+| `{mosdepth-version}_{dataset_id}_{sample_id}-quantize-{q0}-{q1}-{q2}-{q3}.quantized.bed.gz` | `mosdepth` quantize bed file |
 
 ---
 
