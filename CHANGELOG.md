@@ -1,15 +1,15 @@
 # Changelog
+
 All notable changes to the pipeline-name pipeline.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
----
-
-## [Unreleased]
+## [1.1.0] - 2025-05-01
 
 ### Added
+
 - Add `CollectHsMetrics`
 - Add `intervals_bed` option
 - Add `mosdepth` quantize workflow
@@ -20,6 +20,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Add Nextflow version requirement to `README`
 
 ### Changed
+
 - Change to more descriptive algorithm names
 - Fixed `CollectWgsMetrics` params equal to zero bug
 - Update SAMtools 1.18 to 1.20
@@ -28,11 +29,15 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Update Nextflow configuration test workflows
 
 ## [1.0.0] - 2024-03-12
+
 ### Changed
+
 - Standardized input structure
 
 ## [1.0.0-rc.1] - 2024-03-08
+
 ### Added
+
 - Add `schema.yaml`
 - Add `template.config`
 - Add `Qualimap bamqc`
@@ -48,6 +53,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Add workflow to run Nextflow configuration regression tests
 
 ### Changed
+
 - Changed pipeline name `pipeline-SQC-DNA` to `pipeline-generate-SQC-BAM`
 - Use defaults for `CollectWgsMetrics` parameters
 - Pipeline name in output dir changed to `generate-SQC-BAM`
@@ -60,3 +66,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Input `read_length` through YAML
 - Use `sanitize_uclahs_cds_id` from `pipeline-Nextflow-config`
 - Update SAMtools 1.16.1 -> 1.18
+
+[1.0.0]: https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/compare/v1.0.0-rc.1...v1.0.0
+[1.0.0-rc.1]: https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/releases/tag/v1.0.0-rc.1
+[1.1.0]: https://github.com/uclahs-cds/pipeline-generate-SQC-BAM/compare/v1.0.0...v1.1.0
