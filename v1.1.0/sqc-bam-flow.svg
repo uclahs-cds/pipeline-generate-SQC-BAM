@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="180px" preserveAspectRatio="none" style="width:1208px;height:180px;background:#FFFFFF;" version="1.1" viewBox="0 0 1208 180" width="1208px" zoomAndPan="magnify"><defs/><g><rect fill="#F1F1F1" height="47.9375" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="284" x="462" y="11"/><text fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="113" x="472" y="32.1387">Input Validation</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="264" x="472" y="46.1074">Validate the input BAM and reference files</text><line style="stroke:#181818;stroke-width:1.5;" x1="88.5" x2="1140" y1="100.3364" y2="100.3364"/><rect fill="#F1F1F1" height="47.9375" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="155" x="11" y="121.8364"/><text fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="107" x="21" y="142.9751">SAMtools stats</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="135" x="21" y="156.9438">Extract BAM statistics</text><rect fill="#F1F1F1" height="47.9375" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="207" x="176" y="121.8364"/><text fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="179" x="186" y="142.9751">Picard CollectWgsMetrics</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="187" x="186" y="156.9438">Collect whole genome metrics</text><rect fill="#F1F1F1" height="47.9375" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="215" x="393" y="121.8364"/><text fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="166" x="403" y="142.9751">Picard CollectHsMetrics</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="195" x="403" y="156.9438">Collect hybrid-selection metrics</text><rect fill="#F1F1F1" height="47.9375" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="190" x="636" y="121.8364"/><text fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="116" x="646" y="142.9751">Qualimap bamqc</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="170" x="646" y="156.9438">Quality control for BAM files</text><rect fill="#F1F1F1" height="47.9375" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="237" x="836" y="121.8364"/><text fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="71" x="846" y="142.9751">mosdepth</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="213" x="850" y="156.9438">Coverage or Quantize calculations</text><rect fill="#F1F1F1" height="47.9375" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="114" x="1083" y="121.8364"/><text fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="50" x="1093" y="142.9751">FastQC</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="90" x="1097" y="156.9438">Quality control</text><line style="stroke:#181818;stroke-width:1.0;" x1="88.5" x2="88.5" y1="101.8364" y2="121.8364"/><polygon fill="#181818" points="84.5,111.8364,88.5,121.8364,92.5,111.8364,88.5,115.8364" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="279.5" x2="279.5" y1="101.8364" y2="121.8364"/><polygon fill="#181818" points="275.5,111.8364,279.5,121.8364,283.5,111.8364,279.5,115.8364" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacing" textLength="87" x="283.5" y="115.6445">reference fasta</text><line style="stroke:#181818;stroke-width:1.0;" x1="500.5" x2="500.5" y1="101.8364" y2="121.8364"/><polygon fill="#181818" points="496.5,111.8364,500.5,121.8364,504.5,111.8364,500.5,115.8364" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacing" textLength="87" x="504.5" y="115.6445">reference fasta</text><line style="stroke:#181818;stroke-width:1.0;" x1="731" x2="731" y1="101.8364" y2="121.8364"/><polygon fill="#181818" points="727,111.8364,731,121.8364,735,111.8364,731,115.8364" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="954.5" x2="954.5" y1="101.8364" y2="121.8364"/><polygon fill="#181818" points="950.5,111.8364,954.5,121.8364,958.5,111.8364,954.5,115.8364" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="1140" x2="1140" y1="101.8364" y2="121.8364"/><polygon fill="#181818" points="1136,111.8364,1140,121.8364,1144,111.8364,1140,115.8364" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="604" x2="604" y1="58.9375" y2="100.3364"/><polygon fill="#181818" points="600,90.3364,604,100.3364,608,90.3364,604,94.3364" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="24" x="608" y="80.2422">BAM</text><!--MD5=[95126a2a1613e1a9256933d330e72f1c]
+@startuml
+skinparam SwimlaneTitleFontStyle bold
+:**Input Validation**\nValidate the input BAM and reference files;
+-> BAM;
+split
+  :**SAMtools stats**\nExtract BAM statistics;
+  kill
+split again
+  -> //reference fasta//;
+  :**Picard CollectWgsMetrics**\nCollect whole genome metrics;
+  kill
+split again
+  -> //reference fasta//;
+  :**Picard CollectHsMetrics**\nCollect hybrid-selection metrics;
+  kill
+split again
+  :**Qualimap bamqc**\nQuality control for BAM files;
+  kill
+split again
+  :**mosdepth**\n Coverage or Quantize calculations;
+  kill
+split again
+  :**FastQC**\n Quality control;
+  kill
+end split
+@enduml
+
+PlantUML version 1.2022.6(Tue Jun 21 17:34:49 GMT 2022)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>
